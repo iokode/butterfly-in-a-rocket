@@ -1,0 +1,32 @@
+---
+import vadavoLight from "../../assets/images/light/vadavo.svg";
+import vadavoDark from "../../assets/images/dark/vadavo.svg";
+import DarkLightImage from "../Utils/DarkLightImage.astro";
+---
+
+<div id="hosting">
+    <span class="title">¿Necesitas hosting?</span>
+    <a href="https://www.vadavo.com/hosting">
+        <DarkLightImage
+            class="vadavo-logo"
+            dark={vadavoDark}
+            light={vadavoLight}
+            alt="Logotipo de VADAVO"
+        />
+    </a>
+</div>
+
+<style lang="scss">
+    #hosting {
+        a {
+            display: block;
+        }
+
+        .vadavo-logo {
+            margin-top: 10px;
+            img {
+                width: 250px;
+            }
+        }
+    }
+</style>

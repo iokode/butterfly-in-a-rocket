@@ -1,0 +1,97 @@
+---
+import SquareLink from "../SquareLink.astro";
+---
+
+<header>
+    <div class="slogan">
+        <p>El blog de desarrollo de software de Ivan Montilla</p>
+    </div>
+
+    <ul class="main-links">
+        <li>
+            <SquareLink destination="/">Inicio</SquareLink>
+        <li>
+            <SquareLink destination="/archive">Todas las entradas</SquareLink>
+        <li>
+            <SquareLink destination="https://links.iokode.blog/author" newPage={true}>Sobre el autor</SquareLink>
+        </li>
+    </ul>
+
+    <ul class="social-links">
+        <li>
+            <SquareLink destination="https://links.iokode.blog/github" newPage={true}>GitHub</SquareLink>
+        </li>
+        <li>
+            <SquareLink destination="https://links.iokode.blog/twitter" newPage={true}>X (Twitter)</SquareLink>
+        </li>
+        <li>
+            <SquareLink destination="https://links.iokode.blog/in" newPage={true}>LinkedIn</SquareLink>
+        </li>
+    </ul>
+</header>
+
+<style>
+    header {
+        grid-area: header;
+        margin: auto;
+
+        padding-top: 150px;
+
+        @media (min-width: 768px) {
+            padding-top: 200px;
+        }
+
+        @media (min-width: 992px) {
+            padding-top: 250px;
+        }
+
+        background-repeat: no-repeat;
+        background-position-x: center;
+
+        @media (prefers-color-scheme: light) {
+            background-image: url("../images/light/iokode.svg");
+        }
+
+        @media (prefers-color-scheme: dark) {
+            background-image: url("../images/dark/iokode.svg");
+        }
+
+        .social-links {
+            padding: 0;
+            position: absolute;
+            top: 0;
+            left: 0;
+            text-align: center;
+            width: 100%;
+
+            @media (max-width: 595px) {
+                text-align: center;
+                position: inherit;
+                top: inherit;
+                right: inherit;
+            }
+
+            li {
+                list-style-type: none;
+                display: inline;
+                margin-left: 10px;
+                margin-right: 10px;
+                margin-top: 15px;
+            }
+        }
+
+        .main-links {
+            text-align: center;
+            margin-top: -15px;
+
+            li {
+                list-style-type: none;
+                display: inline;
+
+                margin-left: 10px;
+                margin-right: 10px;
+                margin-top: 15px;
+            }
+        }
+    }
+</style>

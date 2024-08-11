@@ -1,50 +1,173 @@
 ---
-interface Props {
-	title: string;
-}
+import Partners from "../components/Layout/Partners.astro";
+import Ads from "../components/Layout/Ads.astro";
+import Hosting from "../components/Layout/Hosting.astro";
 
-const { title } = Astro.props;
+import Footer from "../components/Layout/Footer.astro";
+import Header from "../components/Layout/Header.astro";
+
+import '../styles/normalize.css'
+
+interface Props {
+    title: string;
+}
 ---
 
 <!doctype html>
-<html lang="en">
-	<head>
-		<meta charset="UTF-8" />
-		<meta name="description" content="Astro description" />
-		<meta name="viewport" content="width=device-width" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="generator" content={Astro.generator} />
-		<title>{title}</title>
-	</head>
-	<body>
-		<slot />
-	</body>
+<html lang="es">
+    <head>
+        <meta charset="UTF-8" />
+        <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1.0, minimum-scale=1.0"
+        />
+        <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+        <title>{Astro.props.title} - IOKode</title>
+    </head>
+    <body>
+        <Header />
+
+        <aside>
+            <Hosting />
+            <Partners />
+            <Ads />
+        </aside>
+
+        <main>
+            <slot />
+        </main>
+
+        <Footer />
+    </body>
 </html>
-<style is:global>
-	:root {
-		--accent: 136, 58, 234;
-		--accent-light: 224, 204, 250;
-		--accent-dark: 49, 10, 101;
-		--accent-gradient: linear-gradient(
-			45deg,
-			rgb(var(--accent)),
-			rgb(var(--accent-light)) 30%,
-			white 60%
-		);
-	}
-	html {
-		font-family: system-ui, sans-serif;
-		background: #13151a;
-	}
-	code {
-		font-family:
-			Menlo,
-			Monaco,
-			Lucida Console,
-			Liberation Mono,
-			DejaVu Sans Mono,
-			Bitstream Vera Sans Mono,
-			Courier New,
-			monospace;
-	}
+
+<style lang="scss">
+    // Layout
+
+    @use "../styles/variables/colors";
+    body {
+        background-color: colors.$light-background;
+        font-family: "Open Sans", sans-serif;
+
+        @media (prefers-color-scheme: dark) {
+            background-color: colors.$dark-background;
+            color: white;
+        }
+
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6 {
+            font-family: "Orbitron", sans-serif;
+        }
+
+        a {
+            text-decoration: none;
+            color: colors.$light-link;
+
+            &:hover {
+                text-decoration: underline;
+            }
+
+            @media (prefers-color-scheme: dark) {
+                color: colors.$dark-link;
+            }
+        }
+
+        header {
+            ul.main-links {
+                padding: 0;
+            }
+        }
+
+        aside {
+            .title {
+                font-size: 1.5em;
+                font-family: "Orbitron", sans-serif;
+            }
+
+            ul {
+                list-style-type: none;
+                padding: 0;
+            }
+        }
+
+        .slogan {
+            font-size: 2em;
+            font-family: "Orbitron", sans-serif;
+        }
+    }
+</style>
+
+<style lang="scss">
+    @use "../styles/variables/devices";
+
+    body {
+        margin: auto;
+        display: grid;
+        grid-column-gap: 80px;
+        grid-row-gap: 30px;
+        grid-template-columns: 1fr auto;
+    }
+
+    // Mobile-first
+    body {
+        max-width: 90%;
+        grid-template-areas:
+            "header header"
+            "main main"
+            "aside aside"
+            "footer footer";
+    }
+
+    @media (min-width: devices.$tablet) {
+        body {
+            max-width: 768px - 40;
+            grid-template-areas:
+                "header header"
+                "main main"
+                "aside aside"
+                "footer footer";
+        }
+    }
+
+    @media (min-width: devices.$desktop) {
+        body {
+            max-width: 992px - 40;
+            grid-template-areas:
+                "header header"
+                "main aside"
+                "footer footer";
+        }
+    }
+
+    @media (min-width: devices.$large-desktop) {
+        body {
+            max-width: 1200px - 40;
+            grid-template-areas:
+                "header header"
+                "main aside"
+                "footer footer";
+        }
+    }
+
+    @media (min-width: devices.$extra-large-desktop) {
+        body {
+            max-width: 1440px - 40;
+            grid-template-areas:
+                "header header"
+                "main aside"
+                "footer footer";
+        }
+    }
+
+    aside {
+        grid-area: aside;
+    }
+
+    main {
+        grid-area: main;
+    }
 </style>
