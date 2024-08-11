@@ -14,6 +14,22 @@ export class Post {
     }
 }
 
+export class PostResume {
+    public title: string;
+    public slug: string;
+    public publishDate: Date;
+    public author: Author;
+    public commentsCount: number
+
+    constructor(title: string, slug: string, publishDate: Date, author: Author, commentsCount: number) {
+        this.title = title;
+        this.slug = slug;
+        this.author = author;
+        this.commentsCount = commentsCount;
+        this.publishDate = publishDate;
+    }
+}
+
 export class Author {
     public name: string;
     public username: string;

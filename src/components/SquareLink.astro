@@ -5,9 +5,7 @@ interface Props {
 }
 ---
 
-<a href={Astro.props.destination} target={Astro.props.newPage ? '_blank' : undefined}>
-    <slot />
-</a>
+<a href={Astro.props.destination} target={Astro.props.newPage ? '_blank' : undefined}><slot /></a>
 
 <style lang="scss">
     @use '../styles/variables/colors';

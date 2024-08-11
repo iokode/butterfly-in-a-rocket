@@ -1,72 +1,48 @@
 ---
+import PostLink from "../components/PostLink.astro";
 import Layout from "../layouts/Layout.astro";
+import { Author, PostResume } from "../models/Post";
 ---
 
 <Layout title="El blog de desarrollo de software de Ivan Montilla - IOKode">
-    <article>
-        <div class="metadata">
-            <h1 class="title">
-                <a href="post.html"
-                    >HTML semántico es más que utilizar etiquetas semánticas.</a>
-            </h1>
-        </div>
-        <div class="date">18 de diciembre de 2020</div>
-
-        <div class="content">
-            <p>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                Pellentesque tincidunt tristique augue, eget rhoncus mi
-                efficitur vel. Integer elementum, tellus eu gravida
-                pellentesque, erat augue iaculis dolor, scelerisque elementum
-                leo nibh non dolor. Nam volutpat leo vel pretium commodo.
-                Integer sit amet fringilla ipsum. In sagittis magna vel volutpat
-                imperdiet. Sed sed pulvinar magna. Donec sit amet eros non
-                tellus placerat dignissim. Sed vel turpis eu tellus porttitor
-                fermentum. In vitae ullamcorper ipsum. Duis fringilla finibus
-                erat, sit amet tincidunt orci eleifend in.
-            </p>
-        </div>
-
-        <div class="post-actions">
-            <ul>
-                <li>2 comentarios</li>
-                <li><a href="#">Leer más</a></li>
-                <li><a href="#">Leer en GitHub</a></li>
-            </ul>
-        </div>
-    </article>
-
-    <article>
-        <div class="metadata">
-            <h1 class="title">
-                <a href="post.html">El patrón Unit of Work.</a>
-            </h1>
-            <div class="date">18 de diciembre de 2020</div>
-        </div>
-
-        <div class="content">
-            <p>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                Pellentesque tincidunt tristique augue, eget rhoncus mi
-                efficitur vel. Integer elementum, tellus eu gravida
-                pellentesque, erat augue iaculis dolor, scelerisque elementum
-                leo nibh non dolor. Nam volutpat leo vel pretium commodo.
-                Integer sit amet fringilla ipsum. In sagittis magna vel volutpat
-                imperdiet. Sed sed pulvinar magna. Donec sit amet eros non
-                tellus placerat dignissim. Sed vel turpis eu tellus porttitor
-                fermentum. In vitae ullamcorper ipsum. Duis fringilla finibus
-                erat, sit amet tincidunt orci eleifend in.
-            </p>
-        </div>
-
-        <div class="post-actions">
-            <ul>
-                <li>4 comentarios</li>
-                <li><a href="#">Leer más</a></li>
-                <li><a href="#">Leer en GitHub</a></li>
-            </ul>
-        </div>
-    </article>
+    <div class="posts">
+        <PostLink
+            post={new PostResume(
+                "El patrón Unit of Work",
+                "el-patron",
+                new Date(),
+                new Author("Ivan Montilla", "montyclt"),
+                2
+            )}
+        />
+        <PostLink
+            post={new PostResume(
+                "HTML semántico es más que utilizar etiquetas semánticas",
+                "el-patron",
+                new Date(),
+                new Author("Ivan Montilla", "montyclt"),
+                2
+            )}
+        />
+        <PostLink
+            post={new PostResume(
+                "El patrón Unit of Work",
+                "el-patron",
+                new Date(),
+                new Author("Ivan Montilla", "montyclt"),
+                2
+            )}
+        />
+        <PostLink
+            post={new PostResume(
+                "El patrón Unit of Work",
+                "el-patron",
+                new Date(),
+                new Author("Ivan Montilla", "montyclt"),
+                2
+            )}
+        />
+    </div>
 
     <div class="pagination">
         <ul>
@@ -79,33 +55,9 @@ import Layout from "../layouts/Layout.astro";
 <style lang="scss">
     @use "../styles/variables/colors";
 
-    article {
-        margin-bottom: 60px;
-
-        .date {
-            margin-top: 5px;
-        }
-
-        .title {
-            a {
-                color: colors.$light-text-color;
-
-                @media (prefers-color-scheme: dark) {
-                    color: colors.$dark-text-color;
-                }
-            }
-        }
-
-        .post-actions {
-            ul {
-                list-style-type: none;
-                padding: 0;
-
-                li {
-                    display: inline-block;
-                    margin: 0 10px;
-                }
-            }
-        }
-    }
+    .posts {
+		display: flex;
+		flex-direction: column;
+		gap: 30px;
+	}
 </style>
