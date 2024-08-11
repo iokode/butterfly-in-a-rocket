@@ -8,6 +8,33 @@ import { Author, PostResume } from "../models/Post";
     <div class="posts">
         <PostLink
             post={new PostResume(
+                "The Unit of Work pattern",
+                "uow-pattern",
+                new Date(),
+                new Author("Ivan Montilla", "montyclt"),
+                2
+            )}
+        />
+        <PostLink
+            post={new PostResume(
+                "Semantic HTML is more than writting semantic tags",
+                "semantic",
+                new Date(),
+                new Author("Ivan Montilla", "montyclt"),
+                2
+            )}
+        />
+        <PostLink
+            post={new PostResume(
+                "How to avoid teamwork problems",
+                "el-patron",
+                new Date(),
+                new Author("Ivan Montilla", "montyclt"),
+                2
+            )}
+        />
+        <PostLink
+            post={new PostResume(
                 "El patrón Unit of Work",
                 "el-patron",
                 new Date(),
@@ -17,15 +44,6 @@ import { Author, PostResume } from "../models/Post";
         />
         <PostLink
             post={new PostResume(
-                "HTML semántico es más que utilizar etiquetas semánticas",
-                "el-patron",
-                new Date(),
-                new Author("Ivan Montilla", "montyclt"),
-                2
-            )}
-        />
-        <PostLink
-            post={new PostResume(
                 "El patrón Unit of Work",
                 "el-patron",
                 new Date(),
@@ -33,22 +51,6 @@ import { Author, PostResume } from "../models/Post";
                 2
             )}
         />
-        <PostLink
-            post={new PostResume(
-                "El patrón Unit of Work",
-                "el-patron",
-                new Date(),
-                new Author("Ivan Montilla", "montyclt"),
-                2
-            )}
-        />
-    </div>
-
-    <div class="pagination">
-        <ul>
-            <li><a href="#">Entradas más antiguas</a></li>
-            <li><a href="#">Entradas más recientes</a></li>
-        </ul>
     </div>
 </Layout>
 
@@ -58,6 +60,6 @@ import { Author, PostResume } from "../models/Post";
     .posts {
 		display: flex;
 		flex-direction: column;
-		gap: 30px;
+		gap: 2em;
 	}
 </style>

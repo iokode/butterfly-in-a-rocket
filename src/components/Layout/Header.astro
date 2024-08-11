@@ -1,59 +1,51 @@
 ---
 import SquareLink from "../SquareLink.astro";
+import DarkLightImage from "../Utils/DarkLightImage.astro";
+import darkIOKodeLogo from '../../assets/images/dark/iokode.svg'
+import lightIOKodeLogo from '../../assets/images/light/iokode.svg'
 ---
 
 <header>
+    <div class="logo">
+        <DarkLightImage alt="IOKode logo" dark={darkIOKodeLogo} light={lightIOKodeLogo} />
+    </div>
+
     <div class="slogan">
-        <p>El blog de desarrollo de software de Ivan Montilla</p>
+        <p>The opinionated tech blog</p>
     </div>
 
     <ul class="main-links">
-        <li>
-            <SquareLink destination="/">Inicio</SquareLink>
-        <li>
-            <SquareLink destination="/archive">Todas las entradas</SquareLink>
-        <li>
-            <SquareLink destination="https://links.iokode.blog/author" newPage={true}>Sobre el autor</SquareLink>
-        </li>
+        <li><SquareLink destination="/">Home</SquareLink></li>
+        <li><SquareLink destination="/archive">Archive</SquareLink></li>
+        <li><SquareLink destination="/archive">The why</SquareLink></li>
+        <li><SquareLink destination="https://links.iokode.blog/author" newPage={true}>About the authors</SquareLink></li>
     </ul>
 
     <ul class="social-links">
-        <li>
-            <SquareLink destination="https://links.iokode.blog/github" newPage={true}>GitHub</SquareLink>
-        </li>
-        <li>
-            <SquareLink destination="https://links.iokode.blog/twitter" newPage={true}>X/Twitter</SquareLink>
-        </li>
-        <li>
-            <SquareLink destination="https://links.iokode.blog/in" newPage={true}>LinkedIn</SquareLink>
-        </li>
+        <li><SquareLink destination="https://links.iokode.blog/github" newPage={true}>GitHub</SquareLink></li>
+        <li><SquareLink destination="https://links.iokode.blog/twitter" newPage={true}>X/Twitter</SquareLink></li>
+        <li><SquareLink destination="https://links.iokode.blog/in" newPage={true}>LinkedIn</SquareLink></li>
     </ul>
 </header>
 
-<style>
+<style lang="scss">
+    @use '../../styles/variables/devices';
     header {
         grid-area: header;
         margin: auto;
 
-        padding-top: 150px;
-
-        @media (min-width: 768px) {
-            padding-top: 200px;
+        .logo {
+            padding-top: 2em;
         }
 
-        @media (min-width: 992px) {
-            padding-top: 250px;
-        }
+        .slogan {
+            display: none;
+            font-size: 2.5em;
+            font-family: "Dosis", sans-serif;
 
-        background-repeat: no-repeat;
-        background-position-x: center;
-
-        @media (prefers-color-scheme: light) {
-            background-image: url("../images/light/iokode.svg");
-        }
-
-        @media (prefers-color-scheme: dark) {
-            background-image: url("../images/dark/iokode.svg");
+            @media (min-width: devices.$tablet) {
+                display: block;
+            }
         }
 
         .social-links {
@@ -63,13 +55,6 @@ import SquareLink from "../SquareLink.astro";
             left: 0;
             text-align: center;
             width: 100%;
-
-            @media (max-width: 595px) {
-                text-align: center;
-                position: inherit;
-                top: inherit;
-                right: inherit;
-            }
 
             li {
                 list-style-type: none;

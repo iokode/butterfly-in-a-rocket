@@ -1,6 +1,9 @@
 import { Post } from "../models/Post";
 
-function getLastTwoPosts(): Post[] {
+/**
+ * @returns The lasts five posts.
+ */
+function getLastPosts(): Post[] {
     return [
         new Post(),
         new Post()
