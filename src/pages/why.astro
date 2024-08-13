@@ -1,0 +1,11 @@
+---
+import {Markdown} from 'astro-remote';
+import Content from "../layouts/Content.astro";
+import { getTheWhy } from "../services/GitHubService";
+import Alert from '../components/PostComponents/Alert.astro';
+
+var content = await getTheWhy()
+---
+<Content title="The why">
+    <Markdown content={content} sanitize={{ allowComponents: true }} components={{Alert}} />
+</Content>

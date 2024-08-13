@@ -19,13 +19,11 @@ export class PostResume {
     public slug: string;
     public publishDate: Date;
     public author: Author;
-    public commentsCount: number
 
-    constructor(title: string, slug: string, publishDate: Date, author: Author, commentsCount: number) {
+    constructor(title: string, slug: string, publishDate: Date, author: Author) {
         this.title = title;
         this.slug = slug;
         this.author = author;
-        this.commentsCount = commentsCount;
         this.publishDate = publishDate;
     }
 }

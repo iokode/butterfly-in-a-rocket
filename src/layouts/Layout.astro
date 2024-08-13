@@ -53,11 +53,12 @@ interface Props {
     body {
         background-color: colors.$light-background;
         font-family: "Open Sans", sans-serif;
-        font-size: 18px;;
+        font-size: 18px;
+        color: colors.$light-text-color;
 
         @media (prefers-color-scheme: dark) {
             background-color: colors.$dark-background;
-            color: white;
+            color: colors.$dark-text-color;
         }
 
         h1,
@@ -71,15 +72,11 @@ interface Props {
 
         a {
             text-decoration: none;
-            color: colors.$light-link;
+            @include colors.property('color', 'primary');
 
             &:hover {
                 text-decoration: underline;
                 text-decoration-thickness: 1px;
-            }
-
-            @media (prefers-color-scheme: dark) {
-                color: colors.$dark-link;
             }
         }
 

@@ -1,0 +1,15 @@
+---
+interface Props {
+    direction: 'me' | 'other'
+}
+---
+
+<div class={`${Astro.props.direction}`}>
+    <slot />
+</div>
+
+<style lang="scss">
+    div {
+        border: 1px solid
+    }
+</style>

@@ -2,55 +2,14 @@
 import PostLink from "../components/PostLink.astro";
 import Layout from "../layouts/Layout.astro";
 import { Author, PostResume } from "../models/Post";
+import { getLastPosts } from "../services/GitHubService";
+
+const posts = await getLastPosts()
 ---
 
 <Layout title="The opinionated tech blog">
     <div class="posts">
-        <PostLink
-            post={new PostResume(
-                "The Unit of Work pattern",
-                "uow-pattern",
-                new Date(),
-                new Author("Ivan Montilla", "montyclt"),
-                2
-            )}
-        />
-        <PostLink
-            post={new PostResume(
-                "Semantic HTML is more than writting semantic tags",
-                "semantic",
-                new Date(),
-                new Author("Ivan Montilla", "montyclt"),
-                2
-            )}
-        />
-        <PostLink
-            post={new PostResume(
-                "How to avoid teamwork problems",
-                "el-patron",
-                new Date(),
-                new Author("Ivan Montilla", "montyclt"),
-                2
-            )}
-        />
-        <PostLink
-            post={new PostResume(
-                "El patrón Unit of Work",
-                "el-patron",
-                new Date(),
-                new Author("Ivan Montilla", "montyclt"),
-                2
-            )}
-        />
-        <PostLink
-            post={new PostResume(
-                "El patrón Unit of Work",
-                "el-patron",
-                new Date(),
-                new Author("Ivan Montilla", "montyclt"),
-                2
-            )}
-        />
+        {posts.map(post => <PostLink post={post} />)}
     </div>
 </Layout>
 

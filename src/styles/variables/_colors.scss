@@ -1,14 +1,27 @@
 $light-background: #EEE;
 $dark-background: #222;
 
-$light-text-color: #000;
-$dark-text-color: #FFF;
+$light-text-color: hsl(285, 85%, 25%);
+$dark-text-color: hsl(285, 1%, 99%);
 
-$light-link: rgb(129, 0, 172);
-$dark-link: rgb(206, 117, 232);
+$light-primary: hsl(285, 100%, 35%);
+// $light-warning: hsl()
 
-$light-border: $light-link;
-$dark-border: $dark-link;
+$dark-primary: hsl(285, 70%, 70%);
+
+$light-border: $light-primary;
+$dark-border: $dark-primary;
 
 $light-muted: #111;
 $dark-muted: #EEE;
+
+@mixin property($property, $color) {
+    $light-color: light-#{$color};
+    $dark-color: dark-#{$color};
+
+    #{$property}: $light-color;
+
+    @media (prefer-color-scheme: dark) {
+        #{$property}: $dark-color;
+    }
+}

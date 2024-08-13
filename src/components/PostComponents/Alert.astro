@@ -1,0 +1,29 @@
+---
+interface Props {
+    severity: "info" | "warning";
+}
+---
+
+<div class={Astro.props.severity}>
+    <div class={`heading ${Astro.props.severity}`}>{Astro.props.severity.toUpperCase()}</div>
+
+    <slot />
+</div>
+
+<style lang="scss">
+    div {
+        border: 1px solid;
+
+        &.info {
+            border: 1px solid green;
+        }
+
+        &.warning {
+            border-color: orange;
+        }
+    }
+
+    .heading {
+        font-size: 2em;
+    }
+</style>
