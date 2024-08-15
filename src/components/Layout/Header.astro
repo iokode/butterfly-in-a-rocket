@@ -1,5 +1,4 @@
 ---
-import SquareLink from "../SquareLink.astro";
 import DarkLightImage from "../Utils/DarkLightImage.astro";
 import darkIOKodeLogo from '../../assets/images/dark/iokode.svg'
 import lightIOKodeLogo from '../../assets/images/light/iokode.svg'
@@ -10,21 +9,17 @@ import lightIOKodeLogo from '../../assets/images/light/iokode.svg'
         <DarkLightImage alt="IOKode logo" dark={darkIOKodeLogo} light={lightIOKodeLogo} />
     </div>
 
-    <div class="slogan">
-        <p>The opinionated tech blog</p>
-    </div>
-
     <ul class="main-links">
-        <li><SquareLink destination="/">Home</SquareLink></li>
-        <li><SquareLink destination="/archive">Archive</SquareLink></li>
-        <li><SquareLink destination="/why">The "why"</SquareLink></li>
-        <li><SquareLink destination="/authors">About the authors</SquareLink></li>
+        <li><a class="square" href="/">Home</a></li>
+        <li><a class="square" href="/archive">Archive</a></li>
+        <li><a class="square" href="/why">The "why"</a></li>
+        <li><a class="square" href="/authors">Authors</a></li>
     </ul>
 
     <ul class="social-links">
-        <li><SquareLink destination="https://links.iokode.blog/github" newPage={true}>GitHub</SquareLink></li>
-        <li><SquareLink destination="https://links.iokode.blog/twitter" newPage={true}>X/Twitter</SquareLink></li>
-        <li><SquareLink destination="https://links.iokode.blog/in" newPage={true}>LinkedIn</SquareLink></li>
+        <li><a class="square" href="https://links.iokode.blog/github" target="_blank">GitHub</a></li>
+        <li><a class="square" href="https://links.iokode.blog/twitter" target="_blank">X/Twitter</a></li>
+        <li><a class="square" href="https://links.iokode.blog/in" target="_blank">LinkedIn</a></li>
     </ul>
 </header>
 
@@ -32,13 +27,15 @@ import lightIOKodeLogo from '../../assets/images/light/iokode.svg'
     @use '../../styles/variables/devices';
     header {
         grid-area: header;
-        margin: auto;
 
         .logo {
+            margin: 0 auto;
+            max-width: 800px;
             padding-top: 2em;
         }
 
         .slogan {
+            text-align: center;
             display: none;
             font-size: 2.5em;
             font-family: "Dosis", sans-serif;
