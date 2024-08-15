@@ -1,0 +1,15 @@
+---
+interface Props {
+    id: string
+}
+
+import { TwitterApi } from 'twitter-api-v2';
+const client = new TwitterApi('');
+const post = await client.v2.singleTweet(Astro.props.id);
+const author = await client.v2.user(post.data.author_id!);
+---
+
+<div class="x-post">
+    <div class="author">{author.data.name}</div>
+    <div class="content">{post.data.text}</div>
+</div>

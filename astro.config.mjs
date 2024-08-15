@@ -1,6 +1,9 @@
 import { defineConfig } from 'astro/config';
 
+import mdx from "@astrojs/mdx";
+
 // https://astro.build/config
 export default defineConfig({
-    scopedStyleStrategy: 'attribute'
+  scopedStyleStrategy: 'attribute',
+  integrations: [mdx()]
 });
