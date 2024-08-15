@@ -1,10 +1,16 @@
-## Spanish
-[Butterfly](https://github.com/iokode/butterfly) era el motor de blogging de IOKode escrito en .NET. *Butterfly in a Rocket* es la versión del mismo escrito en [Astro](https://astro.build). Los motivos para reescribirlo utilizando Astro se encuentran en [esta entrada del blog](https://iokode.blog/post/butterfly-rocket).
+# Butterfly in a Rocket
 
-El nombre viene del motor original, *Butterfly*, y el lore espacial de *Astro*.
-
-## English
-
-[Butterfly](https://github.com/iokode/butterfly) was the blogging engine of IOKode written in .NET. *Butterfly in a Rocket* is the version of this engine written in [Astro](https://astro.build). The reasons for rewriting it using Astro can be found in [this blog post (in Spanish)](https://iokode.blog/post/butterfly-rocket).
+## What is Buttefly?
+[Butterfly](https://github.com/iokode/butterfly) (hereafter *Legacy Butterfly*) was the blogging engine of IOKode written in dotnet.
+*Butterfly in a Rocket* is the version of this engine written in [Astro](https://astro.build).
+The reasons for rewriting it using Astro can be found in [this blog post (in Spanish)](https://iokode.blog/post/butterfly-rocket).
 
 The name comes from the original engine, *Butterfly*, and the space lore of *Astro*.
+
+## Blog content
+While astro works better with the content next to the source code, I merged it in the same repository,
+so *Butterfly in a Rocket* now lives in the *blog* repository.
+
+In *Legacy Butterfly*, this repository only had the posts in the GitHub Discussions section. Now, this section only holds the
+comments, but the post are in the repository as markdown files, allowing others to [collaborate](https://iokode.blog/collaborating)
+by sending pull requests.
