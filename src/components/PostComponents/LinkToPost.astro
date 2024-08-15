@@ -1,5 +1,5 @@
 ---
-import type { PostResume } from "../models/Post";
+import type { PostResume } from "../../models/Post";
 
 interface Props {
     post: PostResume;
@@ -10,24 +10,22 @@ const post = Astro.props.post;
 
 <a href={`/posts/${post.slug}`}>
     <div class="title">{post.title}</div>
+    <time>{post.publishDate.toISOString().split('T')[0]}</time>
     <div class="author">
         <img src={`https://github.com/${post.author.username}.png?size=20`} alt={`GitHub avatar of ${post.author.username}`} /> {post.author.name}
     </div>
-    —
-    <div class="date">{post.publishDate.toDateString()}</div>
+</a>
 </a>
 
 <style lang="scss">
-    @use "../styles/variables/colors";
-    @use "../styles/variables/fonts";
+    @use "../../styles/variables/colors";
+    @use "../../styles/variables/fonts";
 
     a {
-        margin-left: 0.5em;
-        margin-right: 0.5em;
+        margin-left: .5em;
+        margin-right: .5em;
         display: flex;
         flex-wrap: wrap;
-        align-items: baseline;
-        gap: 0.5em;
         color: inherit;
 
         .title {
@@ -38,6 +36,7 @@ const post = Astro.props.post;
         }
 
         .author {
+            margin-left: 1em;
             img {
                 vertical-align: middle;
             }
@@ -46,6 +45,7 @@ const post = Astro.props.post;
         &:hover {
             text-decoration: none;
             border: 4px solid;
+            @include colors.property('border-color', 'border');
 
             margin-left: calc(-0.5em - 4px);
             margin-right: calc(-0.5em - 4px);
@@ -55,13 +55,6 @@ const post = Astro.props.post;
             padding-right: 1em;
             padding-top: 0.5em;
             padding-bottom: 0.5em;
-
-            @media (prefers-color-scheme: light) {
-                border-color: colors.$light-border;
-            }
-            @media (prefers-color-scheme: dark) {
-                border-color: colors.$dark-border;
-            }
         }
     }
 </style>
