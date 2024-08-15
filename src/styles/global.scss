@@ -1,0 +1,68 @@
+@use "./variables/colors";
+@use "./variables/devices";
+@use "./variables/fonts";
+
+body {
+    font-family: fonts.$body;
+    font-size: 16px;
+    @include colors.property("background-color", "background");
+    @include colors.property("color", "text");
+    
+    @media (min-width: devices.$tablet) {
+        font-size: 18px;
+    }
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-family: fonts.$titles;
+}
+
+a {
+    text-decoration: none;
+    @include colors.property("color", "link");
+
+    &:hover,
+    &:focus {
+        text-decoration: underline;
+        text-decoration-thickness: 1px;
+    }
+
+    &.square {
+        &:hover,
+        &:focus {
+            text-decoration: none;
+            border: 2px solid;
+
+            padding-left: 10px;
+            padding-right: 10px;
+            margin-left: -12px;
+            margin-right: -12px;
+
+            @include colors.property("border-color", "link");
+        }
+    }
+}
+
+header {
+    ul.main-links {
+        padding: 0;
+    }
+}
+
+aside {
+    display: flex;
+    flex-direction: column;
+    gap: 50px;
+
+    .title {
+        display: block;
+        font-size: 2em;
+        font-family: "Dosis", sans-serif;
+        padding-bottom: 0.5em;
+    }
+}

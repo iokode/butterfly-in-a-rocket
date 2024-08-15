@@ -1,27 +1,33 @@
-$light-background: #EEE;
-$dark-background: #222;
+$light: (
+    text: hsl(285, 25%, 25%),
+    link: hsl(285, 100%, 35%),
+    background: #eee,
+    border: hsl(285, 100%, 35%),
+    muted: #111,
+);
 
-$light-text-color: hsl(285, 85%, 25%);
-$dark-text-color: hsl(285, 1%, 99%);
+$dark: (
+    text: hsl(285, 15%, 95%),
+    link: hsl(285, 70%, 70%),
+    background: #222,
+    border: hsl(285, 70%, 70%),
+    muted: #eee,
+);
 
-$light-primary: hsl(285, 100%, 35%);
-// $light-warning: hsl()
+@function get-color($theme, $color-name) {
+    @if $theme == light {
+        @return map-get($light, $color-name);
+    } @else if $theme == dark {
+        @return map-get($dark, $color-name);
+    } @else {
+        @error "Invalid theme: #{$theme}. Only 'light' or 'dark' are allowed.";
+    }
+}
 
-$dark-primary: hsl(285, 70%, 70%);
+@mixin property($property, $color-name) {
+    #{$property}: get-color(light, $color-name);
 
-$light-border: $light-primary;
-$dark-border: $dark-primary;
-
-$light-muted: #111;
-$dark-muted: #EEE;
-
-@mixin property($property, $color) {
-    $light-color: light-#{$color};
-    $dark-color: dark-#{$color};
-
-    #{$property}: $light-color;
-
-    @media (prefer-color-scheme: dark) {
-        #{$property}: $dark-color;
+    @media (prefers-color-scheme: dark) {
+        #{$property}: get-color(dark, $color-name);
     }
 }
