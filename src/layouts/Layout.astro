@@ -24,9 +24,12 @@ interface Props {
             content="width=device-width, initial-scale=1.0, minimum-scale=1.0"
         />
         <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-        <link rel="preconnect" href="https://fonts.googleapis.com">
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Dosis:wght@200..800&family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Dosis:wght@200..800&family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap"
+            rel="stylesheet"
+        />
         <title>{Astro.props.title} - IOKode</title>
     </head>
     <body>
@@ -114,5 +117,18 @@ interface Props {
 
     main {
         grid-area: main;
+    }
+
+    aside {
+        display: flex;
+        flex-direction: column;
+        gap: 50px;
+
+        .title {
+            display: block;
+            font-size: 2em;
+            font-family: "Dosis", sans-serif;
+            padding-bottom: 0.5em;
+        }
     }
 </style>

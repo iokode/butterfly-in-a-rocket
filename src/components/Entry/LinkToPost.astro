@@ -1,20 +1,22 @@
 ---
-import type { PostResume } from "../../models/Post";
+import type { CollectionEntry } from 'astro:content';
+import {getGithubRealnameFromUserName} from "../../helpers/github";
 
 interface Props {
-    post: PostResume;
+    post: CollectionEntry<'entries'>;
 }
 
 const post = Astro.props.post;
+const data = post.data;
+const realName = await getGithubRealnameFromUserName(data.author);
 ---
 
-<a href={`/posts/${post.slug}`}>
-    <div class="title">{post.title}</div>
-    <time>{post.publishDate.toISOString().split('T')[0]}</time>
+<a href={`/posts/${data.slug}`}>
+    <div class="title">{data.title}</div>
+    <time>{data.publishDate.toISOString().split('T')[0]}</time>
     <div class="author">
-        <img src={`https://github.com/${post.author.username}.png?size=20`} alt={`GitHub avatar of ${post.author.username}`} /> {post.author.name}
+        <img src={`https://github.com/${data.author}.png?size=20`} alt={`GitHub avatar of ${realName}`} /> {realName}
     </div>
-</a>
 </a>
 
 <style lang="scss">
@@ -47,14 +49,8 @@ const post = Astro.props.post;
             border: 4px solid;
             @include colors.property('border-color', 'border');
 
-            margin-left: calc(-0.5em - 4px);
-            margin-right: calc(-0.5em - 4px);
-            margin-top: calc(-0.5em - 4px);
-            margin-bottom: calc(-0.5em - 4px);
-            padding-left: 1em;
-            padding-right: 1em;
-            padding-top: 0.5em;
-            padding-bottom: 0.5em;
+            margin: calc(-0.5em - 4px);
+            padding: 0.5em 1em;
         }
     }
 </style>

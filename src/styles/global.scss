@@ -47,22 +47,3 @@ a {
         }
     }
 }
-
-header {
-    ul.main-links {
-        padding: 0;
-    }
-}
-
-aside {
-    display: flex;
-    flex-direction: column;
-    gap: 50px;
-
-    .title {
-        display: block;
-        font-size: 2em;
-        font-family: "Dosis", sans-serif;
-        padding-bottom: 0.5em;
-    }
-}

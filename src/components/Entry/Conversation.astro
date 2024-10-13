@@ -1,6 +1,7 @@
 ---
 interface Props {
     direction: 'me' | 'other'
+    avatar?: string
 }
 ---
 
@@ -9,6 +10,14 @@ interface Props {
 </div>
 
 <style lang="scss">
+    .me {
+        color: red;
+    }
+    
+    .other {
+        color: green;
+    }
+    
     div {
         border: 1px solid
     }

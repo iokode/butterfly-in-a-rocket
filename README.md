@@ -8,9 +8,8 @@ The reasons for rewriting it using Astro can be found in [this blog post (in Spa
 The name comes from the original engine, *Butterfly*, and the space lore of *Astro*.
 
 ## Blog content
-While astro works better with the content next to the source code, I merged it in the same repository,
-so *Butterfly in a Rocket* now lives in the *blog* repository.
+While *Astro* works better with the content next to the source code, I merged it in the same repository, so *Butterfly in a Rocket*
+now lives in the *blog* repository. The content is located in the [content](https://github.com/iokode/blog/tree/main/src/content) directory.
 
 In *Legacy Butterfly*, this repository only had the posts in the GitHub Discussions section. Now, this section only holds the
-comments, but the post are in the repository as markdown files, allowing others to [collaborate](https://iokode.blog/collaborating)
-by sending pull requests.
+comments, but the post are in the repository as markdown files, allowing others to [collaborate](https://iokode.blog/collaborating) by sending pull requests.

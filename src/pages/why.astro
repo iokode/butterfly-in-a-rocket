@@ -1,11 +1,11 @@
 ---
-import { getEntry } from "astro:content";
 import Content from "../layouts/Content.astro";
+import { getEntry, render } from "astro:content";
 
-const entry = await getEntry('importants', 'why');
-const LegalNotice = (await entry.render()).Content;
+const entry = await getEntry("essentials", "why");
+const WhyRendered = (await render(entry)).Content;
 ---
 
-<Content title="Legal notice">
-    <LegalNotice />
+<Content title={'The "why"'}>
+    <WhyRendered />
 </Content>

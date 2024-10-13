@@ -1,1 +1,3 @@
-export const repository = 'iokode/blog-dev'
+export function getRepository(): string {
+    return 'iokode/blog-dev'
+}
