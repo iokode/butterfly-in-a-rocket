@@ -1,17 +1,17 @@
 $light: (
-    text: hsl(285, 25%, 25%),
-    link: hsl(285, 100%, 35%),
-    background: #eee,
-    border: hsl(285, 100%, 35%),
-    muted: #111,
+        text: hsl(285, 25%, 25%),
+        link: hsl(285, 100%, 35%),
+        background: #eee,
+        border: hsl(285, 100%, 35%),
+        muted: #111,
 );
 
 $dark: (
-    text: hsl(285, 15%, 95%),
-    link: hsl(285, 70%, 70%),
-    background: #222,
-    border: hsl(285, 70%, 70%),
-    muted: #eee,
+        text: hsl(285, 15%, 95%),
+        link: hsl(285, 70%, 70%),
+        background: #222,
+        border: hsl(285, 70%, 70%),
+        muted: #eee,
 );
 
 @function get-color($theme, $color-name) {
@@ -25,7 +25,9 @@ $dark: (
 }
 
 @mixin property($property, $color-name) {
-    #{$property}: get-color(light, $color-name);
+    & {
+        #{$property}: get-color(light, $color-name);
+    }
 
     @media (prefers-color-scheme: dark) {
         #{$property}: get-color(dark, $color-name);

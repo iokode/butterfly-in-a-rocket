@@ -1,6 +1,6 @@
 ---
-import type { CollectionEntry } from 'astro:content';
-import {getGithubRealnameFromUserName} from "../../helpers/github";
+import type {CollectionEntry} from 'astro:content';
+import {getGithubRealnameFromUserName} from "../helpers/github";
 
 interface Props {
     post: CollectionEntry<'entries'>;
@@ -15,13 +15,13 @@ const realName = await getGithubRealnameFromUserName(data.author);
     <div class="title">{data.title}</div>
     <time>{data.publishDate.toISOString().split('T')[0]}</time>
     <div class="author">
-        <img src={`https://github.com/${data.author}.png?size=20`} alt={`GitHub avatar of ${realName}`} /> {realName}
+        <img src={`https://github.com/${data.author}.png?size=20`} alt={`GitHub avatar of ${realName}`}/> {realName}
     </div>
 </a>
 
 <style lang="scss">
-    @use "../../styles/variables/colors";
-    @use "../../styles/variables/fonts";
+    @use "../styles/variables/colors";
+    @use "../styles/variables/fonts";
 
     a {
         margin-left: .5em;
@@ -39,6 +39,7 @@ const realName = await getGithubRealnameFromUserName(data.author);
 
         .author {
             margin-left: 1em;
+
             img {
                 vertical-align: middle;
             }
@@ -47,10 +48,11 @@ const realName = await getGithubRealnameFromUserName(data.author);
         &:hover {
             text-decoration: none;
             border: 4px solid;
-            @include colors.property('border-color', 'border');
 
             margin: calc(-0.5em - 4px);
             padding: 0.5em 1em;
+
+            @include colors.property('border-color', 'border');
         }
     }
 </style>

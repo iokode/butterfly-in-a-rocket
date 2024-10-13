@@ -1,5 +1,5 @@
 ---
-import PostLink from "../components/Entry/LinkToPost.astro";
+import LinkToPost from "../components/LinkToPost.astro";
 import Layout from "../layouts/Layout.astro";
 import {getCollection} from "astro:content";
 
@@ -10,8 +10,7 @@ const posts = (await getCollection('entries'))
 
 <Layout title="The opinionated tech blog">
     <div class="posts">
-        {posts.map(post =>
-                <PostLink post={post}/>)}
+        {posts.map(post => <LinkToPost post={post}/>)}
     </div>
 </Layout>
 

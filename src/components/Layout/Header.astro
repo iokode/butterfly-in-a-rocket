@@ -12,8 +12,9 @@ import lightIOKodeLogo from '../../assets/images/light/iokode.svg'
     <ul class="main-links">
         <li><a class="square" href="/">Home</a></li>
         <li><a class="square" href="/archive">Archive</a></li>
-        <li><a class="square" href="/why">The "why"</a></li>
-        <li><a class="square" href="/authors">Authors</a></li>
+        <li><a class="square" href="/archive/legacy-spanish">Spanish legacy entries</a></li>
+        <li><a class="square" href="/constitution">Constitution</a></li>
+        <li><a class="square" href="/authors">About the authors</a></li>
     </ul>
 
     <ul class="social-links">
@@ -54,6 +55,7 @@ import lightIOKodeLogo from '../../assets/images/light/iokode.svg'
             width: 100%;
 
             li {
+                white-space: nowrap;
                 list-style-type: none;
                 display: inline;
                 margin-left: 10px;
@@ -68,12 +70,17 @@ import lightIOKodeLogo from '../../assets/images/light/iokode.svg'
             text-align: center;
 
             li {
+                white-space: nowrap;
                 list-style-type: none;
-                display: inline;
+                display: block;
 
                 margin-left: 10px;
                 margin-right: 10px;
                 margin-top: 15px;
+
+                @media (min-width: devices.$tablet) {
+                    display: inline;
+                }
             }
         }
     }

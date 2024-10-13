@@ -1,13 +1,13 @@
 ---
-import {render, getCollection} from "astro:content";
-import Content from "../../layouts/Content.astro";
+import {getCollection} from "astro:content";
+import TextEntry from "../../layouts/TextEntry.astro";
+import {Markdown} from 'astro-remote';
+import Alert from "../../components/Entry/Alert.astro";
+import Conversation from "../../components/Entry/Conversation.astro";
+import XPost from "../../components/Entry/XPost.astro";
 
-const Entry = (await render(Astro.props.entry)).Content;
-console.log(Entry)
-
-export const getStaticPaths = async function() {
+export const getStaticPaths = async function () {
     const entries = await getCollection('entries');
-    console.log(entries);
 
     return entries.map(entry => {
         return {
@@ -17,7 +17,7 @@ export const getStaticPaths = async function() {
     })
 };
 ---
-<Content title={Astro.props.entry.data.title}>
+<TextEntry title={Astro.props.entry.data.title}>
     <h1>{Astro.props.entry.data.title}</h1>
-    <Entry />
-</Content>
+    <Markdown content={Astro.props.entry.data.body} sanitize={{allowComponents: true}} components={{Alert, Conversation, XPost}}/>
+</TextEntry>

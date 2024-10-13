@@ -1,32 +1,12 @@
 import {z, defineCollection, reference} from "astro:content";
-import matter from "gray-matter";
-import {fetchFileContent, fetchRepoTree } from "../helpers/github";
+import {githubLoader} from "./GithubLoader.ts";
 
 export const collections = {
     entries: defineCollection({
-        loader: async () => {
-            const entries = [];
-            const tree = await fetchRepoTree();
-
-            const entryFiles = tree.filter(file =>
-                file.type === 'blob' && /^entries\/[^/]+\/entry\.mdx?$/.test(file.path)
-            );
-
-            for (const file of entryFiles) {
-                const rawContent = await fetchFileContent(file.path);
-                const {data: frontmatter, content} = matter(rawContent);
-
-                entries.push({
-                    id: file.path.replace('/entry.mdx', '').replace('entry.md', ''),
-                    ...frontmatter,
-                    rendered: content,
-                });
-            }
-
-            return entries;
-        },
+        loader: githubLoader('iokode/blog-dev', 'entries'),
         schema: z.object({
             title: z.string(),
+            body: z.string(),
             slug: z.string(),
             license: z.string(), // todo reference to licenses collection
             author: z.string(), // GitHub username
@@ -36,18 +16,21 @@ export const collections = {
         }),
     }),
     essentials: defineCollection({
+        loader: githubLoader('iokode/blog-dev', 'essentials'),
         schema: z.object({
             title: z.string(),
             slug: z.string(),
         }),
     }),
     licenses: defineCollection({
+        loader: githubLoader('iokode/blog-dev', 'licenses'),
         schema: z.object({
             name: z.string(),
             code: z.string(),
         }),
     }),
     spanishLegacyEntries: defineCollection({
+        loader: githubLoader('iokode/blog-dev', 'spanish-legacy-entries'),
         schema: z.object({
             title: z.string(),
             slug: z.string(),
