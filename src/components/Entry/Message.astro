@@ -1,0 +1,52 @@
+---
+interface Props {
+    direction: 'me' | 'other'
+}
+---
+
+<div class={`message ${Astro.props.direction}`}>
+    <slot/>
+</div>
+
+<style lang="scss">
+    @use "../../styles/variables/others";
+
+    .message {
+        width: fit-content;
+        display: block;
+        border: 1px solid;
+        padding: 0.1em 1em;
+        margin-bottom: 1em;
+        position: relative; // Enable positioning for pseudo-elements
+
+        &.me {
+            // Tail on the right side
+            &::after {
+                content: '';
+                position: absolute;
+                right: -1em;
+                bottom: -1px;
+                border-width: 0.5em 0 0 1em;
+                border-style: solid;
+                border-color: transparent transparent transparent white; // Match the border color
+            }
+        }
+
+        &.other {
+            // Tail on the left side
+            &::after {
+                content: '';
+                position: absolute;
+                left: -1em;
+                bottom: -1px;
+                border-width: 0.5em 1em 0 0;
+                border-style: solid;
+                border-color: transparent white transparent transparent; // Match the border color
+            }
+        }
+
+        &:last-child {
+            margin-bottom: 0;
+        }
+    }
+</style>

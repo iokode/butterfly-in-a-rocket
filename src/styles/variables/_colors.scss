@@ -1,17 +1,23 @@
 $light: (
         text: hsl(285, 25%, 25%),
         link: hsl(285, 100%, 35%),
+        code: #fff,
         background: #eee,
         border: hsl(285, 100%, 35%),
         muted: #111,
+        info: #007bff,
+        warning: #ffc107,
 );
 
 $dark: (
         text: hsl(285, 15%, 95%),
         link: hsl(285, 70%, 70%),
+        code: #000,
         background: #222,
         border: hsl(285, 70%, 70%),
         muted: #eee,
+        info: #007bff,
+        warning: #ffc107,
 );
 
 @function get-color($theme, $color-name) {
