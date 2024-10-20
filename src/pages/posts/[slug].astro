@@ -18,6 +18,5 @@ export const getStaticPaths = async function () {
 };
 ---
 <TextEntry title={Astro.props.entry.data.title}>
-    <h1>{Astro.props.entry.data.title}</h1>
     <Markdown content={Astro.props.entry.data.body} sanitize={{allowComponents: true}} components={{Alert, Conversation, XPost}}/>
 </TextEntry>
