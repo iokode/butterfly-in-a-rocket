@@ -1,0 +1,53 @@
+---
+import Alert from "../../components/Entry/Alert.astro";
+import Conversation from "../../components/Entry/Conversation.astro";
+import XPost from "../../components/Entry/XPost.astro";
+import TextEntry from "../../layouts/TextEntry.astro";
+import Message from "../../components/Entry/Message.astro";
+---
+
+<TextEntry title="Components">
+    <h1>Heading 1</h1>
+    <h2>Heading 2</h2>
+    <h3>Heading 3</h3>
+    <h4>Heading 4</h4>
+    <h5>Heading 5</h5>
+    <h6>Heading 6</h6>
+
+    <p>This is a paragraph.</p>
+
+    <ul>
+        <li>This is a list item.</li>
+        <li>This is another list item.</li>
+    </ul>
+
+    <ol>
+        <li>This is a list item.</li>
+        <li>This is another list item.</li>
+    </ol>
+
+    <blockquote>
+        This is a blockquote.
+        <p class="author">Ivan Montilla</p>
+    </blockquote>
+
+    <XPost author="martoutatech" id="1804864292879016139" />
+
+    <Alert severity="note">
+        Thi article was originally written by me in Spanish out of this blog. I added here after the DotNet 2024 Madrid
+        conference by Plain Concepts, due the related between AI and the software development.
+    </Alert>
+
+    <Alert severity="warning">
+        This article is a work in progress.
+    </Alert>
+
+    <Conversation>
+        <Message direction="other">
+            <p>Hello everyone!</p>
+        </Message>
+        <Message direction="me">
+            <p>Hi, I'm Ivan.</p>
+        </Message>
+    </Conversation>
+</TextEntry>
