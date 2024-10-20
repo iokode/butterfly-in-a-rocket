@@ -1,29 +1,42 @@
 ---
 interface Props {
-    severity: "info" | "warning";
+    severity: "note" | "warning";
 }
+
+let severity = Astro.props.severity.charAt(0).toUpperCase() + Astro.props.severity.substring(1);
 ---
 
-<div class={Astro.props.severity}>
-    <div class={`heading ${Astro.props.severity}`}>{Astro.props.severity.toUpperCase()}</div>
+<div class={'alert ' + Astro.props.severity}>
+    <div class={`heading ${Astro.props.severity}`}>{severity}</div>
 
-    <slot />
+    <div class="content">
+        <slot />
+    </div>
 </div>
 
 <style lang="scss">
-    div {
-        border: 1px solid;
+    @use '../../styles/variables/colors';
+    @use "../../styles/variables/others";
+    @use '../../styles/variables/fonts';
+    
+    .alert {
+        padding: 1em;
+        border: others.$border-default;
+        margin-bottom: 1em;
 
-        &.info {
-            border: 1px solid green;
+        &.note {
+            @include colors.property('border-color', 'info');
         }
 
         &.warning {
-            border-color: orange;
+            @include colors.property('border-color', 'warning');
         }
     }
 
     .heading {
-        font-size: 2em;
+        font-size: 1.5em;
+        margin-bottom: 0.5em;
+        font-family: fonts.$titles;
+        font-weight: bold;
     }
 </style>
