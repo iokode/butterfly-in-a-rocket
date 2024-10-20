@@ -1,15 +1,78 @@
 ---
+import {JSDOM} from 'jsdom';
+import {Markdown} from 'astro-remote';
+
 interface Props {
     id: string
+    author: string
 }
 
-import { TwitterApi } from 'twitter-api-v2';
-const client = new TwitterApi('');
-const post = await client.v2.singleTweet(Astro.props.id);
-const author = await client.v2.user(post.data.author_id!);
+function decodeHTML(html: string): string {
+    const txt = dom.window.document.createElement('textarea');
+    txt.innerHTML = html;
+    return txt.value;
+}
+
+const embed = await fetch(`https://publish.twitter.com/oembed?url=https://twitter.com/${Astro.props.author}/status/${Astro.props.id}`)
+const jsonResponse = await embed.json() as { html: string, author_name: string, url: string }
+const dom = new JSDOM(jsonResponse.html);
+const author = jsonResponse.author_name;
+const anchors = dom.window.document.getElementsByTagName('a');
+const date = anchors[anchors.length - 1].innerHTML;
+const content = dom.window.document.getElementsByTagName('p')[0].innerHTML;
+const link = jsonResponse.url;
 ---
 
-<div class="x-post">
-    <div class="author">{author.data.name}</div>
-    <div class="content">{post.data.text}</div>
-</div>
+<blockquote class="x-post">
+    <div class="heading">
+        <svg viewBox="0 0 24 24" aria-hidden="true" class="logo">
+            <g>
+                <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"></path>
+            </g>
+        </svg>
+        {author} wrote on X:
+    </div>
+    <div class="content">
+        <Markdown content={decodeHTML(content)}/>
+    </div>
+    <a target="_blank" href={link}>Original post on X</a>
+</blockquote>
+
+<style lang="scss">
+    @use "../../styles/variables/colors";
+    @use "../../styles/variables/others";
+    @use "../../styles/variables/fonts";
+
+    blockquote {
+        font-style: initial;
+    }
+    
+    .x-post {
+        border: others.$border-default;
+        padding: 1em;
+        margin: 0 0 1em;
+
+        .heading {
+            font-size: 1.5em;
+            margin-bottom: 0.5em;
+            font-family: fonts.$titles;
+            font-weight: bold;
+        }
+
+        .logo {
+            width: 1em;
+            height: 1em;
+
+            @include colors.property('fill', 'text');
+        }
+
+        .content {
+            font-family: fonts.$body;
+            margin: 0;
+        }
+
+        a {
+            display: block;
+        }
+    }
+</style>

@@ -1,5 +1,6 @@
 @use "./variables/colors";
 @use "./variables/devices";
+@use "./variables/others";
 @use "./variables/fonts";
 
 body {
@@ -44,6 +45,26 @@ a {
             margin-right: -12px;
 
             @include colors.property("border-color", "link");
+        }
+    }
+}
+
+code {
+    padding: 0.2em 0.4em;
+    @include colors.property('background-color', 'code');
+}
+
+blockquote {
+    font-style: italic;
+    border-left: others.$border-default;
+    padding-left: 1em;
+    margin-left: 0;
+    
+    .author {
+        font-style: normal;
+        
+        &:before {
+            content: "— by ";
         }
     }
 }
