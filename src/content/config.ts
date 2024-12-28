@@ -12,7 +12,7 @@ export const collections = {
             author: z.string(), // GitHub username
             publishDate: z.date(),
             tags: z.array(z.string()),
-            discussionId: z.number() // GitHub discussion ID for comments
+            discussionId: z.number().positive() // GitHub discussion ID for comments
         }),
     }),
     essentials: defineCollection({
