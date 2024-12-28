@@ -3,6 +3,8 @@ import mdx from "@astrojs/mdx";
 
 // https://astro.build/config
 export default defineConfig({
-    scopedStyleStrategy: "attribute",
-    integrations: [mdx()]
+    integrations: [mdx()],
+    image: {
+        domains: ['github.com']
+    }
 });
