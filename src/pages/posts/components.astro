@@ -2,11 +2,11 @@
 import Alert from "../../components/Entry/Alert.astro";
 import Conversation from "../../components/Entry/Conversation.astro";
 import XPost from "../../components/Entry/XPost.astro";
-import TextEntry from "../../layouts/TextEntry.astro";
+import PostLayout from "../../layouts/PostLayout.astro";
 import Message from "../../components/Entry/Message.astro";
 ---
 
-<TextEntry title="Components">
+<PostLayout title="Components" author="iokode" date={new Date("2024-10-12")}>
     <h1>Heading 1</h1>
     <h2>Heading 2</h2>
     <h3>Heading 3</h3>
@@ -27,27 +27,61 @@ import Message from "../../components/Entry/Message.astro";
     </ol>
 
     <blockquote>
-        This is a blockquote.
+        <p>This is a blockquote.</p>
         <p class="author">Ivan Montilla</p>
     </blockquote>
 
-    <XPost author="martoutatech" id="1804864292879016139" />
+    <XPost author="martoutatech" id="1804864292879016139"/>
 
     <Alert severity="note">
-        Thi article was originally written by me in Spanish out of this blog. I added here after the DotNet 2024 Madrid
-        conference by Plain Concepts, due the related between AI and the software development.
+        <p>Thi article was originally written by me in Spanish out of this blog. I added here after the DotNet 2024
+            Madrid conference by Plain Concepts, due the related between AI and the software development.</p>
     </Alert>
 
     <Alert severity="warning">
-        This article is a work in progress.
+        <p>
+            This article is a work in progress.
+        </p>
     </Alert>
 
     <Conversation>
         <Message direction="other">
-            <p>Hello everyone!</p>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent vitae mollis enim, at elementum turpis.
+                Pellentesque nisl tortor, gravida sit amet malesuada a, volutpat quis ex. Quisque sit amet aliquet mi.
+                Donec quis enim a justo interdum ultricies. Etiam porttitor tempor ligula, id blandit lorem tincidunt
+                ut. Sed neque ex, sodales eu aliquet ut, eleifend non augue. Aliquam venenatis libero nisi, pulvinar
+                auctor tellus scelerisque et. In facilisis id nisi quis euismod.</p>
+            <p>Aliquam erat volutpat. Donec non nisl eget nisi varius tincidunt. Nullam euismod, nisl sit amet ultrices
+                tincidunt, enim urna varius nisi, nec ultricies nisi nisl eu elit. Sed euismod, urna sed aliquet
+                tincidunt, lorem nibh tincidunt nisl, in consequat velit nisl vel nisl. Pellentesque habitant morbi
+                tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum ante ipsum primis in
+                faucibus orci luctus et ultrices posuere cubilia curae; Donec eget semper nisi. Integer eu augue nec
+                nisi ultricies ultricies. Quisque eget velit eu purus ultrices aliquam. Aliquam erat volutpat. Donec non
+                nisl eget nisi varius tincidunt. Nullam euismod, nisl sit amet ultrices tincidunt, enim urna varius
+                nisi, nec ultricies nisi nisl eu elit. Sed euismod, urna sed aliquet tincidunt, lorem nibh tincidunt
+                nisl, in consequat velit nisl vel nisl. Pellentesque habitant morbi tristique senectus et netus et
+                malesuada fames ac turpis egestas. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices
+                posuere cubilia curae; Donec eget semper nisi. Integer eu augue nec nisi ultricies ultricies. Quisque
+                eget velit eu purus ultrices aliquam.</p>
         </Message>
         <Message direction="me">
-            <p>Hi, I'm Ivan.</p>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent vitae mollis enim, at elementum turpis.
+                Pellentesque nisl tortor, gravida sit amet malesuada a, volutpat quis ex. Quisque sit amet aliquet mi.
+                Donec quis enim a justo interdum ultricies. Etiam porttitor tempor ligula, id blandit lorem tincidunt
+                ut. Sed neque ex, sodales eu aliquet ut, eleifend non augue. Aliquam venenatis libero nisi, pulvinar
+                auctor tellus scelerisque et. In facilisis id nisi quis euismod.</p>
+            <p>Aliquam erat volutpat. Donec non nisl eget nisi varius tincidunt. Nullam euismod, nisl sit amet ultrices
+                tincidunt, enim urna varius nisi, nec ultricies nisi nisl eu elit. Sed euismod, urna sed aliquet
+                tincidunt, lorem nibh tincidunt nisl, in consequat velit nisl vel nisl. Pellentesque habitant morbi
+                tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum ante ipsum primis in
+                faucibus orci luctus et ultrices posuere cubilia curae; Donec eget semper nisi. Integer eu augue nec
+                nisi ultricies ultricies. Quisque eget velit eu purus ultrices aliquam. Aliquam erat volutpat. Donec non
+                nisl eget nisi varius tincidunt. Nullam euismod, nisl sit amet ultrices tincidunt, enim urna varius
+                nisi, nec ultricies nisi nisl eu elit. Sed euismod, urna sed aliquet tincidunt, lorem nibh tincidunt
+                nisl, in consequat velit nisl vel nisl. Pellentesque habitant morbi tristique senectus et netus et
+                malesuada fames ac turpis egestas. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices
+                posuere cubilia curae; Donec eget semper nisi. Integer eu augue nec nisi ultricies ultricies. Quisque
+                eget velit eu purus ultrices aliquam.</p>
         </Message>
     </Conversation>
-</TextEntry>
+</PostLayout>

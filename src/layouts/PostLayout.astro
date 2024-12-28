@@ -1,0 +1,51 @@
+---
+import Layout from "./Layout.astro";
+import {getImage} from "astro:assets";
+import {getGithubRealnameFromUserName} from "../helpers/github";
+interface Props {
+    title: string
+    author: string
+    date: Date
+}
+
+const authorRealName = await getGithubRealnameFromUserName(Astro.props.author);
+const avatar = await getImage({
+    src: `https://github.com/${Astro.props.author}.png?size=60`,
+    formats: ['webp'],
+    inferSize: true,
+    quality: 'max',
+});
+---
+
+<Layout title={Astro.props.title}>
+    <h1>{Astro.props.title}</h1>
+    <div class="metadata">
+        <div class="date">
+            {Astro.props.date.toISOString().split('T')[0]}
+        </div>
+        <div class="author">
+            <img src={avatar.src} alt={`GitHub avatar of ${authorRealName}`}/>
+            {authorRealName}
+        </div>
+    </div>
+    <slot />
+</Layout>
+
+<style lang="scss">
+    .metadata {
+        border: 1px solid;
+        padding: .5em 1em;
+        display: flex;
+        gap: 1em;
+
+        .author {
+            display: flex;
+            gap: .2em;
+            align-items: center;
+
+            img {
+                width: 1em;
+            }
+        }
+    }
+</style>

@@ -1,5 +1,6 @@
 ---
 import type {CollectionEntry} from 'astro:content';
+import {getImage, Image} from "astro:assets";
 import {getGithubRealnameFromUserName} from "../helpers/github";
 
 interface Props {
@@ -9,13 +10,19 @@ interface Props {
 const post = Astro.props.post;
 const data = post.data;
 const realName = await getGithubRealnameFromUserName(data.author);
+const avatar = await getImage({
+    src: `https://github.com/${data.author}.png?size=60`,
+    formats: ['webp'],
+    inferSize: true,
+    quality: 'max',
+});
 ---
 
 <a href={`/posts/${data.slug}`}>
     <div class="title">{data.title}</div>
     <time>{data.publishDate.toISOString().split('T')[0]}</time>
     <div class="author">
-        <img src={`https://github.com/${data.author}.png?size=20`} alt={`GitHub avatar of ${realName}`}/> {realName}
+        <img src={avatar.src} alt={`GitHub avatar of ${realName}`}/> {realName}
     </div>
 </a>
 
@@ -38,10 +45,13 @@ const realName = await getGithubRealnameFromUserName(data.author);
         }
 
         .author {
+            display: flex;
             margin-left: 1em;
+            gap: .2em;
+            align-items: center;
 
             img {
-                vertical-align: middle;
+                width: 1em;
             }
         }
 

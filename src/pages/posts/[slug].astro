@@ -1,10 +1,12 @@
 ---
 import {getCollection} from "astro:content";
-import TextEntry from "../../layouts/TextEntry.astro";
+import PostLayout from "../../layouts/PostLayout.astro";
 import {Markdown} from 'astro-remote';
 import Alert from "../../components/Entry/Alert.astro";
 import Conversation from "../../components/Entry/Conversation.astro";
 import XPost from "../../components/Entry/XPost.astro";
+
+const allowedComponents = {Alert, Conversation, XPost};
 
 export const getStaticPaths = async function () {
     const entries = await getCollection('entries');
@@ -12,11 +14,13 @@ export const getStaticPaths = async function () {
     return entries.map(entry => {
         return {
             params: {slug: entry.data.slug},
-            props: {entry: entry}
+            props: {
+                entry: entry,
+            }
         }
     })
 };
 ---
-<TextEntry title={Astro.props.entry.data.title}>
-    <Markdown content={Astro.props.entry.data.body} sanitize={{allowComponents: true}} components={{Alert, Conversation, XPost}}/>
-</TextEntry>
+<PostLayout author={Astro.props.entry.data.author} title={Astro.props.entry.data.title} date={Astro.props.entry.data.publishDate}>
+    <Markdown content={Astro.props.entry.data.body} sanitize={{allowComponents: true}} components={allowedComponents}/>
+</PostLayout>
