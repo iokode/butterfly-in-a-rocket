@@ -1,7 +1,3 @@
-import {getRepository} from "../config.ts";
-
-const repository = getRepository();
-
 export async function getGithubRealnameFromUserName(username: string): Promise<string> {
     const response = await fetch(`https://api.github.com/users/${username}`);
 
@@ -13,7 +9,7 @@ export async function getGithubRealnameFromUserName(username: string): Promise<s
     return userData.name || username; // Return username if name is not set
 }
 
-export async function fetchRepoTree(): Promise<{
+export async function fetchRepoTree(repository: string): Promise<{
     path: string;
     mode: string;
     type: string;
@@ -29,7 +25,7 @@ export async function fetchRepoTree(): Promise<{
     return data.tree; // Array of all files and directories in the repo
 }
 
-export async function fetchFileContent(filePath: string): Promise<string> {
+export async function fetchFileContent(repository: string, filePath: string): Promise<string> {
     const rawUrl = `https://raw.githubusercontent.com/${repository}/main/${filePath}`;
     const response = await fetch(rawUrl);
     if (!response.ok) {
