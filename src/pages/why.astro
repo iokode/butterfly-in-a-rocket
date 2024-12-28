@@ -1,11 +1,12 @@
 ---
-import Content from "../layouts/Content.astro";
 import { getEntry, render } from "astro:content";
+import Layout from "../layouts/Layout.astro";
 
 const entry = await getEntry("essentials", "why");
 const WhyRendered = (await render(entry)).Content;
 ---
 
-<Content title={'The "why"'}>
+<Layout title={'The "why"'}>
+    <h1>The "why"</h1>
     <WhyRendered />
-</Content>
+</Layout>

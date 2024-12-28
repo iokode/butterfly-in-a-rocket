@@ -35,17 +35,6 @@ import lightIOKodeLogo from '../../assets/images/light/iokode.svg'
             padding-top: 2em;
         }
 
-        .slogan {
-            text-align: center;
-            display: none;
-            font-size: 2.5em;
-            font-family: "Dosis", sans-serif;
-
-            @media (min-width: devices.$tablet) {
-                display: block;
-            }
-        }
-
         .social-links {
             padding: 0;
             position: absolute;
@@ -78,8 +67,16 @@ import lightIOKodeLogo from '../../assets/images/light/iokode.svg'
                 margin-right: 0.7em;
                 margin-top: 1em;
 
+                a {
+                    display: block;
+                }
+
                 @media (min-width: devices.$tablet) {
                     display: inline;
+
+                    a {
+                        display: inline;
+                    }
                 }
             }
         }

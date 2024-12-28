@@ -1,33 +1,33 @@
+---
+let sites = [
+    {
+        name: "Koalite",
+        url: "https://blog.koalite.com/",
+    },
+    {
+        name: "Variable not found",
+        url: "https://www.variablenotfound.com/",
+    },
+    {
+        name: "Xurxodev",
+        url: "https://xurxodev.com/",
+    },
+    {
+        name: "CarmenIsCoding",
+        url: "https://carmeniscoding.wordpress.com/",
+    },
+];
+---
+
 <div id="partners">
-    <div class="title">Friend blogs</div>
+    <div class="title">I also read…</div>
     <ul>
-        <li>
-            <a target="_blank" href="https://blog.koalite.com/"
-                >Koalite</a
-            >
-        </li>
-        <li>
-            <a
-                target="_blank"
-                href="https://www.variablenotfound.com/"
-                >Variable not found</a
-            >
-        </li>
-        <li>
-            <a target="_blank" href="https://xurxodev.com/"
-                >Xurxodev</a
-            >
-        </li>
+        {sites.map(site => <li><a target="_blank" href={site.url}>{site.name}</a></li>)}
     </ul>
 </div>
 
 <style lang="scss">
     ul {
         margin: 0;
-        padding-left: 0;
-    }
-    
-    li {
-        list-style-type: none;
     }
 </style>

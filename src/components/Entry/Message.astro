@@ -12,9 +12,9 @@ interface Props {
     @use "../../styles/variables/others";
 
     .message {
-        width: fit-content;
         display: block;
-        border: 1px solid;
+        width: fit-content;
+        border: others.$border-default;
         padding: 0.1em 1em;
         margin-bottom: 1em;
         position: relative; // Enable positioning for pseudo-elements
@@ -25,7 +25,7 @@ interface Props {
                 content: '';
                 position: absolute;
                 right: -1em;
-                bottom: -1px;
+                bottom: -2px;
                 border-width: 0.5em 0 0 1em;
                 border-style: solid;
                 border-color: transparent transparent transparent white; // Match the border color
@@ -38,7 +38,7 @@ interface Props {
                 content: '';
                 position: absolute;
                 left: -1em;
-                bottom: -1px;
+                bottom: -2px;
                 border-width: 0.5em 1em 0 0;
                 border-style: solid;
                 border-color: transparent white transparent transparent; // Match the border color

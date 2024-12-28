@@ -1,12 +1,11 @@
 ---
 import Partners from "../components/Layout/Partners.astro";
-import Ads from "../components/Layout/Ads.astro";
 import Hosting from "../components/Layout/Hosting.astro";
-
 import Footer from "../components/Layout/Footer.astro";
 import Header from "../components/Layout/Header.astro";
 
 import "../styles/normalize.css";
+import "../styles/layout.scss";
 import "../styles/global.scss";
 
 interface Props {
@@ -15,120 +14,29 @@ interface Props {
 ---
 
 <!doctype html>
-<html lang="es">
+<html lang="en">
     <head>
-        <meta charset="UTF-8" />
-        <meta name="generator" content={Astro.generator} />
-        <meta
-            name="viewport"
-            content="width=device-width, initial-scale=1.0, minimum-scale=1.0"
-        />
-        <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-        <link
-            href="https://fonts.googleapis.com/css2?family=Dosis:wght@200..800&family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap"
-            rel="stylesheet"
-        />
+        <meta charset="UTF-8"/>
+        <meta name="generator" content={Astro.generator}/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0"/>
+        <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
+        <!-- I want other meta tags coming from posts here -->
+        <link rel="preconnect" href="https://fonts.googleapis.com"/>
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
         <title>{Astro.props.title} - IOKode</title>
     </head>
     <body>
-        <Header />
+        <Header/>
 
         <aside>
-            <Hosting />
-            <Partners />
-            <Ads />
+            <Hosting/>
+            <Partners/>
         </aside>
 
         <main>
-            <slot />
+            <slot/>
         </main>
 
-        <Footer />
+        <Footer/>
     </body>
 </html>
-
-<style lang="scss">
-    @use "../styles/variables/devices";
-
-    body {
-        margin: auto;
-        display: grid;
-        grid-column-gap: 80px;
-        grid-row-gap: 30px;
-        grid-template-columns: 1fr auto;
-    }
-
-    // Mobile-first
-    body {
-        max-width: 90%;
-        grid-template-areas:
-            "header header"
-            "main main"
-            "aside aside"
-            "footer footer";
-    }
-
-    @media (min-width: devices.$tablet) {
-        body {
-            max-width: 768px - 40;
-            grid-template-areas:
-                "header header"
-                "main main"
-                "aside aside"
-                "footer footer";
-        }
-    }
-
-    @media (min-width: devices.$desktop) {
-        body {
-            max-width: 992px - 40;
-            grid-template-areas:
-                "header header"
-                "main aside"
-                "footer footer";
-        }
-    }
-
-    @media (min-width: devices.$large-desktop) {
-        body {
-            max-width: 1200px - 40;
-            grid-template-areas:
-                "header header"
-                "main aside"
-                "footer footer";
-        }
-    }
-
-    @media (min-width: devices.$extra-large-desktop) {
-        body {
-            max-width: 1440px - 40;
-            grid-template-areas:
-                "header header"
-                "main aside"
-                "footer footer";
-        }
-    }
-
-    aside {
-        grid-area: aside;
-    }
-
-    main {
-        grid-area: main;
-    }
-
-    aside {
-        display: flex;
-        flex-direction: column;
-        gap: 50px;
-
-        .title {
-            display: block;
-            font-size: 2em;
-            font-family: "Dosis", sans-serif;
-            padding-bottom: 0.5em;
-        }
-    }
-</style>

@@ -1,0 +1,52 @@
+@use "../styles/variables/devices";
+@use "../styles/variables/fonts";
+@use "../styles/global";
+
+body {
+    margin: 0 auto;
+    display: grid;
+    gap: 2em;
+    grid-template-columns: 1fr auto;
+    grid-template-rows: auto 1fr auto auto;
+    min-height: 100vh;
+}
+
+// Mobile-first
+body {
+    max-width: min(100%, 1400px);
+    padding-left: 2em;
+    padding-right: 2em;
+    grid-template-areas:
+            "header header"
+            "main main"
+            "aside aside"
+            "footer footer";
+}
+
+@media (min-width: devices.$desktop) {
+    body {
+        grid-template-rows: auto 1fr auto;
+        grid-template-areas:
+                "header header"
+                "main aside"
+                "footer footer";
+    }
+}
+
+body > main {
+    grid-area: main;
+}
+
+body > aside {
+    grid-area: aside;
+    display: flex;
+    flex-direction: column;
+    gap: 50px;
+
+    .title {
+        display: block;
+        font-size: 2em;
+        font-family: fonts.$titles;
+        padding-bottom: 0.5em;
+    }
+}
