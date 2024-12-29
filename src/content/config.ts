@@ -12,6 +12,7 @@ export const collections = {
             slug: z.string(),
             license: z.string(), // todo reference to licenses collection
             author: z.string(), // GitHub username
+            authorName: z.string(),
             publishDate: z.date(),
             tags: z.array(z.string()),
             discussionId: z.number().positive(), // GitHub discussion ID for comments

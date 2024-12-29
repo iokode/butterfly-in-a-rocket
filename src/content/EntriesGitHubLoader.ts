@@ -1,5 +1,5 @@
 import type {Loader, LoaderContext} from "astro/loaders";
-import {fetchFileContent, fetchRepoTree} from "../helpers/github.ts";
+import {fetchFileContent, fetchRepoTree, getGithubRealnameFromUserName} from "../helpers/github.ts";
 import matter from "gray-matter";
 
 export function entriesGitHubLoader(repository: string, directory: string): Loader {
@@ -33,6 +33,10 @@ async function loadFilesWithRegex(repository: string, regex: RegExp, context: Lo
         const {data, content} = matter(rawContent);
         const id = file.path.replace('/entry.mdx', '').replace('entry.md', '')
         data.body = content;
+
+        if (data.author !== undefined) {
+            data.authorName = await getGithubRealnameFromUserName(data.author);
+        }
 
         context.store.set({
             id: id,
