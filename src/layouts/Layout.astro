@@ -20,9 +20,10 @@ interface Props {
         <meta name="generator" content={Astro.generator}/>
         <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0"/>
         <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
-        <!-- I want other meta tags coming from posts here -->
+        <slot name="meta"/>
         <link rel="preconnect" href="https://fonts.googleapis.com"/>
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+        <slot name="head"/>
         <title>{Astro.props.title} - IOKode</title>
     </head>
     <body>

@@ -18,6 +18,8 @@ const avatar = await getImage({
 ---
 
 <Layout title={Astro.props.title}>
+    <slot name="head" slot="head"/>
+    <slot name="meta" slot="meta"/>
     <h1>{Astro.props.title}</h1>
     <div class="metadata">
         <div class="date">
@@ -28,7 +30,7 @@ const avatar = await getImage({
             {authorRealName}
         </div>
     </div>
-    <slot />
+    <slot/>
 </Layout>
 
 <style lang="scss">
