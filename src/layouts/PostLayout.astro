@@ -21,7 +21,7 @@ const avatar = await getImage({
     <h1>{Astro.props.title}</h1>
     <div class="metadata">
         <div class="date">
-            {Astro.props.date.toISOString().split('T')[0]}
+            {Astro.props.date.toDateString()}
         </div>
         <div class="author">
             <img src={avatar.src} alt={`GitHub avatar of ${authorRealName}`}/>
