@@ -1,0 +1,37 @@
+---
+import {getCollection} from "astro:content";
+import Layout from "../layouts/Layout.astro";
+
+type PostsByYear = {
+    [year: string]: typeof posts[0][]; // Keys are years, values are arrays of posts.
+};
+
+const posts = (await getCollection('entries')).sort(
+    (a, b) => b.data.publishDate.valueOf() - a.data.publishDate.valueOf()
+);
+
+let postsByYear = posts.reduce<PostsByYear>((accumulator, post) => {
+    const year = new Date(post.data.publishDate).getFullYear();
+    if (!accumulator[year]) {
+        accumulator[year] = [];
+    }
+    accumulator[year].push(post);
+    return accumulator;
+}, {});
+---
+
+<Layout title="Archive">
+    <h1>Archive</h1>
+    {Object.entries(postsByYear).reverse().map(([year, yearPosts]) => (
+            <section>
+                <h2>{year}</h2>
+                <ul>
+                    {yearPosts.map(post => (
+                            <li>
+                                <a href={`/posts/${post.data.slug}`}>{post.data.title}</a> <small>by <a target="_blank" href={`https://github.com/${post.data.author}`}>{post.data.authorName}</a></small>
+                            </li>
+                    ))}
+                </ul>
+            </section>
+    ))}
+</Layout>

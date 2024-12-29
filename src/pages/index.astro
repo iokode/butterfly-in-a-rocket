@@ -12,6 +12,8 @@ const posts = (await getCollection('entries'))
     <div class="posts">
         {posts.map(post => <LinkToPost post={post}/>)}
     </div>
+
+    <p>Browse the <a href="/archive">archive</a> for older posts.</p>
 </Layout>
 
 <style lang="scss">
