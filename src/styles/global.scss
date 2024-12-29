@@ -12,18 +12,13 @@ body {
     line-height: 1.5;
     @include colors.property("background-color", "background");
     @include colors.property("color", "text");
-    
+
     @media (min-width: devices.$tablet) {
         font-size: 120%;
     }
 }
 
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
+h1, h2, h3, h4, h5, h6 {
     font-family: fonts.$titles;
 }
 
@@ -53,11 +48,11 @@ a {
     }
 }
 
-li {
+ul > li {
     list-style-type: square;
 }
 
-code {
+code:not([class|="language"]) {
     padding: 0.2em 0.4em;
     @include colors.property('background-color', 'code');
 }
@@ -67,12 +62,8 @@ blockquote {
     border-left: others.$border-default;
     padding-left: 1em;
     margin-left: 0;
-    
-    .author {
+
+    cite {
         font-style: normal;
-        
-        &:before {
-            content: "— by ";
-        }
     }
 }
