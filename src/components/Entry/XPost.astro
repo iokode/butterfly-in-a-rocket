@@ -40,38 +40,50 @@ const link = jsonResponse.url;
 
 <style lang="scss">
     @use "../../styles/variables/colors";
-    @use "../../styles/variables/others";
+    @use "../../styles/variables/borders";
     @use "../../styles/variables/fonts";
 
     blockquote {
+        // Typography
         font-style: initial;
     }
     
     .x-post {
-        border: others.$border-default;
-        padding: 1em;
+        // Boxing
         margin: 0 0 1em;
+        padding: 1em;
+
+        // Style
+        border: borders.$border-default;
 
         .heading {
-            font-size: 1.5em;
+            // Boxing
             margin-bottom: 0.5em;
+
+            // Typography
+            font-size: 1.5em;
             font-family: fonts.$titles;
-            font-weight: bold;
         }
 
         .logo {
+            // Boxing
             width: 1em;
             height: 1em;
 
+            // Style
             @include colors.property('fill', 'text');
         }
 
         .content {
-            font-family: fonts.$body;
+            // Boxing
             margin: 0;
+
+            // Typography
+            font-family: fonts.$body;
         }
 
         a {
+            // Boxing
             display: block;
         }
     }
