@@ -34,18 +34,29 @@ const avatar = await getImage({
 </Layout>
 
 <style lang="scss">
+    @use "../styles/variables/borders";
+
     .metadata {
-        border: 2px solid;
-        padding: .5em 1em;
+        // Boxing
         display: flex;
+        padding: .5em 1em;
+
+        // Style
+        border: borders.$border-default solid;
+
+        // Flex
         gap: 1em;
 
         .author {
+            // Boxing
             display: flex;
+
+            // Flex
             gap: .2em;
             align-items: center;
 
             img {
+                // Boxing
                 width: 1em;
             }
         }

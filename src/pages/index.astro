@@ -13,15 +13,21 @@ const posts = (await getCollection('entries'))
         {posts.map(post => <LinkToPost post={post}/>)}
     </div>
 
-    <p>Browse the <a href="/archive">archive</a> for older posts.</p>
+    <p class="archive">Browse the <a href="/archive">archive</a> for older posts.</p>
 </Layout>
 
 <style lang="scss">
     @use "../styles/variables/colors";
 
     .posts {
+        // Flex
         display: flex;
         flex-direction: column;
         gap: 2em;
+    }
+
+    .archive {
+        // Boxing
+        margin-top: 3em;
     }
 </style>

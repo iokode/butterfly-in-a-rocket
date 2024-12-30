@@ -3,19 +3,24 @@
 @use "../styles/global";
 
 body {
-    margin: 0 auto;
+    // Boxing
     display: grid;
+    margin: 0 auto;
+    min-height: 100vh;
+
+    // Grid
     gap: 2em;
     grid-template-columns: 1fr auto;
     grid-template-rows: auto 1fr auto auto;
-    min-height: 100vh;
 }
 
-// Mobile-first
 body {
+    // Boxing
     max-width: min(100%, 1400px);
     padding-left: 2em;
     padding-right: 2em;
+
+    // Grid
     grid-template-areas:
             "header header"
             "main main"
@@ -25,6 +30,7 @@ body {
 
 @media (min-width: devices.$desktop) {
     body {
+        // Grid
         grid-template-rows: auto 1fr auto;
         grid-template-areas:
                 "header header"
@@ -34,19 +40,28 @@ body {
 }
 
 body > main {
+    // Grid
     grid-area: main;
 }
 
 body > aside {
-    grid-area: aside;
+    // Boxing
     display: flex;
+
+    // Flex
     flex-direction: column;
     gap: 50px;
 
+    // Grid
+    grid-area: aside;
+
     .title {
+        // Boxing
         display: block;
+        padding-bottom: 0.5em;
+
+        // Typography
         font-size: 2em;
         font-family: fonts.$titles;
-        padding-bottom: 0.5em;
     }
 }
