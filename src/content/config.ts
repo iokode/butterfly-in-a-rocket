@@ -1,7 +1,7 @@
 import {z, defineCollection, reference} from "astro:content";
 import {entriesGitHubLoader, simpleGitHubLoader} from "./EntriesGitHubLoader.ts";
 
-const repository = 'iokode/blog-dev';
+export const repository = 'iokode/blog-dev';
 
 export const collections = {
     entries: defineCollection({
