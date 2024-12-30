@@ -1,33 +1,24 @@
 ---
-let sites = [
-    {
-        name: "Koalite",
-        url: "https://blog.koalite.com/",
-    },
-    {
-        name: "Variable not found",
-        url: "https://www.variablenotfound.com/",
-    },
-    {
-        name: "Xurxodev",
-        url: "https://xurxodev.com/",
-    },
-    {
-        name: "CarmenIsCoding",
-        url: "https://carmeniscoding.wordpress.com/",
-    },
-];
+import {repository} from "../../content/config.ts";
+
+type Partners = {
+    string: string;
+}
+
+let response = await fetch(`https://raw.githubusercontent.com/${repository}/refs/heads/main/partners.json`);
+let partners: Partners = await response.json();
 ---
 
 <div id="partners">
     <div class="title">I also read…</div>
     <ul>
-        {sites.map(site => <li><a target="_blank" href={site.url}>{site.name}</a></li>)}
+        {Object.entries(partners).map(([name, url]) => <li><a target="_blank" href={url}>{name}</a></li>)}
     </ul>
 </div>
 
 <style lang="scss">
     ul {
+        // Boxing
         margin: 0;
     }
 </style>
