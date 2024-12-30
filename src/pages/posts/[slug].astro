@@ -3,11 +3,10 @@ import {getCollection} from "astro:content";
 import PostLayout from "../../layouts/PostLayout.astro";
 import {Markdown} from 'astro-remote';
 import Alert from "../../components/Entry/Alert.astro";
-import Conversation from "../../components/Entry/Conversation.astro";
 import XPost from "../../components/Entry/XPost.astro";
 import Message from "../../components/Entry/Message.astro";
 
-const allowedComponents = {Alert, Conversation, Message, XPost};
+const allowedComponents = {Alert, Message, XPost};
 
 export const getStaticPaths = async function () {
     const entries = await getCollection('entries');
