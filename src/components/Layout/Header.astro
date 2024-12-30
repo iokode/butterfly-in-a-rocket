@@ -6,7 +6,7 @@ import lightIOKodeLogo from '../../assets/images/light/iokode.svg'
 
 <header>
     <div class="logo">
-        <DarkLightImage alt="IOKode logo" dark={darkIOKodeLogo} light={lightIOKodeLogo} />
+        <DarkLightImage alt="IOKode logo" dark={darkIOKodeLogo} light={lightIOKodeLogo}/>
     </div>
 
     <ul class="main-links">
@@ -26,55 +26,78 @@ import lightIOKodeLogo from '../../assets/images/light/iokode.svg'
 
 <style lang="scss">
     @use '../../styles/variables/devices';
+
     header {
+        // Grid
         grid-area: header;
 
         .logo {
-            margin: 0 auto;
+            // Boxing
             max-width: 800px;
+            margin: 0 auto;
             padding-top: 2em;
         }
 
         .social-links {
+            // Boxing
+            width: 100%;
             padding: 0;
+
+            // Position
             position: absolute;
             top: 0;
             left: 0;
+
+            // Typography
             text-align: center;
-            width: 100%;
 
             li {
-                white-space: nowrap;
-                list-style-type: none;
+                // Boxing
                 display: inline;
                 margin-left: 0.7em;
                 margin-right: 0.7em;
                 margin-top: 1em;
+
+                // Style
+                list-style-type: none;
+
+                // Others
+                white-space: nowrap;
             }
         }
 
         .main-links {
-            padding: 0;
+            // Boxing
             margin-top: -15px;
+            padding: 0;
+
+            // Typography
             text-align: center;
 
             li {
-                white-space: nowrap;
-                list-style-type: none;
+                // Boxing
                 display: block;
-
                 margin-left: 0.7em;
                 margin-right: 0.7em;
                 margin-top: 1em;
 
+                // Style
+                list-style-type: none;
+
+                // Others
+                white-space: nowrap;
+
                 a {
+                    // Boxing
                     display: block;
                 }
 
                 @media (min-width: devices.$tablet) {
+                    // Boxing
                     display: inline;
 
                     a {
+                        // Boxing
                         display: inline;
                     }
                 }

@@ -10,33 +10,40 @@ let severity = Astro.props.severity.charAt(0).toUpperCase() + Astro.props.severi
     <div class={`heading ${Astro.props.severity}`}>{severity}</div>
 
     <div class="content">
-        <slot />
+        <slot/>
     </div>
 </div>
 
 <style lang="scss">
     @use '../../styles/variables/colors';
-    @use "../../styles/variables/others";
+    @use "../../styles/variables/borders";
     @use '../../styles/variables/fonts';
-    
+
     .alert {
+        // Boxing
         padding: 1em;
-        border: others.$border-default;
         margin-bottom: 1em;
 
+        // Style
+        border: borders.$border-default;
+
         &.note {
+            // Style
             @include colors.property('border-color', 'info');
         }
 
         &.warning {
+            // Style
             @include colors.property('border-color', 'warning');
         }
     }
 
     .heading {
-        font-size: 1.5em;
+        // Boxing
         margin-bottom: 0.5em;
+
+        // Typography
+        font-size: 1.5em;
         font-family: fonts.$titles;
-        font-weight: bold;
     }
 </style>
