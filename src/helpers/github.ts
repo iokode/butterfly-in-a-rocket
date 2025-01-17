@@ -2,6 +2,12 @@ export async function getGithubRealnameFromUserName(username: string): Promise<s
     const response = await fetch(`https://api.github.com/users/${username}`);
 
     if (!response.ok) {
+        let json = await response.json();
+        
+        if (json.message) {
+            throw new Error(`GitHub error: ${json.message}`);
+        }
+        
         throw new Error(`GitHub user not found: ${username}`);
     }
 

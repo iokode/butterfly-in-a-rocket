@@ -1,0 +1,33 @@
+---
+import {getCollection} from "astro:content";
+import PostLayout from "../../../layouts/PostLayout.astro";
+import {Markdown} from 'astro-remote';
+import Alert from "../../../components/Entry/Alert.astro";
+import XPost from "../../../components/Entry/XPost.astro";
+import Message from "../../../components/Entry/Message.astro";
+
+const allowedComponents = {Alert, Message, XPost};
+
+export const getStaticPaths = async function () {
+    const entries = await getCollection('spanishLegacyEntries');
+
+    return entries.map(entry => {
+        return {
+            params: {slug: entry.data.slug},
+            props: {
+                entry: entry,
+            }
+        }
+    })
+};
+---
+<PostLayout author="montyclt" title={Astro.props.entry.data.title} date={Astro.props.entry.data.publishDate}>
+    <Fragment slot="head" set:html={`
+        <link rel="stylesheet" href="/hljs/styles/github.min.css"/>
+        <link rel="stylesheet" href="/hljs/styles/github-dark.min.css" media="(prefers-color-scheme: dark)"/>
+        <script src="/hljs/highlight.min.js"></script>
+        <script>hljs.highlightAll({cssSelector: 'pre code[class|="language"]'});</script>
+    `} />
+
+    <Markdown content={Astro.props.entry.data.body} sanitize={{allowComponents: true}} components={allowedComponents}/>
+</PostLayout>

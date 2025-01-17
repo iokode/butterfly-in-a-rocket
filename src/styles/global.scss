@@ -24,8 +24,18 @@ body {
 }
 
 h1, h2, h3, h4, h5, h6 {
+    // Boxing
+    margin-top: 2em;
+    
     // Typography
     font-family: fonts.$titles;
+}
+
+h1 {
+    // Boxing
+    margin-top: 0;
+    
+    // Typography
     font-weight: normal;
 }
 
