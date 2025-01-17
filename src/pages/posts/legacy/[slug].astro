@@ -5,8 +5,9 @@ import {Markdown} from 'astro-remote';
 import Alert from "../../../components/Entry/Alert.astro";
 import XPost from "../../../components/Entry/XPost.astro";
 import Message from "../../../components/Entry/Message.astro";
+import YouTube from "../../../components/Entry/YouTube.astro";
 
-const allowedComponents = {Alert, Message, XPost};
+const allowedComponents = {Alert, Message, XPost, YouTube};
 
 export const getStaticPaths = async function () {
     const entries = await getCollection('spanishLegacyEntries');

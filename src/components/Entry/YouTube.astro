@@ -1,0 +1,20 @@
+---
+interface Props {
+    id: string;
+}
+---
+
+<iframe src={`https://www.youtube.com/embed/${Astro.props.id}`} allowfullscreen></iframe>
+
+<style lang="scss">
+    iframe {
+        // Boxing
+        display: block;
+        margin: 0 auto;
+        width: 100%;
+        max-width: 600px;
+
+        // Others
+        aspect-ratio: 16 / 9;
+    }
+</style>
