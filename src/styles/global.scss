@@ -26,7 +26,7 @@ body {
 h1, h2, h3, h4, h5, h6 {
     // Boxing
     margin-top: 2em;
-    
+
     // Typography
     font-family: fonts.$titles;
 }
@@ -62,7 +62,7 @@ a {
 
             // Style
             text-decoration: none;
-            border: 2px solid;
+            border: borders.$default;
             @include colors.property("border-color", "link");
         }
     }
@@ -95,10 +95,14 @@ blockquote {
     font-style: italic;
 
     // Style
-    border-left: borders.$border-default;
+    border-left: borders.$default;
 
     cite {
         // Style
         font-style: normal;
     }
+}
+
+img, figure, video, iframe {
+    max-width: 100%;
 }

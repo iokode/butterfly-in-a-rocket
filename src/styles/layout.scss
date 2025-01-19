@@ -17,8 +17,8 @@ body {
 body {
     // Boxing
     max-width: min(100%, 1400px);
-    padding-left: 2em;
-    padding-right: 2em;
+    padding-left: 1em;
+    padding-right: 1em;
 
     // Grid
     grid-template-areas:
@@ -50,6 +50,17 @@ body > aside {
 
     // Flex
     flex-direction: column;
+    
+    @media (min-width: devices.$tablet) {
+        flex-direction: row;
+        justify-content: space-evenly;
+    }
+    
+    @media (min-width: devices.$desktop) {
+        justify-content: initial;
+        flex-direction: column;
+    }
+    
     gap: 50px;
 
     // Grid
