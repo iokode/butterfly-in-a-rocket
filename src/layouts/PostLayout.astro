@@ -18,7 +18,12 @@ const avatar = await getImage({
 ---
 
 <Layout title={Astro.props.title}>
-    <slot name="head" slot="head"/>
+    <Fragment slot="head" set:html={`
+        <link rel="stylesheet" href="/hljs/styles/github.min.css"/>
+        <link rel="stylesheet" href="/hljs/styles/github-dark.min.css" media="(prefers-color-scheme: dark)"/>
+        <script src="/hljs/highlight.min.js"></script>
+        <script>hljs.highlightAll({cssSelector: 'pre code[class|="language"]'});</script>
+    `} />
     <slot name="meta" slot="meta"/>
     <h1>{Astro.props.title}</h1>
     <div class="metadata">
@@ -42,7 +47,7 @@ const avatar = await getImage({
         padding: .5em 1em;
 
         // Style
-        border: borders.$border-default solid;
+        border: borders.$default;
 
         // Flex
         gap: 1em;

@@ -25,6 +25,7 @@ const avatar = await getImage({
 </a>
 
 <style lang="scss">
+    @use "../styles/variables/borders";
     @use "../styles/variables/colors";
     @use "../styles/variables/fonts";
 
@@ -71,11 +72,11 @@ const avatar = await getImage({
             padding: 0.5em 1em;
 
             // Typography
-            @include colors.property('border-color', 'border');
+            @include colors.property('border-color', 'link');
 
             // Style
             text-decoration: none;
-            border: 4px solid;
+            border: borders.$large;
         }
     }
 </style>

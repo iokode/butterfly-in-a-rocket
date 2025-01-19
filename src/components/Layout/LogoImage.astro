@@ -1,0 +1,20 @@
+---
+import { getImage } from "astro:assets";
+import darkIOKodeLogo from '../../assets/images/dark/iokode.svg'
+import lightIOKodeLogo from '../../assets/images/light/iokode.svg'
+
+const darkImage = await getImage({
+    src: darkIOKodeLogo,
+    width: 800,
+});
+
+const lightImage = await getImage({
+    src: lightIOKodeLogo,
+    width: 800
+});
+---
+
+<picture id={Astro.props.id} class={Astro.props.class}>
+    <source media="(prefers-color-scheme: dark)" srcset={darkImage.src} {...darkImage.attributes} />
+    <img src={lightImage.src} {...lightImage.attributes} alt="IOKode Logo" />
+</picture>
