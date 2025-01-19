@@ -2,6 +2,7 @@
 import {getCollection} from "astro:content";
 import PostLayout from "../../layouts/PostLayout.astro";
 import {Markdown} from 'astro-remote';
+import Comments from "../../components/Comments.svelte";
 import Alert from "../../components/Entry/Alert.astro";
 import XPost from "../../components/Entry/XPost.astro";
 import Message from "../../components/Entry/Message.astro";
@@ -23,12 +24,7 @@ export const getStaticPaths = async function () {
 };
 ---
 <PostLayout author={Astro.props.entry.data.author} title={Astro.props.entry.data.title} date={Astro.props.entry.data.publishDate}>
-    <Fragment slot="head" set:html={`
-        <link rel="stylesheet" href="/hljs/styles/github.min.css"/>
-        <link rel="stylesheet" href="/hljs/styles/github-dark.min.css" media="(prefers-color-scheme: dark)"/>
-        <script src="/hljs/highlight.min.js"></script>
-        <script>hljs.highlightAll({cssSelector: 'pre code[class|="language"]'});</script>
-    `} />
-
     <Markdown content={Astro.props.entry.data.body} sanitize={{allowComponents: true}} components={allowedComponents}/>
+
+    <Comments client:visible discussionId={Astro.props.entry.data.discussionId} author={Astro.props.entry.data.author} />
 </PostLayout>
