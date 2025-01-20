@@ -17,7 +17,6 @@ export async function GET() {
                 author: entry.data.authorName,
             }
         }),
-        // (opcional) inyecta xml personalizado
         customData: `<language>en</language>`,
     });
 }
