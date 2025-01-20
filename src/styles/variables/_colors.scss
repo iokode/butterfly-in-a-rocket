@@ -4,8 +4,6 @@ $light: (
         code: #fff,
         background: #eee,
         muted: #111,
-        info: #007bff,
-        warning: #ffc107,
 );
 
 $dark: (
@@ -14,8 +12,6 @@ $dark: (
         code: #000,
         background: #222,
         muted: #eee,
-        info: #007bff,
-        warning: #ffc107,
 );
 
 @function get-color($theme, $color-name) {

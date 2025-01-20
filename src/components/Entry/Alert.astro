@@ -4,10 +4,11 @@ interface Props {
 }
 
 let severity = Astro.props.severity.charAt(0).toUpperCase() + Astro.props.severity.substring(1);
+let emoji = Astro.props.severity === 'note' ? 'ℹ' : '⚠'
 ---
 
 <div class={'alert ' + Astro.props.severity}>
-    <div class={`heading ${Astro.props.severity}`}>{severity}</div>
+    <div class={`heading ${Astro.props.severity}`}>{emoji} {severity}</div>
 
     <div class="content">
         <slot/>
@@ -26,16 +27,6 @@ let severity = Astro.props.severity.charAt(0).toUpperCase() + Astro.props.severi
 
         // Style
         border: borders.$default;
-
-        &.note {
-            // Style
-            @include colors.property('border-color', 'info');
-        }
-
-        &.warning {
-            // Style
-            @include colors.property('border-color', 'warning');
-        }
     }
 
     .heading {
