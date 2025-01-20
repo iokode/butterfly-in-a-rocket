@@ -79,7 +79,7 @@
 
     .group {
         // Boxing
-        margin-top: 2em;
+        margin-top: 1em;
         
         // Style
         border: borders.$default;
