@@ -1,4 +1,4 @@
-import {z, defineCollection, reference} from "astro:content";
+import {z, defineCollection} from "astro:content";
 import {entriesGitHubLoader, simpleGitHubLoader} from "./EntriesGitHubLoader.ts";
 
 export const repository = 'iokode/blog-dev';
