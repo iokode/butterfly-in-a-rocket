@@ -12,9 +12,13 @@ const lightImage = await getImage({
     src: lightIOKodeLogo,
     width: 800
 });
+
+// Remove width and height attributes from the image to avoid mobile layout shift.
+const {width: darkWidth, height: darkHeight, ...darkImageAttributes} = darkImage.attributes;
+const {width: lightWidth, height: lightHeight, ...lightImageAttributes} = lightImage.attributes;
 ---
 
 <picture id={Astro.props.id} class={Astro.props.class}>
-    <source media="(prefers-color-scheme: dark)" srcset={darkImage.src} {...darkImage.attributes} />
-    <img src={lightImage.src} {...lightImage.attributes} alt="IOKode Logo" />
+    <source media="(prefers-color-scheme: dark)" srcset={darkImage.src} {...darkImageAttributes} />
+    <img src={lightImage.src} {...lightImageAttributes} alt="IOKode Logo" />
 </picture>
