@@ -22,6 +22,7 @@ const avatar = await getImage({
     <div class="author">
         <img src={avatar.src} alt={`GitHub avatar of ${data.authorName}`}/> {data.authorName}
     </div>
+    {data.series && <span class="series">Part of the <strong>{data.series}</strong> series</span>}
 </a>
 
 <style lang="scss">
@@ -37,6 +38,7 @@ const avatar = await getImage({
 
         // Flex
         flex-wrap: wrap;
+        gap: 1em;
 
         // Typography
         color: inherit;
@@ -54,7 +56,6 @@ const avatar = await getImage({
         .author {
             // Boxing
             display: flex;
-            margin-left: 1em;
 
             // Flex
             gap: .2em;
@@ -64,6 +65,12 @@ const avatar = await getImage({
                 // Boxing
                 width: 1em;
             }
+        }
+        
+        .series {
+            border: borders.$default;
+            padding: 0 .5em;
+            font-size: 0.8em;
         }
 
         &:hover {

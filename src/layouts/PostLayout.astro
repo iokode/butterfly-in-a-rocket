@@ -2,10 +2,13 @@
 import Layout from "./Layout.astro";
 import {getImage} from "astro:assets";
 import {getGithubRealnameFromUserName} from "../helpers/github";
+import {getSeriesPost, type SeriesIndex} from "../helpers/entries";
 interface Props {
     title: string
     author: string
-    date: Date
+    publishDate: Date
+    series?: string
+    slug: string
 }
 
 const authorRealName = await getGithubRealnameFromUserName(Astro.props.author);
@@ -15,6 +18,13 @@ const avatar = await getImage({
     inferSize: true,
     quality: 'max',
 });
+
+let seriesPosts: SeriesIndex[] | undefined = undefined;
+
+if (Astro.props.series !== undefined) {
+    seriesPosts = await getSeriesPost(Astro.props.author, Astro.props.series, Astro.props.slug);
+}
+
 ---
 
 <Layout title={Astro.props.title}>
@@ -23,23 +33,35 @@ const avatar = await getImage({
         <link rel="stylesheet" href="/hljs/styles/github-dark.min.css" media="(prefers-color-scheme: dark)"/>
         <script src="/hljs/highlight.min.js"></script>
         <script>hljs.highlightAll({cssSelector: 'pre code[class|="language"]'});</script>
-    `} />
+    `}/>
     <slot name="meta" slot="meta"/>
     <h1>{Astro.props.title}</h1>
     <div class="metadata">
         <div class="date">
-            {Astro.props.date.toDateString()}
+            {Astro.props.publishDate.toDateString()}
         </div>
         <div class="author">
             <img src={avatar.src} alt={`GitHub avatar of ${authorRealName}`}/>
             {authorRealName}
         </div>
     </div>
+
+    {seriesPosts &&
+            <div class="series">
+                <p>This post belongs of the <strong>{Astro.props.series}</strong> series.</p>
+                <ol class="posts">
+                    {seriesPosts.map(post =>
+                            <li class={post.current ? 'current' : ''}><a href={`/posts/${post.slug}`}>{post.title}</a></li>)}
+                </ol>
+            </div>
+    }
+
     <slot/>
 </Layout>
 
 <style lang="scss">
     @use "../styles/variables/borders";
+    @use "../styles/variables/fonts";
 
     .metadata {
         // Boxing
@@ -64,6 +86,26 @@ const avatar = await getImage({
                 // Boxing
                 width: 1em;
             }
+        }
+    }
+
+    .series {
+        // Boxing
+        margin: 1em 0;
+        padding: 0 1em;
+
+        // Style
+        border: borders.$default;
+        
+        > p {
+            // Typography
+            font-size: 1.2em;
+            font-family: fonts.$titles;
+        }
+
+        .current {
+            // Style
+            font-weight: bold;
         }
     }
 </style>

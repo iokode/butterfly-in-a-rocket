@@ -23,7 +23,7 @@ export const getStaticPaths = async function () {
     })
 };
 ---
-<PostLayout author={Astro.props.entry.data.author} title={Astro.props.entry.data.title} date={Astro.props.entry.data.publishDate}>
+<PostLayout {...(Astro.props.entry.data as any)}>
     <Markdown content={Astro.props.entry.data.body} sanitize={{allowComponents: true}} components={allowedComponents}/>
 
     <Comments client:visible discussionId={Astro.props.entry.data.discussionId} author={Astro.props.entry.data.author} />
