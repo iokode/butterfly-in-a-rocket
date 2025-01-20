@@ -51,7 +51,8 @@ if (Astro.props.series !== undefined) {
                 <p>This post belongs of the <strong>{Astro.props.series}</strong> series.</p>
                 <ol class="posts">
                     {seriesPosts.map(post =>
-                            <li class={post.current ? 'current' : ''}><a href={`/posts/${post.slug}`}>{post.title}</a></li>)}
+                            post.current ? <li class="current"><strong>{post.title}</strong></li> :
+                            <li><a href={`/posts/${post.slug}`}>{post.title}</a></li>)}
                 </ol>
             </div>
     }
@@ -101,11 +102,6 @@ if (Astro.props.series !== undefined) {
             // Typography
             font-size: 1.2em;
             font-family: fonts.$titles;
-        }
-
-        .current {
-            // Style
-            font-weight: bold;
         }
     }
 </style>
