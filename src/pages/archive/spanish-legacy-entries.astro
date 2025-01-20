@@ -1,6 +1,7 @@
 ---
 import {getCollection} from "astro:content";
 import Layout from "../../layouts/Layout.astro";
+import Alert from "../../components/Entry/Alert.astro";
 
 type PostsByYear = {
     [year: string]: typeof posts[0][]; // Keys are years, values are arrays of posts.
@@ -22,13 +23,18 @@ let postsByYear = posts.reduce<PostsByYear>((accumulator, post) => {
 
 <Layout title="Spanish legacy entries archive">
     <h1>Spanish legacy entries archive</h1>
+    <Alert severity="note">
+        <p>This is a list of entries originally written in Spanish before I started writing in English.</p>
+        <p>All these entries were written by <a target="_blank" href="https://github.com/montyclt">Ivan Montilla</a> and are
+            licensed under <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/deed.en">CC BY 4.0</a>.</p>
+    </Alert>
     {Object.entries(postsByYear).reverse().map(([year, yearPosts]) => (
             <section>
                 <h2>{year}</h2>
                 <ul>
                     {yearPosts.map(post => (
                             <li>
-                                <a href={`/posts/legacy/${post.data.slug}`}>{post.data.title}</a> <small>by <a target="_blank" href={`https://github.com/montyclt`}>Ivan Montilla</a></small>
+                                <a href={`/posts/legacy/${post.data.slug}`}>{post.data.title}</a>
                             </li>
                     ))}
                 </ul>
