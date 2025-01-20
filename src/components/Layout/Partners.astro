@@ -1,12 +1,8 @@
 ---
-import {repository} from "../../content/config.ts";
+import {getPartners} from "../../helpers/github";
+import {repository} from "../../content/config";
 
-type Partners = {
-    string: string;
-}
-
-let response = await fetch(`https://raw.githubusercontent.com/${repository}/refs/heads/main/partners.json`);
-let partners: Partners = await response.json();
+let partners = await getPartners(repository);
 ---
 
 <div id="partners">

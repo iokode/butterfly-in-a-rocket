@@ -90,6 +90,11 @@ export async function getComments(repository: string, discussionId: number): Pro
     return json;
 }
 
+export async function getPartners(repository: string): Promise<{ string: string; }> {
+    let response = await authenticatedFetch(`https://raw.githubusercontent.com/${repository}/refs/heads/main/partners.json`);
+    return await response.json();
+}
+
 function authenticatedFetch(input: string | URL | globalThis.Request, init?: RequestInit) {
     let token: string | undefined = process.env.GITHUB_TOKEN;
 
