@@ -57,8 +57,11 @@ a {
             // Boxing
             padding-left: 10px;
             padding-right: 10px;
-            margin-left: -12px;
-            margin-right: -12px;
+            margin-left: -(10px + borders.$default-numeric);
+            margin-right: -(10px + borders.$default-numeric);
+
+            margin-top: -(borders.$default-numeric);
+            margin-bottom: -(borders.$default-numeric);
 
             // Style
             text-decoration: none;

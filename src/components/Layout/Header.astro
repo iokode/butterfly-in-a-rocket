@@ -4,7 +4,7 @@ import LogoImage from "./LogoImage.astro";
 
 <header>
     <div class="logo">
-        <LogoImage />
+        <LogoImage/>
     </div>
 
     <ul class="main-links">
@@ -23,6 +23,7 @@ import LogoImage from "./LogoImage.astro";
 </header>
 
 <style lang="scss">
+    @use '../../styles/variables/borders';
     @use '../../styles/variables/devices';
 
     header {
@@ -67,7 +68,7 @@ import LogoImage from "./LogoImage.astro";
         .main-links {
             // Boxing
             margin-top: -15px;
-            padding: 0;
+            padding: borders.$default-numeric 0 0;
 
             // Typography
             text-align: center;
@@ -99,6 +100,11 @@ import LogoImage from "./LogoImage.astro";
                         display: inline;
                     }
                 }
+            }
+
+            @media (min-width: devices.$tablet) {
+                // Boxing
+                padding: 0;
             }
         }
     }
