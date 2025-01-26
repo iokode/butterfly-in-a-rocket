@@ -1,8 +1,10 @@
+---
+import {defaultLicense} from "../../content/config";
+---
+
 <footer>
-    <p>
-        Posts are written under <a href="https://creativecommons.org/licenses/by/4.0/deed.en" target="_blank">CC BY 4.0
-        license</a>.
-    </p>
+    <p>Posts are licensed under <a href={defaultLicense.url} target="_blank">{defaultLicense.code}</a>,
+        unless otherwise specified in the post.</p>
     <ul>
         <li><a href="/legal">Legal notice</a></li>
         <li><a href="/rss.xml">RSS Feed</a></li>

@@ -2,6 +2,10 @@ import {z, defineCollection} from "astro:content";
 import {entriesGitHubLoader, kvpGitHubLoader, simpleGitHubLoader} from "./EntriesGitHubLoader.ts";
 
 export const repository = 'iokode/blog-dev';
+export const defaultLicense = {
+    code: 'CC BY 4.0',
+    url: 'https://creativecommons.org/licenses/by/4.0/deed.en',
+}
 
 export const collections = {
     entries: defineCollection({
@@ -10,7 +14,7 @@ export const collections = {
             title: z.string(),
             body: z.string(),
             slug: z.string(),
-            license: z.string(), // todo reference to licenses collection
+            license: z.string(), // license code in 'licenses' collection
             author: z.string(), // GitHub username
             authorName: z.string(),
             publishDate: z.date(),

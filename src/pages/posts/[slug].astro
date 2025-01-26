@@ -1,7 +1,7 @@
 ---
-import {getCollection} from "astro:content";
-import PostLayout from "../../layouts/PostLayout.astro";
+import {getCollection, getEntry} from "astro:content";
 import {Markdown} from 'astro-remote';
+import PostLayout from "../../layouts/PostLayout.astro";
 import Comments from "../../components/Comments.svelte";
 import Alert from "../../components/Entry/Alert.astro";
 import XPost from "../../components/Entry/XPost.astro";
@@ -13,18 +13,31 @@ const allowedComponents = {Alert, Message, XPost, YouTube};
 export const getStaticPaths = async function () {
     const entries = await getCollection('entries');
 
-    return entries.map(entry => {
+    const mappedEntries = entries.map(async entry => {
+        let license = (await getEntry('licenses', entry.data.license))!;
+
         return {
             params: {slug: entry.data.slug},
             props: {
-                entry: entry,
+                entry: entry.data as {
+                    author: string,
+                    title: string,
+                    publishDate: Date,
+                    slug: string,
+                    discussionId: number,
+                    body: string,
+                },
+                license: license.data,
             }
         }
     })
+
+    return Promise.all(mappedEntries);
 };
 ---
-<PostLayout {...(Astro.props.entry.data as any)}>
-    <Markdown content={Astro.props.entry.data.body} sanitize={{allowComponents: true}} components={allowedComponents}/>
 
-    <Comments client:visible discussionId={Astro.props.entry.data.discussionId} author={Astro.props.entry.data.author} />
+<PostLayout {...Astro.props.entry} license={Astro.props.license}>
+    <Markdown content={Astro.props.entry.body} sanitize={{allowComponents: true}} components={allowedComponents}/>
+
+    <Comments client:visible discussionId={Astro.props.entry.discussionId} author={Astro.props.entry.author}/>
 </PostLayout>

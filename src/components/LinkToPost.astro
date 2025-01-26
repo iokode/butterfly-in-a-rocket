@@ -18,11 +18,12 @@ const avatar = await getImage({
 
 <a href={`/posts/${data.slug}`}>
     <div class="title">{data.title}</div>
-    <time>{data.publishDate.toDateString()}</time>
     <div class="author">
         <img src={avatar.src} alt={`GitHub avatar of ${data.authorName}`}/> {data.authorName}
     </div>
+    <time>{data.publishDate.toDateString()}</time>
     {data.series && <span class="series">Part of the <strong>{data.series}</strong> series</span>}
+    <span class="license">{data.license}</span>
 </a>
 
 <style lang="scss">
@@ -38,7 +39,7 @@ const avatar = await getImage({
 
         // Flex
         flex-wrap: wrap;
-        gap: 1em;
+        gap: 0.5em;
 
         // Typography
         color: inherit;
@@ -67,10 +68,9 @@ const avatar = await getImage({
             }
         }
         
-        .series {
+        .author, time, .license, .series {
             border: borders.$default;
             padding: 0 .5em;
-            font-size: 0.8em;
         }
 
         &:hover {

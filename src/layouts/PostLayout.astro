@@ -9,6 +9,7 @@ interface Props {
     publishDate: Date
     series?: string
     slug: string
+    license: { code: string, url: string }
 }
 
 const authorRealName = await getGithubRealnameFromUserName(Astro.props.author);
@@ -24,7 +25,6 @@ let seriesPosts: SeriesIndex[] | undefined = undefined;
 if (Astro.props.series !== undefined) {
     seriesPosts = await getSeriesPost(Astro.props.author, Astro.props.series, Astro.props.slug);
 }
-
 ---
 
 <Layout title={Astro.props.title}>
@@ -37,12 +37,15 @@ if (Astro.props.series !== undefined) {
     <slot name="meta" slot="meta"/>
     <h1>{Astro.props.title}</h1>
     <div class="metadata">
-        <div class="date">
-            {Astro.props.publishDate.toDateString()}
-        </div>
         <div class="author">
             <img src={avatar.src} alt={`GitHub avatar of ${authorRealName}`}/>
             {authorRealName}
+        </div>
+        <div class="date">
+            {Astro.props.publishDate.toDateString()}
+        </div>
+        <div class="license">
+            Post licensed under <a target="_blank" href={Astro.props.license.url}>{Astro.props.license.code}</a>.
         </div>
     </div>
 
@@ -51,8 +54,9 @@ if (Astro.props.series !== undefined) {
                 <p>This post belongs of the <strong>{Astro.props.series}</strong> series.</p>
                 <ol class="posts">
                     {seriesPosts.map(post =>
-                            post.current ? <li class="current"><strong>{post.title}</strong></li> :
-                            <li><a href={`/posts/${post.slug}`}>{post.title}</a></li>)}
+                        post.current ?
+                                <li class="current"><strong>{post.title}</strong></li> :
+                                <li><a href={`/posts/${post.slug}`}>{post.title}</a></li>)}
                 </ol>
             </div>
     }
@@ -62,18 +66,31 @@ if (Astro.props.series !== undefined) {
 
 <style lang="scss">
     @use "../styles/variables/borders";
+    @use "../styles/variables/devices";
     @use "../styles/variables/fonts";
 
     .metadata {
         // Boxing
         display: flex;
-        padding: .5em 1em;
-
-        // Style
-        border: borders.$default;
 
         // Flex
-        gap: 1em;
+        flex-direction: column;
+        row-gap: .5em;
+
+        @media (min-width: devices.$tablet) {
+            // Flex
+            row-gap: .5em;
+            column-gap: 0.5em;
+            flex-direction: row;
+        }
+
+        > div {
+            // Boxing
+            padding: 0 .5em;
+
+            // Style
+            border: borders.$default;
+        }
 
         .author {
             // Boxing
@@ -92,12 +109,12 @@ if (Astro.props.series !== undefined) {
 
     .series {
         // Boxing
-        margin: 1em 0;
+        margin: .5em 0;
         padding: 0 1em;
 
         // Style
         border: borders.$default;
-        
+
         > p {
             // Typography
             font-size: 1.2em;
