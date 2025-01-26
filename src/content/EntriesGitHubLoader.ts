@@ -1,6 +1,7 @@
 import type {Loader, LoaderContext} from "astro/loaders";
 import {fetchFileContent, fetchRepoTree, getGithubRealnameFromUserName, getKeyValueList} from "../helpers/github.ts";
 import matter from "gray-matter";
+import {getEntry} from "astro:content";
 
 export function entriesGitHubLoader(repository: string, directory: string): Loader {
     return {
@@ -26,7 +27,7 @@ export function kvpGitHubLoader(repository: string, file: string, idKey: string,
     return {
         name: 'github-kvp-loader',
         load: async (context: LoaderContext): Promise<void> => {
-            let kvp =  await getKeyValueList(repository, file);
+            let kvp = await getKeyValueList(repository, file);
 
             let toStore = Object.entries(kvp).map(([key, value]) => ({
                 id: key,
@@ -35,9 +36,6 @@ export function kvpGitHubLoader(repository: string, file: string, idKey: string,
                     [valueKey]: value,
                 }
             }));
-            
-            console.log("toStore:");
-            console.log(toStore);
 
             toStore.forEach(entry => context.store.set(entry));
         }
