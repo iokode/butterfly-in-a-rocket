@@ -1,10 +1,10 @@
 import type {Loader, LoaderContext} from "astro/loaders";
-import {fetchFileContent, fetchRepoTree, getGithubRealnameFromUserName} from "../helpers/github.ts";
+import {fetchFileContent, fetchRepoTree, getGithubRealnameFromUserName, getKeyValueList} from "../helpers/github.ts";
 import matter from "gray-matter";
 
 export function entriesGitHubLoader(repository: string, directory: string): Loader {
     return {
-        name: 'github-loader',
+        name: 'github-entries-loader',
         load: async (context: LoaderContext): Promise<void> => {
             const regex = new RegExp(`^${directory}/[^/]+/entry\.mdx?$`);
             await loadFilesWithRegex(repository, regex, context);
@@ -14,10 +14,32 @@ export function entriesGitHubLoader(repository: string, directory: string): Load
 
 export function simpleGitHubLoader(repository: string, directory: string): Loader {
     return {
-        name: 'github-loader',
+        name: 'github-simple-loader',
         load: async (context: LoaderContext): Promise<void> => {
             const regex = new RegExp(`^${directory}/[^/]+\.mdx?$`);
             await loadSimpleFilesWithRegex(repository, directory, regex, context);
+        }
+    };
+}
+
+export function kvpGitHubLoader(repository: string, file: string, idKey: string, valueKey: string): Loader {
+    return {
+        name: 'github-kvp-loader',
+        load: async (context: LoaderContext): Promise<void> => {
+            let kvp =  await getKeyValueList(repository, file);
+
+            let toStore = Object.entries(kvp).map(([key, value]) => ({
+                id: key,
+                data: {
+                    [idKey]: key,
+                    [valueKey]: value,
+                }
+            }));
+            
+            console.log("toStore:");
+            console.log(toStore);
+
+            toStore.forEach(entry => context.store.set(entry));
         }
     };
 }

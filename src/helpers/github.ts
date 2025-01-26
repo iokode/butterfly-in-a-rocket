@@ -90,8 +90,8 @@ export async function getComments(repository: string, discussionId: number): Pro
     return json;
 }
 
-export async function getPartners(repository: string): Promise<{ string: string; }> {
-    let response = await authenticatedFetch(`https://raw.githubusercontent.com/${repository}/refs/heads/main/partners.json`);
+export async function getKeyValueList(repository: string, file: string): Promise<Record<string, string>> {
+    let response = await authenticatedFetch(`https://raw.githubusercontent.com/${repository}/refs/heads/main/${file}`);
     return await response.json();
 }
 

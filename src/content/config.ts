@@ -1,5 +1,5 @@
 import {z, defineCollection} from "astro:content";
-import {entriesGitHubLoader, simpleGitHubLoader} from "./EntriesGitHubLoader.ts";
+import {entriesGitHubLoader, kvpGitHubLoader, simpleGitHubLoader} from "./EntriesGitHubLoader.ts";
 
 export const repository = 'iokode/blog-dev';
 
@@ -28,11 +28,18 @@ export const collections = {
         }),
     }),
     licenses: defineCollection({
-        loader: simpleGitHubLoader(repository, 'licenses'),
+        loader: kvpGitHubLoader(repository, 'licenses.json', 'code', 'url'),
+        schema: z.object({
+            code: z.string(),
+            url: z.string().url(),
+        }),
+    }),
+    partners: defineCollection({
+        loader: kvpGitHubLoader(repository, 'partners.json', 'name', 'url'),
         schema: z.object({
             name: z.string(),
-            code: z.string(),
-        }),
+            url: z.string().url()
+        })
     }),
     spanishLegacyEntries: defineCollection({
         loader: entriesGitHubLoader(repository, 'spanish-legacy-entries'),

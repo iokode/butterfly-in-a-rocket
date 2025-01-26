@@ -1,14 +1,13 @@
 ---
-import {getPartners} from "../../helpers/github";
-import {repository} from "../../content/config";
+import {getCollection} from "astro:content";
 
-let partners = await getPartners(repository);
+let partners = (await getCollection('partners')).map(partner => partner.data);
 ---
 
 <div id="partners">
     <div class="title">I also read…</div>
     <ul>
-        {Object.entries(partners).map(([name, url]) => <li><a target="_blank" href={url}>{name}</a></li>)}
+        {partners.map(partner => <li><a target="_blank" href={partner.url}>{partner.name}</a></li>)}
     </ul>
 </div>
 
