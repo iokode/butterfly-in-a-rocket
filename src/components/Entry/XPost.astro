@@ -1,36 +1,39 @@
 ---
-import {JSDOM} from 'jsdom';
 import {Markdown} from 'astro-remote';
+import {getPost} from "../../helpers/socialdata_tools";
 
 interface Props {
     id: string
-    author: string
 }
 
-function decodeHTML(html: string): string {
-    const txt = dom.window.document.createElement('textarea');
-    txt.innerHTML = html;
-    return txt.value;
-}
-
-const embed = await fetch(`https://publish.twitter.com/oembed?url=https://twitter.com/${Astro.props.author}/status/${Astro.props.id}`)
-const jsonResponse = await embed.json() as { html: string, author_name: string, url: string }
-const dom = new JSDOM(jsonResponse.html);
-const author = jsonResponse.author_name;
-const anchors = dom.window.document.getElementsByTagName('a');
-const date = anchors[anchors.length - 1].innerHTML;
-const content = dom.window.document.getElementsByTagName('p')[0].innerHTML;
-const link = jsonResponse.url;
+let post = await getPost(Astro.props.id);
 ---
 
 <blockquote class="x-post">
     <div class="heading">
-        {author} wrote on X (formerly Twitter):
+        <span class="profile-picture">
+            <img src={post.author.profilePictureUrl} alt={post.author.displayName}/>
+        </span>
+        {post.author.displayName}
     </div>
     <div class="content">
-        <Markdown content={decodeHTML(content)}/>
+        <Markdown content={post.content}/>
     </div>
-    <a target="_blank" href={link}>Original post on X</a>
+    {post.quoting &&
+            <div class="quoting">
+                <div class="heading">
+                <span class="profile-picture">
+                    <img src={post.quoting.author.profilePictureUrl} alt={post.quoting.author.displayName}/>
+                </span>
+                    {post.quoting.author.displayName}
+                </div>
+                <div class="content">
+                    <Markdown content={post.quoting.content}/>
+                </div>
+                <a target="_blank" href={post.quoting.url}>Original post on X</a>
+            </div>
+    }
+    <a target="_blank" href={post.url}>Original post on X</a>
 </blockquote>
 
 <style lang="scss">
@@ -42,7 +45,7 @@ const link = jsonResponse.url;
         // Typography
         font-style: initial;
     }
-    
+
     .x-post {
         // Boxing
         margin: 0 0 1em;
@@ -58,6 +61,11 @@ const link = jsonResponse.url;
             // Typography
             font-size: 1.5em;
             font-family: fonts.$titles;
+
+            .profile-picture img {
+                // Style
+                vertical-align: middle;
+            }
         }
 
         .content {
@@ -66,6 +74,22 @@ const link = jsonResponse.url;
 
             // Typography
             font-family: fonts.$body;
+        }
+
+        .quoting {
+            border: borders.$thin;
+            padding: 1em;
+            margin-bottom: 1em;
+
+            .heading {
+                img {
+                    // Boxing
+                    width: 1.5em;
+                }
+
+                // Typography
+                font-size: 1.2em;
+            }
         }
 
         a {
