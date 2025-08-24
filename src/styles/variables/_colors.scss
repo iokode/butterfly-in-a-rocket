@@ -14,22 +14,16 @@ $dark: (
         muted: #eee,
 );
 
-@function get-color($theme, $color-name) {
-    @if $theme == light {
-        @return map-get($light, $color-name);
-    } @else if $theme == dark {
-        @return map-get($dark, $color-name);
-    } @else {
-        @error "Invalid theme: #{$theme}. Only 'light' or 'dark' are allowed.";
+:root {
+    @each $name, $value in $light {
+        --color-#{$name}: #{$value};
     }
 }
 
-@mixin property($property, $color-name) {
-    & {
-        #{$property}: get-color(light, $color-name);
-    }
-
-    @media (prefers-color-scheme: dark) {
-        #{$property}: get-color(dark, $color-name);
+@media (prefers-color-scheme: dark) {
+    :root {
+        @each $name, $value in $dark {
+            --color-#{$name}: #{$value};
+        }
     }
 }

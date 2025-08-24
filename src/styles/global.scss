@@ -12,10 +12,10 @@ body {
     font-family: fonts.$body;
     font-size: 100%;
     line-height: 1.5;
-    @include colors.property("color", "text");
+    color: var(--color-text);
 
     // Style
-    @include colors.property("background-color", "background");
+    background-color: var(--color-background);
 
     @media (min-width: devices.$tablet) {
         // Typography
@@ -25,23 +25,37 @@ body {
 
 h1, h2, h3, h4, h5, h6 {
     // Boxing
-    margin-top: 2em;
+    margin-block-start: 1.5em;
+    margin-block-end: 0.5em;
 
     // Typography
     font-family: fonts.$titles;
+
+    & + p {
+        margin-block-start: 0;
+    }
 }
 
 h1 {
     // Boxing
     margin-top: 0;
-    
+
+    // Style
+    border: none;
+
     // Typography
     font-weight: normal;
 }
 
+h2 {
+    // Style
+    line-height: 1;
+    border-block-end: 1px solid;
+}
+
 a {
     // Typography
-    @include colors.property("color", "link");
+    color: var(--color-link);
 
     // Style
     text-decoration: none;
@@ -66,7 +80,7 @@ a {
             // Style
             text-decoration: none;
             border: borders.$default;
-            @include colors.property("border-color", "link");
+            border-color: var(--color-link);
         }
     }
 }
@@ -86,7 +100,7 @@ code:not([class|="language"]) {
     padding: 0.2em 0.4em;
 
     // Style
-    @include colors.property('background-color', 'code');
+    background-color: var(--color-code);
 }
 
 blockquote {
