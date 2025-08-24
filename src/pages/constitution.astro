@@ -1,0 +1,12 @@
+---
+import Layout from "../layouts/Layout.astro";
+import {Markdown} from 'astro-remote';
+import {getEntry} from "astro:content";
+
+const entry = await getEntry('essentials', 'constitution')!;
+---
+
+<Layout title="Constitution of the IOKode project">
+    <h1>Constitution of the IOKode project</h1>
+    <Markdown content={entry.data.body}/>
+</Layout>
