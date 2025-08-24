@@ -4,16 +4,14 @@ import PostLayout from "../../../layouts/PostLayout.astro";
 import {Markdown} from 'astro-remote';
 import Alert from "../../../components/Entry/Alert.astro";
 import Comments from "../../../components/Comments.svelte";
-import XPost from "../../../components/Entry/XPost.astro";
 import Message from "../../../components/Entry/Message.astro";
-import YouTube from "../../../components/Entry/YouTube.astro";
 
 const license = {
     code: "CC BY 4.0",
     url: "https://creativecommons.org/licenses/by/4.0/deed.en",
 };
 
-const allowedComponents = {Alert, Message, XPost, YouTube};
+const allowedComponents = {Alert, Message};
 
 export const getStaticPaths = async function () {
     const entries = await getCollection('spanishLegacyEntries');

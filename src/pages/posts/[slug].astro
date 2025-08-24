@@ -4,11 +4,9 @@ import {Markdown} from 'astro-remote';
 import PostLayout from "../../layouts/PostLayout.astro";
 import Comments from "../../components/Comments.svelte";
 import Alert from "../../components/Entry/Alert.astro";
-import XPost from "../../components/Entry/XPost.astro";
 import Message from "../../components/Entry/Message.astro";
-import YouTube from "../../components/Entry/YouTube.astro";
 
-const allowedComponents = {Alert, Message, XPost, YouTube};
+const allowedComponents = {Alert, Message};
 
 export const getStaticPaths = async function () {
     const entries = await getCollection('entries');
