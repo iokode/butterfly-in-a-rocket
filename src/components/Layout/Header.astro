@@ -35,9 +35,21 @@ import LogoImage from "./LogoImage.astro";
             max-width: 800px;
             margin: 0 auto;
             padding-top: 2em;
+
+            @media print {
+                // Boxing
+                max-width: 200px;
+                margin: 0 0 0 auto;
+                padding: 0;
+            }
         }
 
         .social-links {
+            @media print {
+                // Boxing
+                display: none;
+            }
+
             // Boxing
             width: 100%;
             padding: 0;
@@ -66,6 +78,11 @@ import LogoImage from "./LogoImage.astro";
         }
 
         .main-links {
+            @media print {
+                // Boxing
+                display: none;
+            }
+
             // Boxing
             margin-top: -15px;
             padding: borders.$default-numeric 0 0;

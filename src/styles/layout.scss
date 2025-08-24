@@ -46,6 +46,11 @@ body > main {
 }
 
 body > aside {
+    @media print {
+        // Boxing
+        display: none;
+    }
+
     // Boxing
     display: flex;
 
