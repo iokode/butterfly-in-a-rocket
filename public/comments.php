@@ -1,5 +1,7 @@
 <?php
 
+error_reporting(E_ERROR | E_PARSE);
+
 function get_github_real_name(string $username): string {
     $url = "https://api.github.com/users/$username";
     $headers = [
@@ -119,6 +121,13 @@ if (isset($data['errors'])) {
 }
 
 $comments = array_map(function ($node) {
+    if ($node['author'] === null) {
+        $node['author'] = [
+            'login' => 'ghost',
+            'avatarUrl' => 'https://avatars.githubusercontent.com/u/10137?v=4',
+        ];
+    }
+
     return [
         'body' => $node['bodyHTML'],
         'user' => [
@@ -128,6 +137,13 @@ $comments = array_map(function ($node) {
         ],
         'creationDate' => $node['createdAt'],
         'replies' => array_map(function ($replyNode) {
+            if ($replyNode['author'] === null) {
+                $replyNode['author'] = [
+                    'login' => 'ghost',
+                    'avatarUrl' => 'https://avatars.githubusercontent.com/u/10137?v=4',
+                ];
+            }
+
             return [
                 'body' => $replyNode['bodyHTML'],
                 'user' => [
