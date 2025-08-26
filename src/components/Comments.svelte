@@ -47,7 +47,7 @@
 
                     {#each comment.replies as reply}
                         <div class="reply">
-                            <p class="heading">Reply written by <a target="_blank" href="https://github.com/{reply.user.username}">{reply.user.realName}</a> on {reply.creationDate.toDateString()}</p>
+                            <p class="heading">Reply written by <a target="_blank" href="https://github.com/{reply.user.username}">{reply.user.realName}</a>on {reply.creationDate.toDateString()}</p>
                             <div class="avatar-container">
                                 <img class="avatar" src={reply.user.avatarUrl} alt="GitHub avatar of {reply.user.username}"/>
                                 {#if reply.user.username === author}
@@ -72,14 +72,14 @@
     @use "../styles/variables/fonts";
 
     .comments {
+        // Boxing
+        margin-top: 2em;
+        padding-top: 2em;
+
         @media print {
             // Boxing
             display: none;
         }
-
-        // Boxing
-        margin-top: 2em;
-        padding-top: 2em;
     }
 
     .group {
@@ -102,13 +102,6 @@
         grid-template-areas:
             "heading"
             "content";
-        
-        @media (min-width: devices.$tablet) {
-            grid-template-columns: fit-content(100%) 1fr;
-            grid-template-areas:
-            "avatar heading"
-            "avatar content";
-        }
 
         .avatar-container {
             display: none;
@@ -141,9 +134,13 @@
         .content {
             grid-area: content;
         }
-        
-        .replies {
-            grid-area: replies;
+
+        @media (min-width: devices.$tablet) {
+            // Grid
+            grid-template-columns: fit-content(100%) 1fr;
+            grid-template-areas:
+            "avatar heading"
+            "avatar content";
         }
     }
 
