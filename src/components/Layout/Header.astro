@@ -45,11 +45,6 @@ import LogoImage from "./LogoImage.astro";
         }
 
         .social-links {
-            @media print {
-                // Boxing
-                display: none;
-            }
-
             // Boxing
             width: 100%;
             padding: 0;
@@ -75,14 +70,14 @@ import LogoImage from "./LogoImage.astro";
                 // Others
                 white-space: nowrap;
             }
-        }
 
-        .main-links {
             @media print {
                 // Boxing
                 display: none;
             }
+        }
 
+        .main-links {
             // Boxing
             margin-top: -15px;
             padding: borders.$default-numeric 0 0;
@@ -122,6 +117,11 @@ import LogoImage from "./LogoImage.astro";
             @media (min-width: devices.$tablet) {
                 // Boxing
                 padding: 0;
+            }
+
+            @media print {
+                // Boxing
+                display: none;
             }
         }
     }

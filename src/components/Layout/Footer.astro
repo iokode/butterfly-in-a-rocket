@@ -13,11 +13,6 @@ import {defaultLicense} from "../../content/config";
 
 <style lang="scss">
     footer {
-        @media print {
-            // Boxing
-            display: none;
-        }
-
         // Boxing
         margin-top: 25px;
 
@@ -40,6 +35,11 @@ import {defaultLicense} from "../../content/config";
                 margin-right: 5px;
                 margin-left: 5px;
             }
+        }
+
+        @media print {
+            // Boxing
+            display: none;
         }
     }
 </style>

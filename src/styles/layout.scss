@@ -46,27 +46,11 @@ body > main {
 }
 
 body > aside {
-    @media print {
-        // Boxing
-        display: none;
-    }
-
     // Boxing
     display: flex;
 
     // Flex
     flex-direction: column;
-    
-    @media (min-width: devices.$tablet) {
-        flex-direction: row;
-        justify-content: space-evenly;
-    }
-    
-    @media (min-width: devices.$desktop) {
-        justify-content: initial;
-        flex-direction: column;
-    }
-    
     gap: 50px;
 
     // Grid
@@ -80,5 +64,22 @@ body > aside {
         // Typography
         font-size: 2em;
         font-family: fonts.$titles;
+    }
+
+    @media (min-width: devices.$tablet) {
+        // Flex
+        flex-direction: row;
+        justify-content: space-evenly;
+    }
+
+    @media (min-width: devices.$desktop) {
+        // Flex
+        justify-content: initial;
+        flex-direction: column;
+    }
+
+    @media print {
+        // Boxing
+        display: none;
     }
 }
