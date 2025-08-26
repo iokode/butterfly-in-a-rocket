@@ -47,7 +47,7 @@
 
                     {#each comment.replies as reply}
                         <div class="reply">
-                            <p class="heading">Reply written by <a target="_blank" href="https://github.com/{reply.user.username}">{reply.user.realName}</a>on {reply.creationDate.toDateString()}</p>
+                            <p class="heading">Reply written by <a target="_blank" href="https://github.com/{reply.user.username}">{reply.user.realName}</a> on {reply.creationDate.toDateString()}</p>
                             <div class="avatar-container">
                                 <img class="avatar" src={reply.user.avatarUrl} alt="GitHub avatar of {reply.user.username}"/>
                                 {#if reply.user.username === author}
