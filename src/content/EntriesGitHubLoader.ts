@@ -1,7 +1,6 @@
 import type {Loader, LoaderContext} from "astro/loaders";
 import {fetchFileContent, fetchRepoTree, getGithubRealnameFromUserName, getKeyValueList} from "../helpers/github.ts";
 import matter from "gray-matter";
-import {getEntry} from "astro:content";
 
 export function entriesGitHubLoader(repository: string, directory: string): Loader {
     return {
