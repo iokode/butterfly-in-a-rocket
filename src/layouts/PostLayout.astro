@@ -1,8 +1,8 @@
 ---
 import Layout from "./Layout.astro";
-import {getImage} from "astro:assets";
-import {getGithubRealnameFromUserName} from "../helpers/github";
+import {getGithubAvatar, getGithubRealnameFromUserName} from "../helpers/github";
 import {getSeriesPost, type SeriesIndex} from "../helpers/entries";
+
 interface Props {
     title: string
     author: string
@@ -13,12 +13,7 @@ interface Props {
 }
 
 const authorRealName = await getGithubRealnameFromUserName(Astro.props.author);
-const avatar = await getImage({
-    src: `https://github.com/${Astro.props.author}.png?size=60`,
-    formats: ['webp'],
-    inferSize: true,
-    quality: 'max',
-});
+const avatar = await getGithubAvatar(Astro.props.author);
 
 let seriesPosts: SeriesIndex[] | undefined = undefined;
 

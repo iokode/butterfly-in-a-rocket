@@ -1,4 +1,6 @@
 import {isDevelopment} from "./environment.ts";
+import {getImage} from "astro:assets";
+import type {GetImageResult} from "astro";
 
 export async function getGithubRealnameFromUserName(username: string): Promise<string> {
     const response = await authenticatedFetch(`https://api.github.com/users/${username}`);
@@ -15,6 +17,15 @@ export async function getGithubRealnameFromUserName(username: string): Promise<s
 
     const userData = await response.json();
     return userData.name || username; // Return username if name is not set
+}
+
+export async function getGithubAvatar(username: string): Promise<GetImageResult> {
+    return await getImage({
+        src: `https://github.com/${username}.png?size=60`,
+        formats: ['webp'],
+        inferSize: true,
+        quality: 'max',
+    });
 }
 
 export async function fetchRepoTree(repository: string): Promise<{
