@@ -1,17 +1,19 @@
 ---
+import {Markdown} from "astro-remote";
 interface Props {
     severity: "note" | "warning";
 }
 
 let severity = Astro.props.severity.charAt(0).toUpperCase() + Astro.props.severity.substring(1);
 let emoji = Astro.props.severity === 'note' ? 'ℹ' : '⚠'
+let renderedSlot = await Astro.slots.render('default');
 ---
 
 <div class={'alert ' + Astro.props.severity}>
     <div class={`heading ${Astro.props.severity}`}>{emoji} {severity}</div>
 
     <div class="content">
-        <slot/>
+        <Markdown content={renderedSlot}/>
     </div>
 </div>
 
