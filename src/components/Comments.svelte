@@ -146,6 +146,6 @@
 
     .reply {
         padding-top: 1em;
-        border-top: borders.$thin;
+        border-top: borders.$thin-inset;
     }
 </style>

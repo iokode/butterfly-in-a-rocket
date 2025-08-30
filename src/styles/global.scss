@@ -50,7 +50,7 @@ h1 {
 h2 {
     // Style
     line-height: 1;
-    border-block-end: 1px solid;
+    border-block-end: borders.$thin;
 }
 
 a {
@@ -73,7 +73,6 @@ a {
             padding-right: 10px;
             margin-left: -(10px + borders.$default-numeric);
             margin-right: -(10px + borders.$default-numeric);
-
             margin-top: -(borders.$default-numeric);
             margin-bottom: -(borders.$default-numeric);
 
