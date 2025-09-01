@@ -1,0 +1,11 @@
+---
+import Layout from "../layouts/Layout.astro";
+import {Markdown} from 'astro-remote';
+import {getEntry} from "astro:content";
+
+const entry = await getEntry('essentials', 'ival')!;
+---
+
+<Layout title="IOKode Visual Asset License (IVAL)">
+    <Markdown content={entry.data.body}/>
+</Layout>
