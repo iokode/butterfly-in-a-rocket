@@ -9,7 +9,11 @@ import "../styles/global.scss";
 
 interface Props {
     title: string;
+    description: string;
 }
+
+const isHome = Astro.url.pathname === '/';
+const pageTitle = isHome ? 'IOKode' : Astro.props.title + " — IOKode";
 ---
 
 <!doctype html>
@@ -18,14 +22,13 @@ interface Props {
         <meta charset="utf-8"/>
         <meta name="generator" content={Astro.generator}/>
         <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0"/>
-        <slot name="meta"/>
+        <meta name="description" content={Astro.props.description}/>
         <link rel="icon" type="image/x-icon" href="/favicon.svg"/>
         <link rel="sitemap" href="/sitemap-index.xml"/>
         <link rel="alternate" type="application/rss+xml" href="/rss.xml" title="IOKode's RSS Feed"/>
         <link rel="preconnect" href="https://fonts.googleapis.com"/>
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-        <slot name="head"/>
-        <title>{Astro.props.title} - IOKode</title>
+        <title>{pageTitle}</title>
     </head>
     <body>
         <Header/>

@@ -20,9 +20,11 @@ let seriesPosts: SeriesIndex[] | undefined = undefined;
 if (Astro.props.series !== undefined) {
     seriesPosts = await getSeriesPost(Astro.props.author, Astro.props.series, Astro.props.slug);
 }
+
+const description = `Post written by ${authorRealName} on ${Astro.props.publishDate.toDateString()}. Licensed under ${Astro.props.license.code}.`;
 ---
 
-<Layout title={Astro.props.title}>
+<Layout title={Astro.props.title} description={description}>
     <Fragment slot="head" set:html={`
         <link rel="stylesheet" href="/hljs/styles/github.min.css"/>
         <link rel="stylesheet" href="/hljs/styles/github-dark.min.css" media="(prefers-color-scheme: dark)"/>

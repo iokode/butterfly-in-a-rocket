@@ -8,7 +8,7 @@ const posts = (await getCollection('entries'))
     .slice(0, 5);
 ---
 
-<Layout title="The opinionated tech blog">
+<Layout title="" description="The opinionated tech blog. Discover the latest posts and browse our archive.">
     <div class="posts">
         {posts.map(post => <LinkToPost post={post}/>)}
     </div>

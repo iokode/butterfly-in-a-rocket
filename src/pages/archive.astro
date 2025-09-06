@@ -20,7 +20,7 @@ let postsByYear = posts.reduce<PostsByYear>((accumulator, post) => {
 }, {});
 ---
 
-<Layout title="Archive">
+<Layout title="Archive" description="Archive of all IOKode blog posts organized by year. Browse through our collection of articles.">
     <h1>Archive</h1>
     {Object.entries(postsByYear).reverse().map(([year, yearPosts]) => (
             <section>

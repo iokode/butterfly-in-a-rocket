@@ -6,6 +6,6 @@ import {getEntry} from "astro:content";
 const entry = await getEntry('essentials', 'legal')!;
 ---
 
-<Layout title="Legal notice">
+<Layout title="Legal notice" description="Legal notice and terms of use for the IOKode project.">
     <Markdown content={entry.data.body}/>
 </Layout>
