@@ -30,6 +30,7 @@ const pageTitle = isHome ? 'IOKode' : Astro.props.title + " — IOKode";
         <link rel="preconnect" href="https://fonts.googleapis.com"/>
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
         <title>{pageTitle}</title>
+        <slot name="head"/>
     </head>
     <body>
         <Header/>
