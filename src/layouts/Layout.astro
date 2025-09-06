@@ -20,9 +20,10 @@ const pageTitle = isHome ? 'IOKode' : Astro.props.title + " — IOKode";
 <html lang="en">
     <head>
         <meta charset="utf-8"/>
-        <meta name="generator" content={Astro.generator}/>
         <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0"/>
+        <meta name="generator" content={Astro.generator}/>
         <meta name="description" content={Astro.props.description}/>
+        <meta name="robots" content="all"/>
         <link rel="icon" type="image/x-icon" href="/favicon.svg"/>
         <link rel="sitemap" href="/sitemap-index.xml"/>
         <link rel="alternate" type="application/rss+xml" href="/rss.xml" title="IOKode's RSS Feed"/>
