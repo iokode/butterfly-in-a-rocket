@@ -4,7 +4,8 @@
     "start": "astro dev",
     "build": "astro check && astro build",
     "preview": "astro preview",
-    "astro": "astro"
+    "astro": "astro",
+    "postbuild": "node ./scripts/copy-generated-to-dist.js"
   },
   "dependencies": {
     "@astrojs/check": "^0.9.4",
@@ -16,6 +17,7 @@
     "@types/node": "^22.3.0",
     "astro": "^5.13.3",
     "astro-remote": "^0.3.3",
+    "canvas": "^3.2.0",
     "gray-matter": "^4.0.3",
     "sass": "^1.90.0",
     "svelte": "^5.19.0",

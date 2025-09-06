@@ -3,7 +3,7 @@ dist/
 
 # generated types
 .astro/
-og-images/
+.generated/
 
 # dependencies
 node_modules/

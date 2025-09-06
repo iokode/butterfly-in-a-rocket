@@ -2,6 +2,7 @@
 import Layout from "./Layout.astro";
 import {getGithubAvatar, getGithubRealnameFromUserName} from "../helpers/github";
 import {getSeriesPost, type SeriesIndex} from "../helpers/entries";
+import {generateOGImage} from "../helpers/og-generator";
 
 interface Props {
     title: string
@@ -22,6 +23,7 @@ if (Astro.props.series !== undefined) {
 }
 
 const description = `Post written by ${authorRealName} on ${Astro.props.publishDate.toDateString()}. Licensed under ${Astro.props.license.code}.`;
+const ogImagePath = await generateOGImage(Astro.props.slug, Astro.props.title);
 ---
 
 <Layout title={Astro.props.title} description={description}>
@@ -30,8 +32,22 @@ const description = `Post written by ${authorRealName} on ${Astro.props.publishD
         <link rel="stylesheet" href="/hljs/styles/github-dark.min.css" media="(prefers-color-scheme: dark)"/>
         <script src="/hljs/highlight.min.js"></script>
         <script>hljs.highlightAll({cssSelector: 'pre code[class|="language"]'});</script>
+        
+        <!-- Open Graph meta tags -->
+        <meta property="og:title" content="${Astro.props.title}"/>
+        <meta property="og:description" content="${description}"/>
+        <meta property="og:image" content="https://iokode.blog${ogImagePath}"/>
+        <meta property="og:image:width" content="1200"/>
+        <meta property="og:image:height" content="630"/>
+        <meta property="og:type" content="article"/>
+        <meta property="og:url" content="https://iokode.blog/posts/${Astro.props.slug}"/>
+        
+        <!-- Twitter Card meta tags -->
+        <meta name="twitter:card" content="summary_large_image"/>
+        <meta name="twitter:title" content="${Astro.props.title}"/>
+        <meta name="twitter:description" content="${description}"/>
+        <meta name="twitter:image" content="https://iokode.blog${ogImagePath}"/>
     `}/>
-    <slot name="meta" slot="meta"/>
     <h1>{Astro.props.title}</h1>
     <div class="metadata">
         <div class="author">
