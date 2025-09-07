@@ -10,22 +10,26 @@ const allowedComponents = {Alert, Message};
 
 export const getStaticPaths = async function () {
     const posts = await getCollection('posts');
+    const tags = await getCollection('tags');
 
     const mappedPosts = posts.map(async post => {
-        let license = (await getEntry('licenses', post.data.license))!;
+        const license = (await getEntry('licenses', post.data.license))!;
+        let postTags = post.data.tags.map(tag => tags.find(t => t.id === tag)!);
+        postTags = postTags.filter(tag => tag !== undefined);
 
         return {
             params: {slug: post.data.slug},
             props: {
+                body: post.body,
                 post: post.data as {
                     author: string,
                     title: string,
                     publishDate: Date,
                     slug: string,
-                    discussionId: number,
-                    body: string,
+                    discussionId: number
                 },
                 license: license.data,
+                tags: postTags,
             }
         }
     })
@@ -35,7 +39,39 @@ export const getStaticPaths = async function () {
 ---
 
 <PostLayout {...Astro.props.post} license={Astro.props.license}>
-    <Markdown content={Astro.props.post.body} sanitize={{allowComponents: true}} components={allowedComponents}/>
+    <Markdown content={Astro.props.body} sanitize={{allowComponents: true}} components={allowedComponents}/>
+
+    <div id="tags">
+        Tags:
+        <ul>
+            {Astro.props.tags.map(tag => <li><a href={`/archive/${tag.id}`}>{tag.data.name}</a></li>)}
+        </ul>
+    </div>
 
     <Comments client:visible discussionId={Astro.props.post.discussionId} author={Astro.props.post.author}/>
 </PostLayout>
+
+<style lang="scss">
+    @use '../../styles/variables/borders';
+
+    #tags {
+        border: borders.$default;
+        padding: 0 .5em;
+
+        ul {
+            // Boxing
+            display: inline-flex;
+            margin: 0 0 0 1em;
+            padding: 0;
+
+            // Flex
+            flex-wrap: wrap;
+            gap: 1em;
+
+            li {
+                // Style
+                list-style-type: none;
+            }
+        }
+    }
+</style>

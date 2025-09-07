@@ -51,7 +51,6 @@ async function loadFilesWithRegex(repository: string, regex: RegExp, context: Lo
         const rawContent = await fetchFileContent(repository, file.path);
         const {data, content} = matter(rawContent);
         const id = file.path.replace('/entry.mdx', '').replace('entry.md', '')
-        data.body = content;
 
         if (data.author !== undefined) {
             data.authorName = await getGithubRealnameFromUserName(data.author);
@@ -75,7 +74,6 @@ async function loadSimpleFilesWithRegex(repository: string, directory: string, r
         const rawContent = await fetchFileContent(repository, file.path);
         const {data, content} = matter(rawContent);
         const id = file.path.replace('.mdx', '').replace('.md', '').replace('/entry.mdx', '').replace(`${directory}/`, '')
-        data.body = content;
 
         context.store.set({
             id: id,

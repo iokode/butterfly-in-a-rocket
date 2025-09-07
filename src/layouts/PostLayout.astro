@@ -11,6 +11,7 @@ interface Props {
     series?: string
     slug: string
     license: { code: string, url: string }
+    tags: string[]
 }
 
 const authorRealName = await getGithubRealnameFromUserName(Astro.props.author);
@@ -48,7 +49,12 @@ const ogImagePath = await generateOGImage(Astro.props.slug, Astro.props.title);
         <meta name="twitter:description" content="${description}"/>
         <meta name="twitter:image" content="https://iokode.blog${ogImagePath}"/>
     `}/>
-    <h1>{Astro.props.title}</h1>
+    {Astro.props.tags.includes('spanish-legacy-post')
+        ?
+            <h1 lang="es">{Astro.props.title}</h1>
+        :
+            <h1>{Astro.props.title}</h1>
+    }
     <div class="metadata">
         <div class="author">
             <img src={avatar.src} alt={`GitHub avatar of ${authorRealName}`}/>
@@ -74,7 +80,7 @@ const ogImagePath = await generateOGImage(Astro.props.slug, Astro.props.title);
             </div>
     }
 
-    <slot/>
+    {Astro.props.tags.includes('spanish-legacy-post') ? <div lang="es"><slot/></div> : <slot/>}
 </Layout>
 
 <style lang="scss">
@@ -94,7 +100,7 @@ const ogImagePath = await generateOGImage(Astro.props.slug, Astro.props.title);
         @media (min-width: devices.$tablet) {
             // Flex
             row-gap: .5em;
-            column-gap: 0.5em;
+            column-gap: .5em;
             flex-direction: row;
         }
 

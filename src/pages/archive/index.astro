@@ -6,11 +6,13 @@ type PostsByYear = {
     [year: string]: typeof posts[0][]; // Keys are years, values are arrays of posts.
 };
 
-const posts = (await getCollection('posts')).sort(
+let posts = (await getCollection('posts')).sort(
     (a, b) => b.data.publishDate.valueOf() - a.data.publishDate.valueOf()
 );
 
-let postsByYear = posts.reduce<PostsByYear>((accumulator, post) => {
+posts = posts.filter(post => !post.data.tags.includes('spanish-legacy-post'));
+
+const postsByYear = posts.reduce<PostsByYear>((accumulator, post) => {
     const year = new Date(post.data.publishDate).getFullYear();
     if (!accumulator[year]) {
         accumulator[year] = [];
@@ -18,10 +20,14 @@ let postsByYear = posts.reduce<PostsByYear>((accumulator, post) => {
     accumulator[year].push(post);
     return accumulator;
 }, {});
+
+const tags = await getCollection('tags');
 ---
 
 <Layout title="Archive" description="Archive of all IOKode blog posts organized by year. Browse through our collection of articles.">
-    <h1>Archive</h1>
+    <h1>All posts archive</h1>
+    <p>Archive of all IOKode blog posts organized by year excluding <a href="/archive/spanish-legacy-post">legacy posts in Spanish</a>.</p>
+    <p>Filter by tag: {tags.map(tag => (<a class="tag" href=`/archive/${tag.id}`>{tag.data.name}</a><text>&nbsp;</text>))}</p>
     {Object.entries(postsByYear).reverse().map(([year, yearPosts]) => (
             <section>
                 <h2>{year}</h2>
@@ -35,3 +41,14 @@ let postsByYear = posts.reduce<PostsByYear>((accumulator, post) => {
             </section>
     ))}
 </Layout>
+
+<style lang="scss">
+    @use '../../styles/variables/borders';
+
+    a.tag {
+        margin-left: .3em;
+        border: borders.$thin;
+        padding: 0.2em 0.4em;
+        text-decoration: none;
+    }
+</style>

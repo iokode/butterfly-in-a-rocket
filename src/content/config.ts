@@ -12,7 +12,6 @@ export const collections = {
         loader: entriesGitHubLoader(repository, 'posts'),
         schema: z.object({
             title: z.string(),
-            body: z.string(),
             slug: z.string(),
             license: z.string(), // license code in 'licenses' collection
             author: z.string(), // GitHub username
@@ -28,7 +27,6 @@ export const collections = {
         schema: z.object({
             title: z.string(),
             slug: z.string(),
-            body: z.string(),
         }),
     }),
     licenses: defineCollection({
@@ -45,14 +43,11 @@ export const collections = {
             url: z.string().url()
         })
     }),
-    spanishLegacyPosts: defineCollection({
-        loader: entriesGitHubLoader(repository, 'spanish-legacy-posts'),
+    tags: defineCollection({
+        loader: simpleGitHubLoader(repository, 'tags'),
         schema: z.object({
-            title: z.string(),
-            slug: z.string(),
-            publishDate: z.date(),
-            tags: z.array(z.string()),
-            discussionId: z.number()
+            name: z.string(),
+            description: z.string(),
         }),
     })
 }
