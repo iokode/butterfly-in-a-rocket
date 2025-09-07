@@ -72,10 +72,6 @@
     @use "../styles/variables/fonts";
 
     .comments {
-        // Boxing
-        margin-top: 2em;
-        padding-top: 2em;
-
         @media print {
             // Boxing
             display: none;

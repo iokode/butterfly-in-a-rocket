@@ -27,7 +27,12 @@ const tags = await getCollection('tags');
 <Layout title="Archive" description="Archive of all IOKode blog posts organized by year. Browse through our collection of articles.">
     <h1>All posts archive</h1>
     <p>Archive of all IOKode blog posts organized by year excluding <a href="/archive/spanish-legacy-post">legacy posts in Spanish</a>.</p>
-    <p>Filter by tag: {tags.map(tag => (<a class="tag" href=`/archive/${tag.id}`>{tag.data.name}</a><text>&nbsp;</text>))}</p>
+    Filter by tag:
+    <ul class="tags">
+        {tags.map(tag => (
+                <li><a href=`/archive/${tag.id}`>{tag.data.name}</a></li>
+        ))}
+    </ul>
     {Object.entries(postsByYear).reverse().map(([year, yearPosts]) => (
             <section>
                 <h2>{year}</h2>
@@ -45,10 +50,18 @@ const tags = await getCollection('tags');
 <style lang="scss">
     @use '../../styles/variables/borders';
 
-    a.tag {
-        margin-left: .3em;
-        border: borders.$thin;
-        padding: 0.2em 0.4em;
-        text-decoration: none;
+    ul.tags {
+        // Boxing
+        display: inline-flex;
+        margin: 0;
+        padding: 0;
+
+        // Flex
+        gap: .5em;
+
+        li {
+            // Style
+            list-style: none;
+        }
     }
 </style>
