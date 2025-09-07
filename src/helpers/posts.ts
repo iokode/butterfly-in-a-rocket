@@ -7,17 +7,17 @@ export type SeriesIndex = {
 }
 
 export async function getSeriesPost(author: string, series: string, currentSlug: string): Promise<SeriesIndex[]> {
-    let collection = await getCollection('entries');
+    let collection = await getCollection('posts');
     collection = collection
-        .filter(entry => entry.data.series === series && entry.data.author === author)
+        .filter(post => post.data.series === series && post.data.author === author)
         .sort((a, b) => new Date(a.data.publishDate).getTime() - new Date(b.data.publishDate).getTime());
-    collection = collection.filter(entry => entry.data.series === series);
+    collection = collection.filter(post => post.data.series === series);
 
-    return collection.map(entry => {
+    return collection.map(post => {
         return {
-            title: entry.data.title,
-            slug: entry.data.slug,
-            current: entry.data.slug === currentSlug,
+            title: post.data.title,
+            slug: post.data.slug,
+            current: post.data.slug === currentSlug,
         }
     })
 }

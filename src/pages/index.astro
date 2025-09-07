@@ -3,7 +3,7 @@ import LinkToPost from "../components/LinkToPost.astro";
 import Layout from "../layouts/Layout.astro";
 import {getCollection} from "astro:content";
 
-const posts = (await getCollection('entries'))
+const posts = (await getCollection('posts'))
     .sort((a, b) => b.data.publishDate.valueOf() - a.data.publishDate.valueOf())
     .slice(0, 5);
 ---
@@ -13,7 +13,7 @@ const posts = (await getCollection('entries'))
         {posts.map(post => <LinkToPost post={post}/>)}
     </div>
 
-    <p class="archive">Browse the <a href="/archive">archive</a> for older posts.</p>
+    <p class="archive">Browse the <a href="/archive/archive">archive</a> for older posts.</p>
 </Layout>
 
 <style lang="scss">

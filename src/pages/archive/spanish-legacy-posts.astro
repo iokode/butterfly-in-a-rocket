@@ -7,7 +7,7 @@ type PostsByYear = {
     [year: string]: typeof posts[0][]; // Keys are years, values are arrays of posts.
 };
 
-const posts = (await getCollection('spanishLegacyEntries')).sort(
+const posts = (await getCollection('spanishLegacyPosts')).sort(
     (a, b) => b.data.publishDate.valueOf() - a.data.publishDate.valueOf()
 );
 
@@ -21,11 +21,11 @@ let postsByYear = posts.reduce<PostsByYear>((accumulator, post) => {
 }, {});
 ---
 
-<Layout title="Spanish legacy entries archive" description="Archive of Spanish blog posts from IOKode's early days. These entries were originally written in Spanish by Ivan Montilla and are licensed under CC BY 4.0.">
-    <h1>Spanish legacy entries archive</h1>
+<Layout title="Spanish legacy posts archive" description="Archive of Spanish blog posts from IOKode's early days. These posts were originally written in Spanish by Ivan Montilla and are licensed under CC BY 4.0.">
+    <h1>Spanish legacy posts archive</h1>
     <Alert severity="note">
-        <p>This is a list of entries originally written in Spanish before I started writing in English.</p>
-        <p>All these entries were written by <a target="_blank" href="https://github.com/montyclt">Ivan Montilla</a> and are
+        <p>This is a list of posts originally written in Spanish before I started writing in English.</p>
+        <p>All these posts were written by <a target="_blank" href="https://github.com/montyclt">Ivan Montilla</a> and are
             licensed under <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/deed.en">CC BY 4.0</a>.</p>
     </Alert>
     {Object.entries(postsByYear).reverse().map(([year, yearPosts]) => (

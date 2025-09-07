@@ -9,15 +9,15 @@ import Message from "../../components/Entry/Message.astro";
 const allowedComponents = {Alert, Message};
 
 export const getStaticPaths = async function () {
-    const entries = await getCollection('entries');
+    const posts = await getCollection('posts');
 
-    const mappedEntries = entries.map(async entry => {
-        let license = (await getEntry('licenses', entry.data.license))!;
+    const mappedPosts = posts.map(async post => {
+        let license = (await getEntry('licenses', post.data.license))!;
 
         return {
-            params: {slug: entry.data.slug},
+            params: {slug: post.data.slug},
             props: {
-                entry: entry.data as {
+                post: post.data as {
                     author: string,
                     title: string,
                     publishDate: Date,
@@ -30,12 +30,12 @@ export const getStaticPaths = async function () {
         }
     })
 
-    return Promise.all(mappedEntries);
+    return Promise.all(mappedPosts);
 };
 ---
 
-<PostLayout {...Astro.props.entry} license={Astro.props.license}>
-    <Markdown content={Astro.props.entry.body} sanitize={{allowComponents: true}} components={allowedComponents}/>
+<PostLayout {...Astro.props.post} license={Astro.props.license}>
+    <Markdown content={Astro.props.post.body} sanitize={{allowComponents: true}} components={allowedComponents}/>
 
-    <Comments client:visible discussionId={Astro.props.entry.discussionId} author={Astro.props.entry.author}/>
+    <Comments client:visible discussionId={Astro.props.post.discussionId} author={Astro.props.post.author}/>
 </PostLayout>

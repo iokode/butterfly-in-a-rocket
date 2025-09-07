@@ -8,8 +8,8 @@ export const defaultLicense = {
 }
 
 export const collections = {
-    entries: defineCollection({
-        loader: entriesGitHubLoader(repository, 'entries'),
+    posts: defineCollection({
+        loader: entriesGitHubLoader(repository, 'posts'),
         schema: z.object({
             title: z.string(),
             body: z.string(),
@@ -45,8 +45,8 @@ export const collections = {
             url: z.string().url()
         })
     }),
-    spanishLegacyEntries: defineCollection({
-        loader: entriesGitHubLoader(repository, 'spanish-legacy-entries'),
+    spanishLegacyPosts: defineCollection({
+        loader: entriesGitHubLoader(repository, 'spanish-legacy-posts'),
         schema: z.object({
             title: z.string(),
             slug: z.string(),
