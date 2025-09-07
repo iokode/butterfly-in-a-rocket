@@ -55,6 +55,7 @@ export const getStaticPaths = async function () {
     @use '../../styles/variables/borders';
 
     #tags {
+        // Boxing
         border: borders.$default;
         padding: 0 .5em;
 
@@ -72,6 +73,11 @@ export const getStaticPaths = async function () {
                 // Style
                 list-style-type: none;
             }
+        }
+
+        @media print {
+            // Boxing
+            display: none;
         }
     }
 </style>
