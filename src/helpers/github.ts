@@ -9,19 +9,49 @@ export async function getGithubRealnameFromUserName(username: string): Promise<s
         let json = await response.json();
 
         if (json.message) {
+            if (json.message.includes('Not Found')) {
+                return "Deleted user";
+            }
+
             throw new Error(`GitHub error: ${json.message}`);
         }
 
-        throw new Error(`GitHub user not found: ${username}`);
+        throw new Error(`Unknown GitHub error: ${response.statusText}`);
     }
 
     const userData = await response.json();
-    return userData.name || username; // Return username if name is not set
+    return userData.name || username; // Return username if the name is not set
+}
+
+export async function existsUser(username: string): Promise<boolean> {
+    const response = await authenticatedFetch(`https://api.github.com/users/${username}`);
+
+    if (!response.ok) {
+        let json = await response.json();
+        if (json.message) {
+            if (json.message.includes('Not Found')) {
+                return false;
+            }
+        }
+
+        throw new Error(`Unknown GitHub error: ${response.statusText}`);
+    }
+
+    return true;
 }
 
 export async function getGithubAvatar(username: string): Promise<GetImageResult> {
+    if (!await existsUser(username)) {
+        return await getImage({
+            src: `https://github.com/ghost.png?size=120`,
+            formats: ['webp'],
+            inferSize: true,
+            quality: 'max',
+        });
+    }
+
     return await getImage({
-        src: `https://github.com/${username}.png?size=60`,
+        src: `https://github.com/${username}.png?size=120`,
         formats: ['webp'],
         inferSize: true,
         quality: 'max',

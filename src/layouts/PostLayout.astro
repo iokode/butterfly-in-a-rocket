@@ -3,6 +3,7 @@ import Layout from "./Layout.astro";
 import {getGithubAvatar, getGithubRealnameFromUserName} from "../helpers/github";
 import {getSeriesPost, type SeriesIndex} from "../helpers/posts";
 import {generateOGImage} from "../helpers/og-generator";
+import {getCollection} from "astro:content";
 
 interface Props {
     title: string
@@ -13,6 +14,22 @@ interface Props {
     license: { code: string, url: string }
     tags: string[]
 }
+
+const tags = await getCollection('tags');
+function getTagName(tagId: string) {
+    const tag = tags.find(t => t.id === tagId)!;
+    return tag.data.name;
+}
+
+function formatDate() {
+    return Astro.props.publishDate.toLocaleDateString('en-US', {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+    });
+}
+
+const tagsWithName = Astro.props.tags.map(tag => ({id: tag, name: getTagName(tag)}));
 
 const authorRealName = await getGithubRealnameFromUserName(Astro.props.author);
 const avatar = await getGithubAvatar(Astro.props.author);
@@ -56,15 +73,23 @@ const ogImagePath = await generateOGImage(Astro.props.slug, Astro.props.title);
             <h1>{Astro.props.title}</h1>
     }
     <div class="metadata">
-        <div class="author">
+        <div class="author-avatar">
             <img src={avatar.src} alt={`GitHub avatar of ${authorRealName}`}/>
-            {authorRealName}
+        </div>
+        <div class="author-name">
+            <a href=`http://github.com/${Astro.props.author}`>{authorRealName}</a>
         </div>
         <div class="date">
-            {Astro.props.publishDate.toDateString()}
+            <span>{formatDate()}</span>
         </div>
         <div class="license">
-            Post licensed under <a target="_blank" href={Astro.props.license.url}>{Astro.props.license.code}</a>
+            <span>Post licensed under</span> <a target="_blank" href={Astro.props.license.url}>{Astro.props.license.code}</a>
+        </div>
+        <div class="tags">
+            <span>Tags:</span>
+            <ul>
+                {tagsWithName.map(tag => <li><a href={`/archive/${tag.id}`}>{tag.name}</a></li>)}
+            </ul>
         </div>
     </div>
 
@@ -90,50 +115,101 @@ const ogImagePath = await generateOGImage(Astro.props.slug, Astro.props.title);
 
     .metadata {
         // Boxing
-        display: flex;
+        display: grid;
         margin-bottom: 1em;
+        padding: .5em;
 
-        // Flex
-        flex-direction: column;
-        row-gap: .5em;
+        // Grid
+        column-gap: .5em;
+        grid-template-columns: 4.5em auto;
+        grid-template-rows: 1.5em 1.5em 1.5em fit-content(100%);
+        grid-template-areas:
+            "avatar name"
+            "avatar date"
+            "avatar license"
+            "tags tags";
 
-        @media (min-width: devices.$tablet) {
-            // Flex
-            row-gap: .5em;
-            column-gap: .5em;
-            flex-direction: row;
+        // Style
+        border: borders.$default;
+
+        @media (min-width: devices.$tablet), print {
+            // Grid
+            grid-template-columns: 4.5em auto fit-content(100%);
+            grid-template-rows: 1.5em 3em;
+            grid-template-areas:
+                "avatar name license"
+                "avatar date tags";
         }
 
-        @media print {
-            // Flex
-            flex-direction: row;
-            gap: .5em;
-        }
-
-        > div {
-            // Boxing
-            padding: 0 .5em;
-
-            // Style
-            border: borders.$default;
-        }
-
-        .author {
-            // Boxing
-            display: flex;
-
-            // Flex
-            gap: .2em;
-            align-items: center;
+        .author-avatar {
+            // Grid
+            grid-area: avatar;
 
             img {
                 // Boxing
-                width: 1em;
+                width: 4.5em;
             }
         }
 
+        .author-name {
+            // Grid
+            grid-area: name;
+        }
+
+        .date {
+            // Grid
+            grid-area: date;
+        }
+
         .license {
-            margin-left: auto;
+            // Grid
+            grid-area: license;
+
+            @media (min-width: devices.$tablet), print {
+                // Boxing
+                margin-left: auto;
+            }
+
+            > span {
+                // Boxing
+                display: none;
+
+                @media (min-width: devices.$tablet), print {
+                    // Boxing
+                    display: inline;
+                }
+            }
+        }
+
+        .tags {
+            // Grid
+            grid-area: tags;
+
+            @media (min-width: devices.$tablet) {
+                // Boxing
+                margin-left: auto;
+            }
+
+            @media print {
+                // Boxing
+                display: none;
+            }
+
+            ul {
+                // Boxing
+                display: inline-flex;
+                margin: 0;
+                padding: 0;
+
+                // Flex
+                flex-wrap: wrap;
+                gap: .33em;
+
+                li {
+                    // Style
+                    list-style-type: none;
+                }
+            }
         }
     }
 

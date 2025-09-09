@@ -10,12 +10,9 @@ const allowedComponents = {Alert, Message};
 
 export const getStaticPaths = async function () {
     const posts = await getCollection('posts');
-    const tags = await getCollection('tags');
 
     const mappedPosts = posts.map(async post => {
         const license = (await getEntry('licenses', post.data.license))!;
-        let postTags = post.data.tags.map(tag => tags.find(t => t.id === tag)!);
-        postTags = postTags.filter(tag => tag !== undefined);
 
         return {
             params: {slug: post.data.slug},
@@ -26,10 +23,10 @@ export const getStaticPaths = async function () {
                     title: string,
                     publishDate: Date,
                     slug: string,
-                    discussionId: number
+                    discussionId: number,
+                    tags: string[],
                 },
                 license: license.data,
-                tags: postTags,
             }
         }
     })
@@ -41,47 +38,5 @@ export const getStaticPaths = async function () {
 <PostLayout {...Astro.props.post} license={Astro.props.license}>
     <Markdown content={Astro.props.body} sanitize={{allowComponents: true}} components={allowedComponents}/>
 
-    <div id="tags">
-        Tags:
-        <ul>
-            {Astro.props.tags.map(tag => <li><a href={`/archive/${tag.id}`}>{tag.data.name}</a></li>)}
-        </ul>
-    </div>
-
     <Comments client:visible discussionId={Astro.props.post.discussionId} author={Astro.props.post.author}/>
 </PostLayout>
-
-<style lang="scss">
-    @use '../../styles/variables/borders';
-
-    #tags {
-        // Boxing
-        width: fit-content;
-        padding: 0 .5em;
-        margin-left: auto;
-
-        // Style
-        border: borders.$default;
-
-        ul {
-            // Boxing
-            display: inline-flex;
-            margin: 0 0 0 1em;
-            padding: 0;
-
-            // Flex
-            flex-wrap: wrap;
-            gap: 1em;
-
-            li {
-                // Style
-                list-style-type: none;
-            }
-        }
-
-        @media print {
-            // Boxing
-            display: none;
-        }
-    }
-</style>

@@ -42,10 +42,11 @@ export const getStaticPaths = async function () {
     });
 }
 
+const heading = Astro.params.tag == 'spanish-legacy-post' ? "Archive of Spanish legacy posts" : `Archive of posts about ${Astro.props.name}`;
 ---
 
 <Layout title={Astro.props.name} description={Astro.props.description}>
-    <h1>Archive of posts about {Astro.props.name}</h1>
+    <h1>{heading}</h1>
     <Markdown content={Astro.props.body} sanitize={{allowComponents: true}} components={allowedComponents} />
     {(Astro.props.posts).map(postsAndYear => (
             <section>
