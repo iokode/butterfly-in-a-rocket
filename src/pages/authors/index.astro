@@ -1,0 +1,95 @@
+---
+import {type GetImageResult} from "astro";
+import {getCollection} from "astro:content";
+import Layout from "../../layouts/Layout.astro";
+import {getGithubAvatar, getGithubRealnameFromUserName} from "../../helpers/github";
+
+const posts = await getCollection('posts');
+
+type AuthorStats = {
+    username: string;
+    name: string;
+    postCount: number;
+    avatarUrl: GetImageResult;
+};
+
+const authors: AuthorStats[] = await Promise.all(
+    [...new Set(posts.map(post => post.data.author))].map(async author => ({
+        username: author,
+        postCount: posts.filter(post => post.data.author === author).length,
+        name: await getGithubRealnameFromUserName(author),
+        avatarUrl: await getGithubAvatar(author)
+    }))
+);
+---
+<Layout title="Authors" description="A list of authors who published in the IOKode blog">
+    <h1>List of authors</h1>
+    <div id="authors">
+        {authors.map(author => (
+                <div class="author">
+                    <div class="avatar">
+                        <img src={author.avatarUrl.src} alt={`GitHub avatar of ${author.name}`}/>
+                    </div>
+                    <div class="name">{author.name}</div>
+                    <div class="posts"><a href=`/authors/${author.username}`>Wrote {author.postCount} post{author.postCount !== 1 ? 's' : ''}</a></div>
+                    <div class="github"><a href=`http://github.com/${author.username}`>Visit GitHub profile</a></div>
+                </div>
+        ))}
+    </div>
+</Layout>
+
+<style lang="scss">
+    @use "../../styles/variables/borders";
+    @use "../../styles/variables/devices";
+    @use "../../styles/variables/fonts";
+
+    #authors {
+        // Boxing
+        display: flex;
+
+        // Flex
+        gap: .5em;
+        flex-wrap: wrap;
+        flex-direction: column;
+
+        @media (min-width: devices.$tablet) {
+            flex-direction: row;
+        }
+    }
+
+    .author {
+        padding: .5em;
+        border: borders.$default;
+        display: grid;
+
+        grid-template-columns: fit-content(100%) 1fr;
+        grid-template-rows: 1.5em 1.5em 1.5em;
+        column-gap: .5em;
+
+        grid-template-areas:
+            "avatar name"
+            "avatar posts"
+            "avatar github";
+
+        .avatar {
+            grid-area: avatar;
+            img {
+                width: 4.5em;
+            }
+        }
+
+        .name {
+            font-weight: bold;
+            font-family: fonts.$titles;
+            grid-area: name;
+        }
+
+        .posts {
+            grid-area: posts;
+        }
+
+        .github {
+            grid-area: github;
+        }
+    }
+</style>
