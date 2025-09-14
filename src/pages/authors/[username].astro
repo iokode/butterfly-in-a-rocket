@@ -1,6 +1,7 @@
 ---
-import {type CollectionEntry, getCollection} from "astro:content";
+import {type CollectionEntry, getCollection, getEntry} from "astro:content";
 import Layout from "../../layouts/Layout.astro";
+import { Markdown } from "astro-remote";
 
 type PostsByYear = {
     [year: string]: CollectionEntry<'posts'> [];
@@ -33,12 +34,14 @@ const postsByYear = posts.reduce<PostsByYear>((accumulator, post) => {
     return accumulator;
 }, {});
 
-const authorPost = posts[0];
+const name = posts[0].data.authorName || username;
+const entry = await getEntry('authors', username)!;
+
 ---
 
-<Layout title={`Posts by ${authorPost?.data.authorName || username}`}
-        description={`Archive of all blog posts written by ${authorPost?.data.authorName || username}`}>
-    <h1>Archive of posts by {authorPost?.data.authorName || username}</h1>
+<Layout title={`Posts by ${name}`}
+        description={`Archive of all blog posts written by ${name}`}>
+    <h1>Archive of posts by {name}</h1>
     <div class="author-card">
         <div class="avatar">
             <img src={`https://github.com/${username}.png`} alt={`${username}'s avatar`}/>
@@ -48,6 +51,9 @@ const authorPost = posts[0];
         </div>
         <div class="github">
             <a href={`https://github.com/${username}`} target="_blank">Visit GitHub profile</a>
+        </div>
+        <div class="entry">
+            <Markdown content={entry.body} />
         </div>
     </div>
 
@@ -75,12 +81,12 @@ const authorPost = posts[0];
 
         // Grid
         column-gap: .5em;
-        grid-template-rows: 1.5em 1.5em 1.5em;
+        grid-template-rows: 1.5em 3em auto;
         grid-template-columns: auto 1fr;
         grid-template-areas:
                 "avatar stats"
                 "avatar github"
-                "avatar none";
+                "entry entry";
 
         // Style
         border: borders.$default;
@@ -103,6 +109,10 @@ const authorPost = posts[0];
         .github {
             // Grid
             grid-area: github;
+        }
+
+        .entry {
+            grid-area: entry;
         }
     }
 </style>

@@ -22,6 +22,7 @@ export const collections = {
             series: z.string().optional(),
         }),
     }),
+
     essentials: defineCollection({
         loader: simpleGitHubLoader(repository, 'essentials'),
         schema: z.object({
@@ -29,6 +30,7 @@ export const collections = {
             slug: z.string(),
         }),
     }),
+
     licenses: defineCollection({
         loader: kvpGitHubLoader(repository, 'licenses.json', 'code', 'url'),
         schema: z.object({
@@ -36,18 +38,24 @@ export const collections = {
             url: z.string().url(),
         }),
     }),
-    partners: defineCollection({
-        loader: kvpGitHubLoader(repository, 'partners.json', 'name', 'url'),
+
+    recommendedSites: defineCollection({
+        loader: kvpGitHubLoader(repository, 'recommended-sites.json', 'name', 'url'),
         schema: z.object({
             name: z.string(),
             url: z.string().url()
         })
     }),
+
     tags: defineCollection({
         loader: simpleGitHubLoader(repository, 'tags'),
         schema: z.object({
             name: z.string(),
             description: z.string(),
         }),
+    }),
+
+    authors: defineCollection({
+        loader: simpleGitHubLoader(repository, 'authors')
     })
 }
