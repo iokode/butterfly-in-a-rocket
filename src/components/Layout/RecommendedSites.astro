@@ -1,0 +1,19 @@
+---
+import {getCollection} from "astro:content";
+
+let sites = (await getCollection('recommendedSites')).map(partner => partner.data);
+---
+
+<div id="recommended-sites">
+    <div class="title">Recommended sites</div>
+    <ul>
+        {sites.map(site => <li><a target="_blank" href={site.url}>{site.name}</a></li>)}
+    </ul>
+</div>
+
+<style lang="scss">
+    ul {
+        // Boxing
+        margin: 0;
+    }
+</style>
