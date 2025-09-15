@@ -3,7 +3,7 @@ import Layout from "../layouts/Layout.astro";
 import {Markdown} from 'astro-remote';
 import {getEntry} from "astro:content";
 
-const entry = await getEntry('essentials', 'legal')!;
+const entry = await getEntry('pages', 'legal')!;
 ---
 
 <Layout title="Legal notice" description="Legal notice and terms of use for the IOKode project.">

@@ -23,8 +23,8 @@ export const collections = {
         }),
     }),
 
-    essentials: defineCollection({
-        loader: simpleGitHubLoader(repository, 'essentials'),
+    pages: defineCollection({
+        loader: simpleGitHubLoader(repository, 'pages'),
         schema: z.object({
             title: z.string(),
             slug: z.string(),

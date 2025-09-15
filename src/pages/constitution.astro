@@ -3,7 +3,7 @@ import Layout from "../layouts/Layout.astro";
 import {Markdown} from 'astro-remote';
 import {getEntry} from "astro:content";
 
-const entry = await getEntry('essentials', 'constitution')!;
+const entry = await getEntry('pages', 'constitution')!;
 ---
 
 <Layout title="Constitution of the IOKode project" description="The IOKode project constitution outlines the fundamental principles, goals, and guidelines that govern the IOKode project.">
