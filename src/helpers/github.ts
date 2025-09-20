@@ -1,6 +1,6 @@
-import {isDevelopment} from "./environment.ts";
 import {getImage} from "astro:assets";
 import type {GetImageResult} from "astro";
+import {isDevelopment} from "./environment.ts";
 
 export async function getGithubRealnameFromUserName(username: string): Promise<string> {
     const response = await authenticatedFetch(`https://api.github.com/users/${username}`);
@@ -95,19 +95,15 @@ export type Comment = {
     positiveReactions: number;
 };
 
-export async function getComments(repository: string, discussionId: number): Promise<Comment[]> {
-    let repositorySplit = repository.split('/');
-    let repositoryName = repositorySplit[1];
-    let repositoryOwner = repositorySplit[0];
-
+export async function getComments(discussionId: number): Promise<Comment[]> {
     let entryPoint: string;
     if (isDevelopment()) {
         entryPoint = "http://localhost:4322/comments.php";
     } else {
-        entryPoint = "/comments.php";
+        entryPoint = "/comments";
     }
 
-    let request = await fetch(`${entryPoint}?discussionId=${discussionId}&repository=${repositoryName}&repositoryOwner=${repositoryOwner}`);
+    const request = await fetch(`${entryPoint}?discussionId=${discussionId}`);
 
     if (request.status !== 200) {
         throw new Error(`Failed to fetch comments: ${request.statusText}`);

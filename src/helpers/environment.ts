@@ -4,7 +4,7 @@ export function isRunningOnBrowser() {
 
 export function isDevelopment(): boolean {
     if (isRunningOnBrowser()) {
-        return window.location.hostname === 'localhost';
+        return window.location.port === '4321';
     } else {
         return process.env.NODE_ENV === 'development';
     }

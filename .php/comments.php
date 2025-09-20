@@ -1,5 +1,8 @@
 <?php
 
+$repository = 'blog';
+$repositoryOwner = 'iokode';
+
 error_reporting(E_ERROR | E_PARSE);
 
 function get_github_real_name(string $username): string {
@@ -41,16 +44,13 @@ function error(string $message): void {
     ]);
     die;
 }
-header('Access-Control-Allow-Origin: http://localhost:4321');
-header('Access-Control-Allow-Methods: GET, OPTIONS');
-header('Access-Control-Allow-Headers: Content-Type, Authorization');
+
 header('Content-Type: application/json');
-$repository = $_GET['repository'] ?? null;
-$repositoryOwner = $_GET['repositoryOwner'] ?? null;
+
 $discussionId = $_GET['discussionId'] ?? null;
 
-if (!$repository || !$repositoryOwner || !$discussionId) {
-    error("Missing required query parameters");
+if (!$discussionId) {
+    error('Missing required "discussionId" query parameter');
 }
 
 $token = getenv('GITHUB_TOKEN');

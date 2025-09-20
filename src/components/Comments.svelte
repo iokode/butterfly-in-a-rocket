@@ -11,7 +11,7 @@
 
     async function main() {
         try {
-            comments = await getComments('iokode/blog', discussionId);
+            comments = await getComments(discussionId);
         } catch (e) {
             errorLoadingComments = true;
         } finally {
