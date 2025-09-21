@@ -54,7 +54,7 @@ const heading = Astro.params.tag == 'spanish-legacy-post' ? "Archive of Spanish 
                 <ul>
                     {postsAndYear.posts.map(post => (
                             <li>
-                                <a href={`/posts/${post.data.slug}`}>{post.data.title}</a> <small>by <a target="_blank" href={`https://github.com/${post.data.author}`}>{post.data.authorName}</a></small>
+                                <a href={`/posts/${post.data.slug}`}>{post.data.title}</a> <small>by <a href={`/authors/${post.data.author}`}>{post.data.authorName}</a></small>
                             </li>
                     ))}
                 </ul>
