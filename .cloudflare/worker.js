@@ -10,9 +10,25 @@ export default {
             return handleComments(request, env);
         }
 
+        const matchLegacyUrl = url.pathname.match(/^\/post\/\d{4}\/(.+)$/);
+        if (matchLegacyUrl) {
+            const slug = matchLegacyUrl[1];
+            return handleRedirectFromLegacyURL(request, slug);
+        }
+
         return serveStaticAsset(request, env);
     },
 };
+
+function handleRedirectFromLegacyURL(request, slug) {
+    const redirectUrl = new URL(`/posts/${slug}`, request.url);
+    return new Response(null, {
+        status: 301,
+        headers: {
+            'Location': redirectUrl.href
+        }
+    });
+}
 
 function createJsonResponse(data, status = 200) {
     const body = data === null ? null : JSON.stringify(data);
