@@ -74,7 +74,7 @@ async function handleComments(request, env) {
     const repository = env.REPOSITORY;
     const repositoryOwner = env.REPOSITORY_OWNER;
     const discussionId = url.searchParams.get('discussionId');
-    const token = env.GITHUB_TOKEN;
+    const token = env.GH_TOKEN;
 
     if (!repository || !repositoryOwner || !token) {
         return createJsonResponse({

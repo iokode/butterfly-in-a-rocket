@@ -8,7 +8,7 @@ error_reporting(E_ERROR | E_PARSE);
 function get_github_real_name(string $username): string {
     $url = "https://api.github.com/users/$username";
     $headers = [
-        "Authorization: Bearer " . getenv('GITHUB_TOKEN'),
+        "Authorization: Bearer " . getenv('GH_TOKEN'),
         "Content-Type: application/json",
         "User-Agent: PHP"
     ];
@@ -53,7 +53,7 @@ if (!$discussionId) {
     error('Missing required "discussionId" query parameter');
 }
 
-$token = getenv('GITHUB_TOKEN');
+$token = getenv('GH_TOKEN');
 $query = <<<'QUERY'
 query ($repository: String!, $repositoryOwner: String!, $discussionId: Int!) {
     repository(name: $repository, owner: $repositoryOwner) {

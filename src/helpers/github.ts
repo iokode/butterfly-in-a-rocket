@@ -144,7 +144,7 @@ export async function getKeyValueList(repository: string, file: string): Promise
 }
 
 function authenticatedFetch(input: string | URL | globalThis.Request, init?: RequestInit) {
-    let token: string | undefined = process.env.GITHUB_TOKEN;
+    let token: string | undefined = process.env.GH_TOKEN;
 
     if (typeof token !== undefined) {
         if (init === undefined) {

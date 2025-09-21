@@ -33,7 +33,7 @@ wrangler login
 ### 3. Set GitHub Token Secret
 
 ```bash
-wrangler secret put GITHUB_TOKEN
+wrangler secret put GH_TOKEN
 ```
 
 Enter your GitHub Personal Access Token when prompted. The token needs these permissions:
