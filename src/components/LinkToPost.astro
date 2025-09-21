@@ -14,6 +14,12 @@ const avatar = await getImage({
     inferSize: true,
     quality: 'max',
 });
+
+const formattedDate = data.publishDate.toLocaleDateString('en-US', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+});
 ---
 
 <a href={`/posts/${data.slug}`}>
@@ -21,7 +27,7 @@ const avatar = await getImage({
     <div class="author">
         <img src={avatar.src} alt={`GitHub avatar of ${data.authorName}`}/> {data.authorName}
     </div>
-    <time>{data.publishDate.toDateString()}</time>
+    <time>{formattedDate}</time>
     {data.series && <span class="series">Part of the <strong>{data.series}</strong> series</span>}
     <span class="license">{data.license}</span>
 </a>
