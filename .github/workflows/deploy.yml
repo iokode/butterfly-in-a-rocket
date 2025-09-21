@@ -21,6 +21,8 @@ jobs:
       
     - name: Build Astro site
       run: npm run build
+      env:
+        GH_TOKEN: ${{ secrets.GH_TOKEN }}
       
     - name: Deploy to Cloudflare Worker
       uses: cloudflare/wrangler-action@v3
