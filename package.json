@@ -4,8 +4,7 @@
     "start": "astro dev",
     "build": "astro check && astro build",
     "preview": "astro preview",
-    "astro": "astro",
-    "postbuild": "node ./scripts/copy-generated-to-dist.js"
+    "astro": "astro"
   },
   "dependencies": {
     "@astrojs/check": "^0.9.4",

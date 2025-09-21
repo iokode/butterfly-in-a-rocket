@@ -41,7 +41,7 @@ if (Astro.props.series !== undefined) {
 }
 
 const description = `Post written by ${authorRealName} on ${Astro.props.publishDate.toDateString()}. Licensed under ${Astro.props.license.code}.`;
-const ogImagePath = await generateOGImage(Astro.props.slug, Astro.props.title);
+const ogImagePath = '/posts/og-images/' + Astro.props.slug + '.png';
 ---
 
 <Layout title={Astro.props.title} description={description}>

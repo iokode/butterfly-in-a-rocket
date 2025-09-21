@@ -2,7 +2,7 @@ import {type CanvasRenderingContext2D, createCanvas, loadImage, registerFont} fr
 import {dirname, join} from 'path';
 import {mkdirSync, writeFileSync} from "fs";
 
-export async function generateOGImage(slug: string, title: string): Promise<string> {
+export async function generateOGImage(title: string): Promise<Buffer> {
     const width = 1200;
     const height = 630;
     const fontSize = 64;
@@ -31,16 +31,7 @@ export async function generateOGImage(slug: string, title: string): Promise<stri
         ctx.fillText(line, width / 2, y);
     });
 
-    const buffer = canvas.toBuffer('image/png');
-    storeImage(slug, buffer);
-
-    return `/og-images/${slug}.png`;
-}
-
-function storeImage(slug: string, buffer: Buffer) {
-    const pathToStoreImage = `.generated/og-images/${slug}.png`;
-    mkdirSync(dirname(pathToStoreImage), { recursive: true });
-    writeFileSync(pathToStoreImage, (buffer as any));
+    return canvas.toBuffer('image/png');
 }
 
 function calculateStarYPosition(displayLines: string[], lineHeight: number, height: number) {
