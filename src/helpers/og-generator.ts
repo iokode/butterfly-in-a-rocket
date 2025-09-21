@@ -1,6 +1,5 @@
 import {type CanvasRenderingContext2D, createCanvas, loadImage, registerFont} from 'canvas';
-import {dirname, join} from 'path';
-import {mkdirSync, writeFileSync} from "fs";
+import {join} from 'path';
 
 export async function generateOGImage(title: string): Promise<Buffer> {
     const width = 1200;
