@@ -16,5 +16,5 @@ const lightImage = await getImage({
 
 <picture id={Astro.props.id} class={Astro.props.class}>
     <source media="(prefers-color-scheme: dark)" srcset={darkImage.src} />
-    <img src={lightImage.src} alt="IOKode Logo" />
+    <img src={lightImage.src} alt="IOKode Logo" fetchpriority=high />
 </picture>
