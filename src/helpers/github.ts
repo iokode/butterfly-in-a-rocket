@@ -127,6 +127,17 @@ export async function getComments(discussionId: number): Promise<Comment[]> {
     return json;
 }
 
+export async function getRawContent(repository: string, filePath: string): Promise<Buffer> {
+    const url = `https://api.github.com/repos/${repository}/contents/${filePath}`;
+    const response = await authenticatedFetch(url);
+    if (!response.ok) {
+        throw new Error(`Failed to fetch file ${filePath}: ${response.statusText}`);
+    }
+
+    const data = await response.json();
+    return Buffer.from(data.content, 'base64');
+}
+
 export async function getKeyValueList(repository: string, file: string): Promise<Record<string, string>> {
     let response = await authenticatedFetch(`https://raw.githubusercontent.com/${repository}/refs/heads/main/${file}`);
     return await response.json();

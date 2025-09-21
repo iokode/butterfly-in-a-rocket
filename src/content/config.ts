@@ -2,7 +2,7 @@ import {z, defineCollection} from "astro:content";
 import {entriesGitHubLoader, kvpGitHubLoader, simpleGitHubLoader} from "./EntriesGitHubLoader.ts";
 import {isDevelopment} from "../helpers/environment.ts";
 
-const repository: string = isDevelopment() ? 'iokode/blog-dev' : 'iokode/blog';
+export const repository: string = isDevelopment() ? 'iokode/blog-dev' : 'iokode/blog';
 
 export const defaultLicense = {
     code: 'CC BY 4.0',
