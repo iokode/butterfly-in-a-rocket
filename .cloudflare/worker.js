@@ -16,12 +16,44 @@ export default {
             return handleRedirectFromLegacyURL(request, slug);
         }
 
+        if (url.pathname.startsWith('/post/')) {
+            return handleGeneralPostRedirect(request);
+        }
+
+        if (url.pathname.startsWith('/author/')) {
+            return handleAuthorRedirect(request);
+        }
+
         return serveStaticAsset(request, env);
     },
 };
 
 function handleRedirectFromLegacyURL(request, slug) {
     const redirectUrl = new URL(`/posts/${slug}`, request.url);
+    return new Response(null, {
+        status: 301,
+        headers: {
+            'Location': redirectUrl.href
+        }
+    });
+}
+
+function handleGeneralPostRedirect(request) {
+    const url = new URL(request.url);
+    const newPath = url.pathname.replace('/post/', '/posts/');
+    const redirectUrl = new URL(newPath + url.search, request.url);
+    return new Response(null, {
+        status: 301,
+        headers: {
+            'Location': redirectUrl.href
+        }
+    });
+}
+
+function handleAuthorRedirect(request) {
+    const url = new URL(request.url);
+    const newPath = url.pathname.replace('/author/', '/authors/');
+    const redirectUrl = new URL(newPath + url.search, request.url);
     return new Response(null, {
         status: 301,
         headers: {

@@ -3,7 +3,7 @@ import {getCollection} from "astro:content";
 
 export async function GET() {
     const posts = await getCollection('posts');
-    
+
     return rss({
         title: 'IOKode — The opinionated tech blog.',
         description: 'A software development blog.',
@@ -12,7 +12,7 @@ export async function GET() {
         items: posts.map(post => {
             return {
                 title: post.data.title,
-                link: `post/${post.data.slug}`,
+                link: `posts/${post.data.slug}`,
                 pubDate: post.data.publishDate,
                 author: post.data.authorName,
             }
