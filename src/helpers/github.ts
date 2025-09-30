@@ -58,7 +58,7 @@ export async function getGithubAvatar(username: string): Promise<GetImageResult>
     });
 }
 
-export async function fetchRepoTree(repository: string): Promise<{
+export async function fetchRepoTree(repository: string, branch: string): Promise<{
     path: string;
     mode: string;
     type: string;
@@ -66,7 +66,7 @@ export async function fetchRepoTree(repository: string): Promise<{
     size: number;
     url: string;
 }[]> {
-    const response = await authenticatedFetch(`https://api.github.com/repos/${repository}/git/trees/main?recursive=1`);
+    const response = await authenticatedFetch(`https://api.github.com/repos/${repository}/git/trees/${branch}?recursive=1`);
     if (!response.ok) {
         throw new Error(`Failed to fetch repository tree: ${response.statusText}`);
     }
@@ -74,12 +74,14 @@ export async function fetchRepoTree(repository: string): Promise<{
     return data.tree; // Array of all files and directories in the repo
 }
 
-export async function fetchFileContent(repository: string, filePath: string): Promise<string> {
-    const rawUrl = `https://raw.githubusercontent.com/${repository}/main/${filePath}`;
+export async function fetchFileContent(repository: string, branch: string, filePath: string): Promise<string> {
+    const rawUrl = `https://raw.githubusercontent.com/${repository}/${branch}/${filePath}`;
     const response = await authenticatedFetch(rawUrl);
     if (!response.ok) {
         throw new Error(`Failed to fetch file ${filePath}: ${response.statusText}`);
     }
+
+    console.log(filePath);
     return await response.text();
 }
 
@@ -138,8 +140,8 @@ export async function getRawContent(repository: string, filePath: string): Promi
     return Buffer.from(data.content, 'base64');
 }
 
-export async function getKeyValueList(repository: string, file: string): Promise<Record<string, string>> {
-    let response = await authenticatedFetch(`https://raw.githubusercontent.com/${repository}/refs/heads/main/${file}`);
+export async function getKeyValueList(repository: string, branch: string, file: string): Promise<Record<string, string>> {
+    let response = await authenticatedFetch(`https://raw.githubusercontent.com/${repository}/refs/heads/${branch}/${file}`);
     return await response.json();
 }
 

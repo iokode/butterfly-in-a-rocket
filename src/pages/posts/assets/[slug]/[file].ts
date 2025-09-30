@@ -1,10 +1,10 @@
 import {getCollection} from "astro:content";
 import {fetchRepoTree, getRawContent} from "../../../../helpers/github.ts";
-import {repository} from "../../../../content/config.ts";
+import {branch, repository} from "../../../../content/config.ts";
 
 export async function getStaticPaths() {
     const posts = await getCollection('posts');
-    const tree = await fetchRepoTree(repository);
+    const tree = await fetchRepoTree(repository, branch);
 
     const paths: { params: { slug: string; file: string }; props: { filePath: string } }[] = [];
 

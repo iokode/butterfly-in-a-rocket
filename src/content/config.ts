@@ -3,6 +3,7 @@ import {entriesGitHubLoader, kvpGitHubLoader, simpleGitHubLoader} from "./Entrie
 import {isDevelopment} from "../helpers/environment.ts";
 
 export const repository: string = isDevelopment() ? 'iokode/blog-dev' : 'iokode/blog';
+export const branch: string = 'master';
 
 export const defaultLicense = {
     code: 'CC BY 4.0',
@@ -11,7 +12,7 @@ export const defaultLicense = {
 
 export const collections = {
     posts: defineCollection({
-        loader: entriesGitHubLoader(repository, 'posts'),
+        loader: entriesGitHubLoader(repository, branch, 'posts'),
         schema: z.object({
             title: z.string(),
             slug: z.string(),
@@ -26,7 +27,7 @@ export const collections = {
     }),
 
     pages: defineCollection({
-        loader: simpleGitHubLoader(repository, 'pages'),
+        loader: simpleGitHubLoader(repository, branch, 'pages'),
         schema: z.object({
             title: z.string(),
             slug: z.string(),
@@ -34,7 +35,7 @@ export const collections = {
     }),
 
     licenses: defineCollection({
-        loader: kvpGitHubLoader(repository, 'licenses.json', 'code', 'url'),
+        loader: kvpGitHubLoader(repository, branch, 'licenses.json', 'code', 'url'),
         schema: z.object({
             code: z.string(),
             url: z.string().url(),
@@ -42,7 +43,7 @@ export const collections = {
     }),
 
     recommendedSites: defineCollection({
-        loader: kvpGitHubLoader(repository, 'recommended-sites.json', 'name', 'url'),
+        loader: kvpGitHubLoader(repository, branch, 'recommended-sites.json', 'name', 'url'),
         schema: z.object({
             name: z.string(),
             url: z.string().url()
@@ -50,7 +51,7 @@ export const collections = {
     }),
 
     tags: defineCollection({
-        loader: simpleGitHubLoader(repository, 'tags'),
+        loader: simpleGitHubLoader(repository, branch, 'tags'),
         schema: z.object({
             name: z.string(),
             description: z.string(),
@@ -58,6 +59,6 @@ export const collections = {
     }),
 
     authors: defineCollection({
-        loader: simpleGitHubLoader(repository, 'authors')
+        loader: simpleGitHubLoader(repository, branch, 'authors')
     })
 }
