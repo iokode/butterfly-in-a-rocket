@@ -20,6 +20,7 @@ export const collections = {
             author: z.string(), // GitHub username
             authorName: z.string(),
             publishDate: z.date(),
+            order: z.number().optional(),
             tags: z.array(z.string()),
             discussionId: z.number().positive(), // GitHub discussion ID for comments
             series: z.string().optional(),

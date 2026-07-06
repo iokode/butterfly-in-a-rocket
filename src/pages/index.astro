@@ -2,9 +2,10 @@
 import LinkToPost from "../components/LinkToPost.astro";
 import Layout from "../layouts/Layout.astro";
 import {getCollection} from "astro:content";
+import {comparePostsByChronologicalPositionDescending} from "../helpers/posts";
 
 let posts = (await getCollection('posts'))
-    .sort((a, b) => b.data.publishDate.valueOf() - a.data.publishDate.valueOf())
+    .sort(comparePostsByChronologicalPositionDescending)
     .slice(0, 5);
 
 posts = posts.filter(post => !post.data.tags.includes('spanish-legacy-post'));

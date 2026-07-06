@@ -1,14 +1,13 @@
 ---
 import {getCollection} from "astro:content";
 import Layout from "../../layouts/Layout.astro";
+import {comparePostsByChronologicalPositionDescending} from "../../helpers/posts";
 
 type PostsByYear = {
     [year: string]: typeof posts[0][]; // Keys are years, values are arrays of posts.
 };
 
-let posts = (await getCollection('posts')).sort(
-    (a, b) => b.data.publishDate.valueOf() - a.data.publishDate.valueOf()
-);
+let posts = (await getCollection('posts')).sort(comparePostsByChronologicalPositionDescending);
 
 posts = posts.filter(post => !post.data.tags.includes('spanish-legacy-post'));
 

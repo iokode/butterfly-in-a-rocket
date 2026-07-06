@@ -4,6 +4,7 @@ import {Markdown} from 'astro-remote';
 import Layout from "../../layouts/Layout.astro";
 import Alert from "../../components/Entry/Alert.astro";
 import Message from "../../components/Entry/Message.astro";
+import {comparePostsByChronologicalPositionDescending} from "../../helpers/posts";
 
 const allowedComponents = {Alert, Message};
 
@@ -12,9 +13,7 @@ export const getStaticPaths = async function () {
         [year: string]: CollectionEntry<'posts'>[];
     };
 
-    const posts = (await getCollection('posts')).sort(
-        (a, b) => b.data.publishDate.valueOf() - a.data.publishDate.valueOf()
-    );
+    const posts = (await getCollection('posts')).sort(comparePostsByChronologicalPositionDescending);
 
     const tags = await getCollection('tags');
 

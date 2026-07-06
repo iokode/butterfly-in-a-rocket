@@ -1,8 +1,9 @@
 import rss from '@astrojs/rss';
 import {getCollection} from "astro:content";
+import {comparePostsByChronologicalPositionDescending} from "../helpers/posts";
 
 export async function GET() {
-    const posts = await getCollection('posts');
+    const posts = (await getCollection('posts')).sort(comparePostsByChronologicalPositionDescending);
 
     return rss({
         title: 'IOKode — The opinionated tech blog.',
