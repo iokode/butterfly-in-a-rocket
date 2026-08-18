@@ -2,61 +2,62 @@
 import {type CollectionEntry, getCollection} from "astro:content";
 import {Markdown} from 'astro-remote';
 import Layout from "../../layouts/Layout.astro";
-import Alert from "../../components/Entry/Alert.astro";
-import Message from "../../components/Entry/Message.astro";
+import PostArchive from "../../components/PostArchive.astro";
+import Icon from "../../components/Icon.astro";
+import {entryComponents} from "../../components/Entry/components";
 import {comparePostsByChronologicalPositionDescending} from "../../helpers/posts";
 
-const allowedComponents = {Alert, Message};
 
 export const getStaticPaths = async function () {
-    type PostsByYear = {
-        [year: string]: CollectionEntry<'posts'>[];
-    };
-
     const posts = (await getCollection('posts')).sort(comparePostsByChronologicalPositionDescending);
-
     const tags = await getCollection('tags');
 
-    return tags.map(tag => {
-        const tagPosts = posts.filter(post => post.data.tags.includes(tag.id));
-
-        const postsByYear = tagPosts.reduce<PostsByYear>((accumulator, post) => {
-            const year = new Date(post.data.publishDate).getFullYear();
-            if (!accumulator[year]) {
-                accumulator[year] = [];
-            }
-            accumulator[year].push(post);
-            return accumulator;
-        }, {});
-
-        return {
-            params: { tag: tag.id },
-            props: {
-                name: tag.data.name,
-                body: tag.body,
-                description: tag.data.description,
-                posts: Object.entries(postsByYear).map(([year, posts]) => ({ year, posts })).reverse(),
-            }
-        };
-    });
+    return tags.map(tag => ({
+        params: {tag: tag.id},
+        props: {
+            name: tag.data.name,
+            body: tag.body,
+            description: tag.data.description,
+            posts: posts.filter(post => post.data.tags.includes(tag.id)) as CollectionEntry<'posts'>[],
+        }
+    }));
 }
 
-const heading = Astro.params.tag == 'spanish-legacy-post' ? "Archive of Spanish legacy posts" : `Archive of posts about ${Astro.props.name}`;
+const {name, body, description, posts} = Astro.props;
+
+const heading = Astro.params.tag === 'spanish-legacy-post'
+    ? "Archive of Spanish legacy posts"
+    : `Archive of posts about ${name}`;
 ---
 
-<Layout title={Astro.props.name} description={Astro.props.description}>
+<Layout title={name} description={description}>
+    <p class="back">
+        <a class="button ghost small" href="/archive">
+            <Icon name="arrow-left" size={15}/>
+            Archive
+        </a>
+    </p>
+
     <h1>{heading}</h1>
-    <Markdown content={Astro.props.body} sanitize={{allowComponents: true}} components={allowedComponents} />
-    {(Astro.props.posts).map(postsAndYear => (
-            <section>
-                <h2>{postsAndYear.year}</h2>
-                <ul>
-                    {postsAndYear.posts.map(post => (
-                            <li>
-                                <a href={`/posts/${post.data.slug}`}>{post.data.title}</a> <small>by <a href={`/authors/${post.data.author}`}>{post.data.authorName}</a></small>
-                            </li>
-                    ))}
-                </ul>
-            </section>
-    ))}
+    <p class="count">{posts.length} post{posts.length === 1 ? '' : 's'}.</p>
+
+    <div class="prose full">
+        <Markdown content={body} sanitize={{allowComponents: true}} components={entryComponents}/>
+    </div>
+
+    <PostArchive posts={posts}/>
 </Layout>
+
+<style>
+    .back {
+        /* Box model */
+        margin: 0 0 var(--space-6);
+    }
+
+    .count {
+        /* Typographic */
+        font-family: var(--font-mono);
+        font-size: var(--font-size-xs);
+        color: var(--text-muted);
+    }
+</style>

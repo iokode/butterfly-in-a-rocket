@@ -1,13 +1,31 @@
 ---
 import type {CollectionEntry} from 'astro:content';
+import {getCollection} from 'astro:content';
+import TagList from "./TagList.astro";
 import {getImage} from "astro:assets";
+import {repository} from "../content.config";
+import {getCommentCounts} from "../helpers/discussions";
+import PostMeta from "./PostMeta.astro";
+import Icon from "./Icon.astro";
+
+/**
+ * A post as it appears in an index. Byline, title, then the actions.
+ *
+ * No excerpt: the index shows what a post is, not a preview of it. And the whole card is not one
+ * link — the title, the author, each tag and each button go to different places, and nesting
+ * those inside an outer anchor would be invalid and unusable with a keyboard.
+ */
 
 interface Props {
     post: CollectionEntry<'posts'>;
 }
 
-const post = Astro.props.post;
-const data = post.data;
+const {data} = Astro.props.post;
+
+// `data.license` is the collection id, not something to show a reader. Resolve it to the code.
+const allLicenses = await getCollection('licenses');
+const license = allLicenses.find(entry => entry.id === data.license)?.data;
+
 const avatar = await getImage({
     src: `https://github.com/${data.author}.png?size=60`,
     formats: ['webp'],
@@ -15,84 +33,98 @@ const avatar = await getImage({
     quality: 'max',
 });
 
-const formattedDate = data.publishDate.toLocaleDateString('en-US', {
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric',
-});
+const href = `/posts/${data.slug}`;
+const discussionHref = `https://github.com/${repository}/discussions/${data.discussionId}`;
+
+// "N comments" when the count is known, "Discuss" when it is not — the design system's fallback.
+const commentCount = (await getCommentCounts()).get(data.discussionId);
+const discussLabel = commentCount === undefined
+    ? 'Discuss'
+    : `${commentCount} ${commentCount === 1 ? 'comment' : 'comments'}`;
 ---
 
-<a href={`/posts/${data.slug}`}>
-    <div class="title">{data.title}</div>
-    <div class="author">
-        <img src={avatar.src} alt={`GitHub avatar of ${data.authorName}`}/> {data.authorName}
+<article class="post-card">
+    <PostMeta
+        publishDate={data.publishDate}
+        author={data.author}
+        authorName={data.authorName}
+        avatarSrc={avatar.src}
+        license={license}
+    />
+
+    <h2 class="title"><a href={href}>{data.title}</a></h2>
+
+    {data.series && <p class="series">Part of the <strong>{data.series}</strong> series</p>}
+
+    <div class="footer">
+        <a class="button small" href={href}>
+            Read post
+            <Icon name="arrow-right" size={15}/>
+        </a>
+
+        <a class="button ghost small" href={discussionHref} target="_blank" rel="noopener">
+            <Icon name="message-square" size={15}/>
+            {discussLabel}
+        </a>
+
+        <TagList tags={data.tags}/>
     </div>
-    <time>{formattedDate}</time>
-    {data.series && <span class="series">Part of the <strong>{data.series}</strong> series</span>}
-    <span class="license">{data.license}</span>
-</a>
+</article>
 
-<style lang="scss">
-    @use "../styles/variables/borders";
-    @use "../styles/variables/colors";
-    @use "../styles/variables/fonts";
+<style>
+    .post-card {
+        /* Box model */
+        display: grid;
+        gap: var(--space-4);
+        padding-bottom: var(--space-8);
 
-    a {
-        // Boxing
-        display: flex;
-        margin-left: .5em;
-        margin-right: .5em;
+        /* Visual */
+        border-bottom: var(--border-thin) solid var(--border-subtle);
+    }
 
-        // Style
-        text-decoration: none;
+    .title {
+        /* Box model */
+        margin: 0;
+        padding: 0;
 
-        // Flex
-        flex-wrap: wrap;
-        gap: 0.5em;
+        /* Typographic */
+        font-size: var(--font-size-xl);
+        font-weight: var(--weight-semibold);
 
-        // Typography
-        color: inherit;
+        > a {
+            /* Typographic */
+            color: var(--text-strong);
 
-        .title {
-            // Boxing
-            width: 100%;
-            margin: 0;
-
-            // Typography
-            font-family: fonts.$titles;
-            font-size: 1.5em;
-        }
-
-        .author {
-            // Boxing
-            display: flex;
-
-            // Flex
-            gap: .2em;
-            align-items: center;
-
-            img {
-                // Boxing
-                width: 1em;
+            &:hover {
+                /* Typographic */
+                color: var(--text-link);
+                text-decoration: none;
             }
         }
-        
-        .author, time, .license, .series {
-            border: borders.$default;
-            padding: 0 .5em;
+    }
+
+    .series {
+        /* Box model */
+        margin: 0;
+
+        /* Typographic */
+        font-family: var(--font-mono);
+        font-size: var(--font-size-xs);
+        color: var(--text-muted);
+
+        > strong {
+            /* Typographic */
+            font-weight: var(--weight-semibold);
+            color: var(--text-link);
         }
+    }
 
-        &:hover {
-            // Boxing
-            margin: calc(-0.5em - 4px);
-            padding: 0.5em 1em;
-
-            // Typography
-            border-color: var(--color-link);
-
-            // Style
-            text-decoration: none;
-            border: borders.$large;
-        }
+    .footer {
+        /* Box model */
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: var(--space-4);
+        margin-top: var(--space-2);
     }
 </style>

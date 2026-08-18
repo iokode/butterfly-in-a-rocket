@@ -1,36 +1,15 @@
 ---
-import LinkToPost from "../components/LinkToPost.astro";
 import Layout from "../layouts/Layout.astro";
-import {getCollection} from "astro:content";
-import {comparePostsByChronologicalPositionDescending} from "../helpers/posts";
+import PostIndex from "../components/PostIndex.astro";
+import {getIndexPosts, getPageCount, postsPerPage} from "../helpers/pagination";
 
-let posts = (await getCollection('posts'))
-    .sort(comparePostsByChronologicalPositionDescending)
-    .slice(0, 5);
-
-posts = posts.filter(post => !post.data.tags.includes('spanish-legacy-post'));
+const allPosts = await getIndexPosts();
+const posts = allPosts.slice(0, postsPerPage);
+const pageCount = getPageCount(allPosts.length);
 ---
 
 <Layout title="" description="The opinionated tech blog. Discover the latest posts and browse our archive.">
-    <div class="posts">
-        {posts.map(post => <LinkToPost post={post}/>)}
-    </div>
+    <h1 class="eyebrow">Latest posts</h1>
 
-    <p class="archive">Browse the <a href="/archive">archive</a> for older posts.</p>
+    <PostIndex posts={posts} page={1} pageCount={pageCount}/>
 </Layout>
-
-<style lang="scss">
-    @use "../styles/variables/colors";
-
-    .posts {
-        // Flex
-        display: flex;
-        flex-direction: column;
-        gap: 2em;
-    }
-
-    .archive {
-        // Boxing
-        margin-top: 3em;
-    }
-</style>

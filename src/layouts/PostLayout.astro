@@ -2,7 +2,11 @@
 import Layout from "./Layout.astro";
 import {getGithubAvatar, getGithubRealnameFromUserName} from "../helpers/github";
 import {getSeriesPost, type SeriesIndex} from "../helpers/posts";
-import {getCollection} from "astro:content";
+import PostMeta from "../components/PostMeta.astro";
+import TagList from "../components/TagList.astro";
+import TableOfContents from "../components/TableOfContents.astro";
+import Icon from "../components/Icon.astro";
+import {repository, branch} from "../content.config";
 
 interface Props {
     title: string
@@ -12,23 +16,14 @@ interface Props {
     slug: string
     license: { code: string, url: string }
     tags: string[]
+    /** The post's `##` headings, for the section index. */
+    headings?: { id: string, label: string }[]
+    /** Content-repository path of the post's directory, e.g. `posts/54-rocket`. */
+    entryId?: string
+    /** "4 min read", shown on the article but not on index cards. */
+    readingTime?: string
 }
 
-const tags = await getCollection('tags');
-function getTagName(tagId: string) {
-    const tag = tags.find(t => t.id === tagId)!;
-    return tag.data.name;
-}
-
-function formatDate() {
-    return Astro.props.publishDate.toLocaleDateString('en-US', {
-        year: 'numeric',
-        month: 'long',
-        day: 'numeric',
-    });
-}
-
-const tagsWithName = Astro.props.tags.map(tag => ({id: tag, name: getTagName(tag)}));
 
 const authorRealName = await getGithubRealnameFromUserName(Astro.props.author);
 const avatar = await getGithubAvatar(Astro.props.author);
@@ -41,15 +36,23 @@ if (Astro.props.series !== undefined) {
 
 const description = `Post written by ${authorRealName} on ${Astro.props.publishDate.toDateString()}. Licensed under ${Astro.props.license.code}.`;
 const ogImagePath = '/posts/og-images/' + Astro.props.slug + '.png';
+const isSpanishLegacy = Astro.props.tags.includes('spanish-legacy-post');
+const headings = Astro.props.headings ?? [];
+
+// Posts are files in the content repository, so "read the source" and "suggest an edit" are both
+// just GitHub URLs — no editing surface has to exist on this site.
+const entryPath = Astro.props.entryId ? `${Astro.props.entryId}/entry.mdx` : 'posts';
+const sourceHref = `https://github.com/${repository}/blob/${branch}/${entryPath}`;
+const editHref = `https://github.com/${repository}/edit/${branch}/${entryPath}`;
 ---
 
 <Layout title={Astro.props.title} description={description}>
     <Fragment slot="head" set:html={`
         <link rel="stylesheet" href="/hljs/styles/github.min.css"/>
-        <link rel="stylesheet" href="/hljs/styles/github-dark.min.css" media="(prefers-color-scheme: dark)"/>
+        <link rel="stylesheet" href="/hljs/styles/github-dark.min.css" media="screen and (prefers-color-scheme: dark)"/>
         <script src="/hljs/highlight.min.js"></script>
         <script>hljs.highlightAll({cssSelector: 'pre code[class|="language"]'});</script>
-        
+
         <!-- Open Graph meta tags -->
         <meta property="og:title" content="${Astro.props.title}"/>
         <meta property="og:description" content="${description}"/>
@@ -58,168 +61,135 @@ const ogImagePath = '/posts/og-images/' + Astro.props.slug + '.png';
         <meta property="og:image:height" content="630"/>
         <meta property="og:type" content="article"/>
         <meta property="og:url" content="https://iokode.blog/posts/${Astro.props.slug}"/>
-        
+
         <!-- Twitter Card meta tags -->
         <meta name="twitter:card" content="summary_large_image"/>
         <meta name="twitter:title" content="${Astro.props.title}"/>
         <meta name="twitter:description" content="${description}"/>
         <meta name="twitter:image" content="https://iokode.blog${ogImagePath}"/>
     `}/>
-    {Astro.props.tags.includes('spanish-legacy-post')
-        ?
-            <h1 lang="es">{Astro.props.title}</h1>
-        :
-            <h1>{Astro.props.title}</h1>
-    }
-    <div class="metadata">
-        <div class="author-avatar">
-            <img src={avatar.src} alt={`GitHub avatar of ${authorRealName}`}/>
-        </div>
-        <div class="author-name">
-            <a href=`/authors/${Astro.props.author}`>{authorRealName}</a>
-        </div>
-        <div class="date">
-            <span>{formatDate()}</span>
-        </div>
-        <div class="license">
-            <span>Post licensed under</span> <a target="_blank" href={Astro.props.license.url}>{Astro.props.license.code}</a>
-        </div>
-        <div class="tags">
-            <span>Tags:</span>
-            <ul>
-                {tagsWithName.map(tag => <li><a href={`/archive/${tag.id}`}>{tag.name}</a></li>)}
-            </ul>
-        </div>
-    </div>
 
-    {seriesPosts &&
-            <div class="series">
-                <p>This post belongs of the <strong>{Astro.props.series}</strong> series.</p>
-                <ol class="posts">
-                    {seriesPosts.map(post =>
-                        post.current ?
-                                <li class="current"><strong>{post.title}</strong></li> :
-                                <li><a href={`/posts/${post.slug}`}>{post.title}</a></li>)}
-                </ol>
+    <p class="back">
+        <a class="button ghost small" href="/">
+            <Icon name="arrow-left" size={15}/>
+            All posts
+        </a>
+    </p>
+
+    <article>
+        <header class="post-header">
+            <PostMeta
+                publishDate={Astro.props.publishDate}
+                author={Astro.props.author}
+                authorName={authorRealName}
+                avatarSrc={avatar.src}
+                readingTime={Astro.props.readingTime}
+                license={Astro.props.license}
+                verboseLicense
+            />
+
+            <h1 lang={isSpanishLegacy ? "es" : undefined}>{Astro.props.title}</h1>
+
+            <TagList tags={Astro.props.tags}/>
+        </header>
+
+        {headings.length > 0 && (
+            <div class="contents">
+                <TableOfContents items={headings}/>
             </div>
-    }
+        )}
 
-    {Astro.props.tags.includes('spanish-legacy-post') ? <div lang="es"><slot/></div> : <slot/>}
+        {seriesPosts && (
+            <nav class="card accent series" aria-label="Posts in this series">
+                <p class="heading">This post belongs to the <strong>{Astro.props.series}</strong> series.</p>
+                <ol class="posts">
+                    {seriesPosts.map(post => (
+                        post.current
+                            ? <li aria-current="true"><strong>{post.title}</strong></li>
+                            : <li><a href={`/posts/${post.slug}`}>{post.title}</a></li>
+                    ))}
+                </ol>
+            </nav>
+        )}
+
+        {isSpanishLegacy ? <div lang="es"><slot/></div> : <slot/>}
+
+        <footer class="post-actions">
+            <a class="button secondary small" href={sourceHref} target="_blank" rel="noopener">
+                <Icon name="github" size={15}/>
+                Read on GitHub
+            </a>
+            <a class="button ghost small" href={editHref} target="_blank" rel="noopener">
+                <Icon name="pencil" size={15}/>
+                Suggest an edit
+            </a>
+        </footer>
+    </article>
+
+    <!-- The comments are a sibling section, not part of the article, so the article's own
+         actions stay with the article. -->
+    <slot name="comments"/>
 </Layout>
 
-<style lang="scss">
-    @use "../styles/variables/borders";
-    @use "../styles/variables/devices";
-    @use "../styles/variables/fonts";
+<style>
+    .back {
+        /* Box model */
+        margin: 0 0 var(--space-6);
+    }
 
-    .metadata {
-        // Boxing
-        display: grid;
-        margin-bottom: 1em;
-        padding: .5em;
+    /* Byline, title, tags. The uneven margins are deliberate and come from the design system's
+       article screen: the title sits closer to its tags than to the byline above it. */
+    .post-header {
+        /* Box model */
+        margin-bottom: var(--space-10);
 
-        // Grid
-        column-gap: .5em;
-        grid-template-columns: 4.5em auto;
-        grid-template-rows: 1.5em 1.5em 1.5em fit-content(100%);
-        grid-template-areas:
-            "avatar name"
-            "avatar date"
-            "avatar license"
-            "tags tags";
-
-        // Style
-        border: borders.$default;
-
-        @media (min-width: devices.$tablet), print {
-            // Grid
-            grid-template-columns: 4.5em auto fit-content(100%);
-            grid-template-rows: 1.5em 1.5em 1.5em;
-            grid-template-areas:
-                "avatar name tags"
-                "avatar date none"
-                "avatar license none";
-        }
-
-        .author-avatar {
-            // Grid
-            grid-area: avatar;
-
-            img {
-                // Boxing
-                width: 4.5em;
-            }
-        }
-
-        .author-name {
-            // Grid
-            grid-area: name;
-        }
-
-        .date {
-            // Grid
-            grid-area: date;
-        }
-
-        .license {
-            // Grid
-            grid-area: license;
-
-            > span {
-                // Boxing
-                display: none;
-
-                @media (min-width: devices.$tablet), print {
-                    // Boxing
-                    display: inline;
-                }
-            }
-        }
-
-        .tags {
-            // Grid
-            grid-area: tags;
-
-            @media (min-width: devices.$tablet) {
-                // Boxing
-                margin-left: auto;
-            }
-
-            @media print {
-                // Boxing
-                display: none;
-            }
-
-            ul {
-                // Boxing
-                display: inline-flex;
-                margin: 0;
-                padding: 0;
-
-                // Flex
-                flex-wrap: wrap;
-                gap: .33em;
-
-                li {
-                    // Style
-                    list-style-type: none;
-                }
-            }
+        > h1 {
+            /* Box model */
+            margin: var(--space-4) 0 var(--space-3);
         }
     }
 
+
+    /* The component owns no outer margin, so its placement is decided here. */
+    .contents {
+        /* Box model */
+        margin-bottom: var(--space-8);
+    }
+
+    .post-actions {
+        /* Box model */
+        display: flex;
+        flex-wrap: wrap;
+        gap: var(--space-4);
+        margin-top: var(--space-9);
+    }
+
+    /* The series index is a genuine emphasis block, which is what the 4px violet rule is for. */
     .series {
-        // Boxing
-        margin: .5em 0;
-        padding: 0 1em;
+        /* Box model */
+        margin-bottom: var(--space-10);
 
-        // Style
-        border: borders.$default;
+        > .heading {
+            /* Box model */
+            margin-bottom: var(--space-4);
 
-        > p {
-            // Typography
-            font-size: 1.2em;
-            font-family: fonts.$titles;
+            /* Typographic */
+            font-family: var(--font-display);
+            font-size: var(--font-size-md);
+            color: var(--text-strong);
+        }
+
+        > .posts {
+            /* Box model */
+            margin: 0;
+
+            /* Typographic */
+            font-size: var(--font-size-sm);
+
+            > li:last-child {
+                /* Box model */
+                margin-bottom: 0;
+            }
         }
     }
 </style>

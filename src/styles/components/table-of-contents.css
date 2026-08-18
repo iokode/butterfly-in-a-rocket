@@ -1,0 +1,68 @@
+/* The section index. Each entry hangs off a 1px rule that turns violet on hover — the same
+   left-border idiom the side navigation uses, so the two read as the same kind of control. */
+
+.table-of-contents {
+    /* Box model */
+    padding: var(--space-5) var(--space-6);
+
+    /* Typographic */
+    font-size: var(--font-size-sm);
+
+    /* Visual */
+    background-color: var(--surface-card);
+    border: var(--border-thin) solid var(--border-subtle);
+    border-radius: var(--radius-sm);
+
+    > .title {
+        /* Box model */
+        margin: 0 0 var(--space-4);
+
+        /* Typographic */
+        font-family: var(--font-display);
+        font-size: var(--font-size-2xs);
+        font-weight: var(--weight-semibold);
+        letter-spacing: var(--tracking-caps);
+        text-transform: uppercase;
+        color: var(--text-muted);
+    }
+
+    > ul {
+        /* Box model */
+        display: grid;
+        gap: 2px;
+        margin: 0;
+        padding: 0;
+
+        > li {
+            /* Box model */
+            margin: 0;
+
+            /* Visual */
+            list-style-type: none;
+        }
+    }
+
+    a {
+        /* Box model */
+        display: block;
+        padding: var(--space-2) var(--space-4);
+
+        /* Typographic */
+        color: var(--text-muted);
+
+        /* Visual */
+        border-left: var(--border-default-width) solid var(--border-subtle);
+
+        /* Misc */
+        transition: var(--transition-interface);
+
+        &:hover {
+            /* Typographic */
+            color: var(--text-link);
+            text-decoration: none;
+
+            /* Visual */
+            border-left-color: var(--border-accent);
+        }
+    }
+}

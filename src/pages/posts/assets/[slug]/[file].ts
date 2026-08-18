@@ -1,6 +1,6 @@
 import {getCollection} from "astro:content";
 import {fetchRepoTree, getRawContent} from "../../../../helpers/github.ts";
-import {branch, repository} from "../../../../content/config.ts";
+import {branch, repository} from "../../../../content.config.ts";
 
 export async function getStaticPaths() {
     const posts = await getCollection('posts');
@@ -41,5 +41,7 @@ export async function GET(context: { props: { filePath: string } }) {
     const {filePath} = context.props;
 
     const buffer = await getRawContent(repository, filePath);
-    return new Response(buffer);
+
+    // A Node Buffer is not a valid BodyInit, so hand Response a plain Uint8Array instead.
+    return new Response(new Uint8Array(buffer));
 }

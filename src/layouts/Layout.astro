@@ -1,11 +1,11 @@
 ---
+import TagCloud from "../components/Layout/TagCloud.astro";
 import RecommendedSites from "../components/Layout/RecommendedSites.astro";
+import WriteHere from "../components/Layout/WriteHere.astro";
 import Footer from "../components/Layout/Footer.astro";
 import Header from "../components/Layout/Header.astro";
 
-import "../styles/normalize.css";
-import "../styles/layout.scss";
-import "../styles/global.scss";
+import "../styles/main.css";
 
 interface Props {
     title: string;
@@ -24,24 +24,28 @@ const pageTitle = isHome ? 'IOKode' : Astro.props.title + " — IOKode";
         <meta name="generator" content={Astro.generator}/>
         <meta name="description" content={Astro.props.description}/>
         <meta name="robots" content="all"/>
-        <link rel="icon" type="image/x-icon" href="/favicon.svg"/>
+        <meta name="theme-color" content="hsl(285 100% 35%)"/>
+        <link rel="icon" type="image/svg+xml" href="/favicon.svg"/>
         <link rel="sitemap" href="/sitemap-index.xml"/>
         <link rel="alternate" type="application/rss+xml" href="/rss.xml" title="IOKode's RSS Feed"/>
         <link rel="preconnect" href="https://fonts.googleapis.com"/>
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+        <link rel="preload" href="/fonts/CascadiaCode.woff2" as="font" type="font/woff2" crossorigin/>
         <title>{pageTitle}</title>
         <slot name="head"/>
     </head>
     <body>
         <Header/>
 
-        <aside>
-            <RecommendedSites/>
-        </aside>
-
         <main>
             <slot/>
         </main>
+
+        <aside>
+            <TagCloud/>
+            <RecommendedSites/>
+            <WriteHere/>
+        </aside>
 
         <Footer/>
     </body>

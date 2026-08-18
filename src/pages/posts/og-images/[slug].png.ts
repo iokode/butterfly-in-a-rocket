@@ -27,5 +27,6 @@ export async function GET(context: { props: { title: string } }) {
     const {title} = context.props;
     const buffer = await generateOGImage(title);
 
-    return new Response(buffer);
+    // A Node Buffer is not a valid BodyInit, so hand Response a plain Uint8Array instead.
+    return new Response(new Uint8Array(buffer));
 }

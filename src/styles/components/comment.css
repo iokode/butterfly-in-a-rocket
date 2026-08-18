@@ -1,0 +1,180 @@
+/* A comment mirrored from the post's GitHub discussion.
+
+   Two columns. The 56px avatar spans the author line and the first line of the body — that
+   pairing is what keeps the columns aligned, so the size is not free to change. The author's own
+   comments take the 2px violet border and an inline badge, so their voice is findable at a glance
+   in a long thread.
+
+   The thread is read-only by design and never pairs with a reply box: commenting happens on
+   GitHub, and a local textarea would imply a connection that does not exist. */
+
+.comments {
+    /* Box model */
+    margin-top: var(--space-12);
+
+    > .header {
+        /* Box model */
+        display: flex;
+        flex-wrap: wrap;
+        align-items: baseline;
+        gap: var(--space-5);
+        margin-bottom: var(--space-6);
+
+        > h2 {
+            /* Box model */
+            margin: 0;
+        }
+
+        > .count {
+            /* Typographic */
+            font-family: var(--font-mono);
+            font-size: var(--font-size-xs);
+            color: var(--text-muted);
+        }
+    }
+
+    > .status {
+        /* Typographic */
+        color: var(--text-muted);
+    }
+
+    > .thread {
+        /* Box model */
+        display: grid;
+        gap: var(--space-5);
+    }
+}
+
+.comment {
+    /* Box model */
+    display: grid;
+    grid-template-columns: auto 1fr;
+    grid-template-rows: auto 1fr;
+    gap: var(--space-2) var(--space-5);
+    align-items: start;
+    padding: var(--space-5);
+
+    /* Visual */
+    background-color: var(--surface-card);
+    border: var(--border-thin) solid var(--border-subtle);
+    border-radius: var(--radius-sm);
+
+    > .avatar {
+        /* Box model */
+        display: inline-grid;
+        width: 56px;
+        height: 56px;
+        grid-row: 1 / 3;
+        overflow: hidden;
+
+        /* Visual */
+        border: var(--border-thin) solid var(--border-subtle);
+        border-radius: var(--radius-sm);
+    }
+
+    > .avatar img {
+        /* Box model */
+        display: block;
+        width: 100%;
+        height: 100%;
+
+        /* Misc */
+        object-fit: cover;
+    }
+
+    > .heading {
+        /* Box model */
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: var(--space-3);
+        grid-column: 2;
+        margin: 0;
+        min-height: 24px;
+
+        /* Typographic */
+        font-family: var(--font-mono);
+        font-size: var(--font-size-xs);
+        line-height: 1.5;
+        color: var(--text-muted);
+    }
+
+    /* The name is the one part of the byline set in the body face. */
+    > .heading strong {
+        /* Typographic */
+        font-family: var(--font-body);
+        font-size: var(--font-size-sm);
+        color: var(--text-strong);
+    }
+
+    > .heading strong a {
+        /* Typographic */
+        color: inherit;
+    }
+
+    > .content {
+        /* Box model */
+        grid-column: 2 / -1;
+    }
+
+    /* The body is HTML from the GitHub API and carries no classes of its own. */
+    > .content > :last-child {
+        margin-bottom: 0;
+    }
+
+    > .replies {
+        /* Box model */
+        display: grid;
+        gap: var(--space-4);
+        grid-column: 1 / -1;
+        margin-top: var(--space-5);
+        padding-left: var(--space-7);
+
+        /* Visual */
+        border-left: var(--border-default-width) solid var(--border-subtle);
+    }
+}
+
+.comment.by-author {
+    /* Visual */
+    border-width: var(--border-default-width);
+    border-color: var(--border-accent);
+}
+
+/* Nested comments lose their border, the author's included: the replies rail is the only
+   left line in a thread. */
+.comment > .replies > .comment {
+    /* Box model */
+    padding: 0;
+
+    /* Visual */
+    background-color: transparent;
+    border: none;
+}
+
+/* Closes the thread with an invitation to the discussion, never a disclaimer about what this
+   page cannot do. */
+.comments > .invitation {
+    /* Box model */
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-5);
+    margin-top: var(--space-7);
+    padding: var(--space-6);
+
+    /* Visual */
+    background-color: var(--surface-card);
+    border: var(--border-thin) solid var(--border-subtle);
+    border-radius: var(--radius-sm);
+
+    > p {
+        /* Box model */
+        flex: 1 1 18em;
+        margin: 0;
+
+        /* Typographic */
+        font-size: var(--font-size-sm);
+        color: var(--text-muted);
+    }
+}

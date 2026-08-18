@@ -1,11 +1,14 @@
 ---
 import Layout from "../layouts/Layout.astro";
 import {Markdown} from 'astro-remote';
+import {entryComponents} from "../components/Entry/components";
 import {getEntry} from "astro:content";
 
 const entry = await getEntry('pages', 'ival')!;
 ---
 
 <Layout title="IOKode Visual Asset License (IVAL)" description="The IOKode Visual Asset License (IVAL) defines the terms and conditions for using visual assets, graphics, and design elements from the IOKode project.">
-    <Markdown content={entry.body}/>
+    <div class="prose full">
+        <Markdown content={entry.body} sanitize={{allowComponents: true}} components={entryComponents}/>
+    </div>
 </Layout>

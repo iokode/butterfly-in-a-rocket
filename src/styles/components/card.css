@@ -1,0 +1,44 @@
+/* A card on the page never gets a blurred shadow: it separates from the page by a 1px border and
+   a few percent of lightness. `raised` adds the hard offset; `accent` adds the 4px violet rule,
+   which only works because the rest of the card is square and unshadowed. */
+
+.card {
+    /* Box model */
+    display: block;
+    padding: var(--space-7);
+
+    /* Typographic */
+    color: inherit;
+    text-decoration: none;
+
+    /* Visual */
+    background-color: var(--surface-card);
+    border: var(--border-thin) solid var(--border-subtle);
+    border-radius: var(--radius-sm);
+
+    /* Misc */
+    transition: var(--transition-interface);
+}
+
+.card.raised {
+    /* Visual */
+    border-color: var(--border-default);
+    box-shadow: var(--shadow-hard-sm);
+}
+
+.card.accent {
+    border-left: var(--border-large) solid var(--accent);
+}
+
+/* A card that is itself a link lifts 1px up and left, and its border turns violet. */
+a.card:hover {
+    /* Typographic */
+    text-decoration: none;
+
+    /* Visual */
+    border-color: var(--border-accent);
+    box-shadow: var(--shadow-hard);
+
+    /* Misc */
+    transform: translate(-1px, -1px);
+}

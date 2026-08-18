@@ -1,0 +1,128 @@
+---
+import Icon from "../Icon.astro";
+
+/**
+ * A fenced code sample: Cascadia Code, violet left rule, nothing else.
+ *
+ * No title bar — IOKode code blocks carry no filename and no language label. If the reader needs
+ * to know which file it is, the sentence before it says so. `lang` only sets `class="language-x"`
+ * so the page's highlighter can find the block; it is never displayed.
+ *
+ * The copy control fades in on hover and is the one piece of JavaScript in a post body.
+ */
+
+interface Props {
+    lang?: string;
+    code: string;
+}
+
+const {lang = 'plaintext', code} = Astro.props;
+---
+
+<div class="code-block">
+    <pre><code class={`language-${lang}`}>{code}</code></pre>
+
+    <button class="copy icon-button small" type="button" aria-label="Copy code" data-code={code}>
+        <span class="idle"><Icon name="copy" size={15}/></span>
+        <span class="done"><Icon name="check" size={15}/></span>
+    </button>
+</div>
+
+<script>
+    /**
+     * The Clipboard API needs a secure context, so it rejects over plain http and in older
+     * browsers. Falling back to a throwaway textarea keeps the button working there instead of
+     * leaving it looking broken, and the tick is only shown when a copy actually happened — never
+     * optimistically, because a false confirmation is worse than none.
+     */
+    async function copy(text: string): Promise<boolean> {
+        try {
+            await navigator.clipboard.writeText(text);
+            return true;
+        } catch {
+            // Fall through to the legacy path.
+        }
+
+        const carrier = document.createElement('textarea');
+        carrier.value = text;
+        carrier.setAttribute('readonly', '');
+        carrier.setAttribute('aria-hidden', 'true');
+        carrier.style.position = 'fixed';
+        carrier.style.top = '-100vh';
+        document.body.append(carrier);
+        carrier.select();
+
+        try {
+            return document.execCommand('copy');
+        } catch {
+            return false;
+        } finally {
+            carrier.remove();
+        }
+    }
+
+    // One delegated listener for every code block on the page.
+    document.addEventListener('click', async event => {
+        const button = (event.target as HTMLElement).closest<HTMLButtonElement>('.code-block .copy');
+        if (!button) return;
+
+        if (!await copy(button.dataset.code ?? '')) return;
+
+        // The glyph swaps to a tick, as the design system's CodeBlock does.
+        button.classList.add('copied');
+        button.setAttribute('aria-label', 'Copied');
+        setTimeout(() => {
+            button.classList.remove('copied');
+            button.setAttribute('aria-label', 'Copy code');
+        }, 1400);
+    });
+</script>
+
+<style>
+    .code-block {
+        /* Positioning */
+        position: relative;
+
+        /* Box model */
+        margin-bottom: var(--space-7);
+
+        > pre {
+            /* Box model */
+            margin: 0;
+        }
+
+        > .copy {
+            /* Positioning */
+            position: absolute;
+            top: var(--space-3);
+            right: var(--space-3);
+
+            /* Visual */
+            background-color: var(--surface-code);
+            opacity: 0;
+
+            /* Misc */
+            transition: opacity var(--duration-fast) var(--ease-out);
+        }
+
+        /* Keyboard users get the control when it takes focus, not only on hover. */
+        &:hover > .copy,
+        &:focus-within > .copy {
+            opacity: 1;
+        }
+
+        > .copy > .done,
+        > .copy.copied > .idle {
+            /* Box model */
+            display: none;
+        }
+
+        > .copy.copied > .done {
+            /* Box model */
+            display: block;
+
+            /* Typographic */
+            color: var(--success);
+        }
+    }
+</style>

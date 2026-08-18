@@ -1,0 +1,47 @@
+---
+import type {CollectionEntry} from 'astro:content';
+import LinkToPost from "./LinkToPost.astro";
+import Pagination from "./Pagination.astro";
+
+/**
+ * One page of the post index. Shared by `/` and `/page/[page]` so the two cannot drift.
+ */
+
+interface Props {
+    posts: CollectionEntry<'posts'>[];
+    page: number;
+    pageCount: number;
+}
+
+const {posts, page, pageCount} = Astro.props;
+
+// Page one lives at `/`, not `/page/1`, so there is a single canonical URL for the index.
+const hrefFor = (n: number) => n === 1 ? '/' : `/page/${n}`;
+---
+
+<div class="posts">
+    {posts.map(post => <LinkToPost post={post}/>)}
+</div>
+
+{pageCount > 1 && (
+    <div class="pager">
+        <Pagination
+            newerHref={page > 1 ? hrefFor(page - 1) : undefined}
+            olderHref={page < pageCount ? hrefFor(page + 1) : undefined}
+            meta={`Page ${page} of ${pageCount}`}
+        />
+    </div>
+)}
+
+<style>
+    .posts {
+        /* Box model */
+        display: grid;
+        gap: var(--space-9);
+    }
+
+    .pager {
+        /* Box model */
+        margin-top: var(--space-10);
+    }
+</style>

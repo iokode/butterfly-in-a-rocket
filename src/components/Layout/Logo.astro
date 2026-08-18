@@ -1,0 +1,80 @@
+---
+/**
+ * The IOKode mark and wordmark.
+ *
+ * The mark is inlined rather than loaded as an image so it can paint in `currentColor`: it is
+ * always violet, and one file serves both themes. The wordmark is Chakra Petch 600, cased exactly
+ * "IOKode" — never IOKODE, never iokode.
+ *
+ * `size` is the mark's height; the wordmark and the gap are derived from it at the design
+ * system's ratios (0.95 and 0.34), so the lockup scales as one object.
+ */
+
+interface Props {
+    /** Mark height in pixels. The mark stops being legible below 20; use the favicon there. */
+    size?: number;
+    /** `lockup` is the mark plus the wordmark; `mark` is the butterfly alone. */
+    variant?: 'lockup' | 'mark';
+}
+
+const {size = 32, variant = 'lockup'} = Astro.props;
+---
+
+<a class="logo" href="/" aria-label="IOKode, home" style={`gap: ${size * 0.34}px`}>
+    <svg
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 52 44"
+        width={size * 52 / 44}
+        height={size}
+        role="img"
+        aria-hidden="true"
+        focusable="false"
+    >
+        <g fill="currentColor">
+            <path d="M26 9 27.6 13.5 27.2 30 26 34.5 24.8 30 24.4 13.5z"></path>
+            <path d="m26.6 10.2 6.8-7.6 1.9 1.7-6.8 7.6zM25.4 10.2 18.6 2.6l-1.9 1.7 6.8 7.6z"></path>
+            <path d="M25 12 3 1.5 1 17.5l10.5 5.5L25 20.5z"></path>
+            <path d="M27 12 49 1.5l2 16-10.5 5.5L27 20.5z"></path>
+            <path d="M25 23.5 9.5 26.5 14.5 41 25 31.5z"></path>
+            <path d="M27 23.5 42.5 26.5 37.5 41 27 31.5z"></path>
+            <circle cx="18.5" cy="2.8" r="2.6"></circle>
+            <circle cx="33.5" cy="2.8" r="2.6"></circle>
+        </g>
+    </svg>
+
+    {variant === 'lockup' && <span class="wordmark" style={`font-size: ${size * 0.95}px`}>IOKode</span>}
+</a>
+
+<style>
+    .logo {
+        /* Box model */
+        display: inline-flex;
+        align-items: center;
+
+        /* Typographic */
+        color: var(--accent);
+        text-decoration: none;
+
+        /* The lockup is a mark, not a link that reacts — it holds still on hover. */
+        &:hover {
+            /* Typographic */
+            color: var(--accent);
+            text-decoration: none;
+        }
+
+        > svg {
+            /* Box model */
+            display: block;
+            flex: none;
+        }
+
+        > .wordmark {
+            /* Typographic */
+            font-family: var(--font-display);
+            font-weight: var(--weight-semibold);
+            line-height: 1;
+            letter-spacing: var(--tracking-tight);
+            color: var(--text-strong);
+        }
+    }
+</style>

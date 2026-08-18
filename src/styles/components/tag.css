@@ -1,0 +1,71 @@
+/* Tags are lowercase slugs set in the mono face — the system uses mono well beyond code blocks,
+   as its machine voice. */
+
+.tag {
+    /* Box model */
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    padding: 5px var(--space-3);
+
+    /* Typographic */
+    font-family: var(--font-mono);
+    font-size: var(--font-size-2xs);
+    line-height: 1;
+    color: var(--text-link);
+    text-decoration: none;
+    white-space: nowrap;
+
+    /* Visual */
+    background-color: transparent;
+    border: var(--border-thin) solid var(--border-accent);
+    border-radius: var(--radius-sm);
+
+    /* Misc */
+    transition: var(--transition-interface);
+}
+
+a.tag:hover {
+    /* Typographic */
+    color: var(--accent-subtle-text);
+    text-decoration: none;
+
+    /* Visual */
+    background-color: var(--accent-subtle);
+}
+
+/* The tag currently being filtered on. */
+.tag.solid {
+    /* Typographic */
+    color: var(--accent-subtle-text);
+
+    /* Visual */
+    background-color: var(--accent-subtle);
+    border-color: transparent;
+}
+
+.tag.muted {
+    /* Typographic */
+    color: var(--text-muted);
+
+    /* Visual */
+    border-color: var(--border-default);
+}
+
+/* Tags wrap freely; the list carries the gap so the tags themselves stay margin-free. */
+.tag-list {
+    /* Box model */
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+    margin: 0;
+    padding: 0;
+
+    > li {
+        /* Box model */
+        margin: 0;
+
+        /* Visual */
+        list-style-type: none;
+    }
+}

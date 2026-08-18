@@ -1,6 +1,7 @@
 ---
 import Layout from "../layouts/Layout.astro";
 import {Markdown} from 'astro-remote';
+import {entryComponents} from "../components/Entry/components";
 import {getEntry} from "astro:content";
 
 const entry = await getEntry('pages', 'constitution')!;
@@ -8,5 +9,7 @@ const entry = await getEntry('pages', 'constitution')!;
 
 <Layout title="Constitution of the IOKode project" description="The IOKode project constitution outlines the fundamental principles, goals, and guidelines that govern the IOKode project.">
     <h1>Constitution of the IOKode project</h1>
-    <Markdown content={entry.body}/>
+    <div class="prose full">
+        <Markdown content={entry.body} sanitize={{allowComponents: true}} components={entryComponents}/>
+    </div>
 </Layout>

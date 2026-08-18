@@ -3,10 +3,9 @@ import {getCollection, getEntry} from "astro:content";
 import {Markdown} from 'astro-remote';
 import PostLayout from "../../layouts/PostLayout.astro";
 import Comments from "../../components/Comments.svelte";
-import Alert from "../../components/Entry/Alert.astro";
-import Message from "../../components/Entry/Message.astro";
-
-const allowedComponents = {Alert, Message};
+import {entryComponents} from "../../components/Entry/components";
+import {extractHeadings} from "../../helpers/slug";
+import {getReadingTime} from "../../helpers/reading-time";
 
 export const getStaticPaths = async function () {
     const posts = await getCollection('posts');
@@ -17,7 +16,9 @@ export const getStaticPaths = async function () {
         return {
             params: {slug: post.data.slug},
             props: {
-                body: post.body,
+                body: post.body ?? '',
+                // The loader ids a post by its directory, e.g. `posts/54-rocket`.
+                entryId: post.id,
                 post: post.data as {
                     author: string,
                     title: string,
@@ -33,10 +34,23 @@ export const getStaticPaths = async function () {
 
     return Promise.all(mappedPosts);
 };
+
+// Read off the raw Markdown rather than the rendered HTML, because astro-remote hands back a
+// string that is already escaped and inserted.
+const headings = extractHeadings(Astro.props.body);
+const readingTime = getReadingTime(Astro.props.body);
 ---
 
-<PostLayout {...Astro.props.post} license={Astro.props.license}>
-    <Markdown content={Astro.props.body} sanitize={{allowComponents: true}} components={allowedComponents}/>
+<PostLayout
+    {...Astro.props.post}
+    license={Astro.props.license}
+    headings={headings}
+    entryId={Astro.props.entryId}
+    readingTime={readingTime}
+>
+    <div class="prose full">
+        <Markdown content={Astro.props.body} sanitize={{allowComponents: true}} components={entryComponents}/>
+    </div>
 
-    <Comments client:visible discussionId={Astro.props.post.discussionId} author={Astro.props.post.author}/>
+    <Comments slot="comments" client:visible discussionId={Astro.props.post.discussionId} author={Astro.props.post.author}/>
 </PostLayout>

@@ -1,0 +1,102 @@
+/* The archive row: a dense, scannable list of every post, grouped by year.
+
+   Below the tablet breakpoint the three columns stack, because a 130px date column and a title
+   long enough to survive translation into Spanish do not both fit on a phone. */
+
+/* The year heading is drawn as the design system's labelled divider: an uppercase marker, then a
+   rule filling the rest of the line. It stays an `h2` because a year genuinely is the section
+   heading here, and the archive should still outline correctly for a screen reader. */
+.year-group {
+    margin-top: var(--space-10);
+
+    > h2 {
+        /* Box model */
+        display: grid;
+        grid-template-columns: auto 1fr;
+        align-items: center;
+        gap: var(--space-4);
+        margin-bottom: var(--space-5);
+        padding: 0;
+
+        /* Typographic */
+        font-family: var(--font-display);
+        font-size: var(--font-size-2xs);
+        font-weight: var(--weight-semibold);
+        letter-spacing: var(--tracking-caps);
+        text-transform: uppercase;
+        color: var(--text-muted);
+    }
+
+    /* The rule half of the divider. */
+    > h2::after {
+        /* Box model */
+        height: 1px;
+        content: "";
+
+        /* Visual */
+        background-color: var(--border-subtle);
+    }
+}
+
+.post-list {
+    /* Box model */
+    display: grid;
+    margin: 0;
+    padding: 0;
+
+    > li {
+        /* Box model */
+        margin: 0;
+
+        /* Visual */
+        list-style-type: none;
+    }
+
+    > li > a {
+        /* Box model */
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: var(--space-1) var(--space-5);
+        align-items: baseline;
+        padding: var(--space-4) 0;
+
+        /* Typographic */
+        color: var(--text-strong);
+        text-decoration: none;
+
+        /* Visual */
+        border-bottom: var(--border-thin) solid var(--border-subtle);
+
+        /* Misc */
+        transition: var(--transition-interface);
+
+        &:hover {
+            /* Typographic */
+            color: var(--text-link);
+            text-decoration: none;
+
+            /* Visual */
+            border-bottom-color: var(--border-accent);
+        }
+
+        > .date,
+        > .author {
+            /* Typographic */
+            font-family: var(--font-mono);
+            font-size: var(--font-size-xs);
+            color: var(--text-muted);
+        }
+
+        > .title {
+            /* Typographic */
+            font-family: var(--font-display);
+            font-weight: var(--weight-medium);
+        }
+
+        @media (min-width: 768px) {
+            /* Box model */
+            grid-template-columns: 9em 1fr auto;
+            padding-right: var(--space-4);
+        }
+    }
+}

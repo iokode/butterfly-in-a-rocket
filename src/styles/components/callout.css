@@ -1,0 +1,83 @@
+/* An aside inside prose — the "here is my opinion about this" box the blog leans on.
+
+   Two columns: the tone's icon, then the body. The 4px left rule is the emphasis weight, and the
+   tone tints the rule, the fill and the icon together. The title is optional; without one the
+   body sits alongside the icon on its own. */
+
+.callout {
+    /* Box model */
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: var(--space-4);
+    padding: var(--space-5) var(--space-6);
+    margin-bottom: var(--space-7);
+
+    /* Visual */
+    background-color: var(--accent-subtle);
+    border-left: var(--border-large) solid var(--accent);
+    border-radius: var(--radius-sm);
+
+    > .icon {
+        /* Box model */
+        display: grid;
+        place-items: center;
+        margin-top: 2px;
+
+        /* Typographic */
+        color: var(--accent);
+    }
+
+    > .body > .title {
+        /* Box model */
+        margin-bottom: var(--space-2);
+
+        /* Typographic */
+        font-family: var(--font-display);
+        font-weight: var(--weight-semibold);
+        color: var(--text-strong);
+    }
+
+    > .body > :last-child {
+        margin-bottom: 0;
+    }
+}
+
+.callout.note {
+    /* Visual */
+    background-color: var(--accent-subtle);
+    border-left-color: var(--accent);
+
+    > .icon { color: var(--accent); }
+}
+
+.callout.info {
+    /* Visual */
+    background-color: var(--info-subtle);
+    border-left-color: var(--info);
+
+    > .icon { color: var(--info); }
+}
+
+.callout.success {
+    /* Visual */
+    background-color: var(--success-subtle);
+    border-left-color: var(--success);
+
+    > .icon { color: var(--success); }
+}
+
+.callout.warning {
+    /* Visual */
+    background-color: var(--warning-subtle);
+    border-left-color: var(--warning);
+
+    > .icon { color: var(--warning); }
+}
+
+.callout.danger {
+    /* Visual */
+    background-color: var(--danger-subtle);
+    border-left-color: var(--danger);
+
+    > .icon { color: var(--danger); }
+}

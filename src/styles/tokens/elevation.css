@@ -1,0 +1,25 @@
+/* IOKode is square. Nothing in the system exceeds a 4px radius, except radio buttons, which are
+   round because a square radio is not recognisable. Shadows are hard offsets with no blur, so
+   they read as a technical drawing rather than a soft consumer card. Blurred shadows exist only
+   for things that genuinely float above the page. */
+
+:root {
+    --radius-none: 0;
+    --radius-sm: 2px;
+    --radius-md: 3px;
+    --radius-lg: 4px;
+    --radius-pill: 999px;
+
+    /* Each weight means something: 1px separates, 2px invites interaction, 4px emphasises. */
+    --border-thin: 1px;
+    --border-default-width: 2px;
+    --border-large: 4px;
+
+    --shadow-hard-sm: 2px 2px 0 var(--shadow-color);
+    --shadow-hard: 3px 3px 0 var(--shadow-color);
+    --shadow-hard-lg: 5px 5px 0 var(--shadow-color);
+
+    --shadow-pop: 0 8px 24px color-mix(in srgb, var(--shadow-color) 22%, transparent);
+
+    --focus-ring: 0 0 0 3px color-mix(in srgb, var(--border-focus) 40%, transparent);
+}

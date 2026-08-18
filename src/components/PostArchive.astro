@@ -1,0 +1,52 @@
+---
+import type {CollectionEntry} from 'astro:content';
+
+/**
+ * A year-grouped index of posts: date, title, author.
+ *
+ * The archive, the tag archives and the author pages all render the same list, so the grouping
+ * lives here rather than three times over.
+ */
+
+interface Props {
+    posts: CollectionEntry<'posts'>[];
+    /** Off on an author's own page, where every row would name the same person. */
+    showAuthor?: boolean;
+}
+
+const {posts, showAuthor = true} = Astro.props;
+
+type PostsByYear = Record<string, CollectionEntry<'posts'>[]>;
+
+const postsByYear = posts.reduce<PostsByYear>((accumulator, post) => {
+    const year = new Date(post.data.publishDate).getFullYear();
+    accumulator[year] ??= [];
+    accumulator[year].push(post);
+    return accumulator;
+}, {});
+
+const years = Object.entries(postsByYear).reverse();
+
+function formatDate(date: Date) {
+    return date.toLocaleDateString('en-US', {year: 'numeric', month: 'short', day: '2-digit'});
+}
+---
+
+{years.map(([year, yearPosts]) => (
+    <section class="year-group">
+        <h2>{year}</h2>
+        <ul class="post-list">
+            {yearPosts.map(post => (
+                <li>
+                    <a href={`/posts/${post.data.slug}`}>
+                        <time class="date" datetime={post.data.publishDate.toISOString()}>
+                            {formatDate(post.data.publishDate)}
+                        </time>
+                        <span class="title">{post.data.title}</span>
+                        {showAuthor && <span class="author">{post.data.authorName}</span>}
+                    </a>
+                </li>
+            ))}
+        </ul>
+    </section>
+))}

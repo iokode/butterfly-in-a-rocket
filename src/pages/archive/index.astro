@@ -1,67 +1,37 @@
 ---
 import {getCollection} from "astro:content";
 import Layout from "../../layouts/Layout.astro";
+import PostArchive from "../../components/PostArchive.astro";
 import {comparePostsByChronologicalPositionDescending} from "../../helpers/posts";
-
-type PostsByYear = {
-    [year: string]: typeof posts[0][]; // Keys are years, values are arrays of posts.
-};
 
 let posts = (await getCollection('posts')).sort(comparePostsByChronologicalPositionDescending);
 
 posts = posts.filter(post => !post.data.tags.includes('spanish-legacy-post'));
-
-const postsByYear = posts.reduce<PostsByYear>((accumulator, post) => {
-    const year = new Date(post.data.publishDate).getFullYear();
-    if (!accumulator[year]) {
-        accumulator[year] = [];
-    }
-    accumulator[year].push(post);
-    return accumulator;
-}, {});
 
 const tags = await getCollection('tags');
 ---
 
 <Layout title="Archive" description="Archive of all IOKode blog posts organized by year. Browse through our collection of articles.">
     <h1>All posts archive</h1>
-    <p>Archive of all IOKode blog posts organized by year excluding <a href="/archive/spanish-legacy-post">legacy posts in Spanish</a>.</p>
-    Filter by tag:
-    <ul class="tags">
-        {tags.map(tag => (
-                <li><a href=`/archive/${tag.id}`>{tag.data.name}</a></li>
-        ))}
-    </ul>
-    {Object.entries(postsByYear).reverse().map(([year, yearPosts]) => (
-            <section>
-                <h2>{year}</h2>
-                <ul>
-                    {yearPosts.map(post => (
-                            <li>
-                                <a href={`/posts/${post.data.slug}`}>{post.data.title}</a> <small>by <a href={`/authors/${post.data.author}`}>{post.data.authorName}</a></small>
-                            </li>
-                    ))}
-                </ul>
-            </section>
-    ))}
+    <!-- The link stays on this line: Astro trims the newline before an inline element, which
+         would glue it to the preceding word. -->
+    <p>Every post, newest first, excluding the <a href="/archive/spanish-legacy-post">legacy posts in Spanish</a>.</p>
+
+    <section class="filters">
+        <h2 class="eyebrow">Filter by tag</h2>
+        <ul class="tag-list">
+            {tags.map(tag => (
+                <li><a class="tag" href={`/archive/${tag.id}`}>{tag.id}</a></li>
+            ))}
+        </ul>
+    </section>
+
+    <PostArchive posts={posts}/>
 </Layout>
 
-<style lang="scss">
-    @use '../../styles/variables/borders';
-
-    ul.tags {
-        // Boxing
-        display: inline-flex;
-        margin: 0;
-        padding: 0;
-
-        // Flex
-        flex-wrap: wrap;
-        gap: 0 .5em;
-
-        li {
-            // Style
-            list-style: none;
-        }
+<style>
+    .filters {
+        /* Box model */
+        margin-top: var(--space-9);
     }
 </style>

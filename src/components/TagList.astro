@@ -1,0 +1,33 @@
+---
+/**
+ * A row of tag links under a post.
+ *
+ * Tags render as their lowercase slug — `ai`, `dotnet`, `opinionated-arch` — not as the display
+ * name from the tags collection. The slug is what the taxonomy actually is, and setting it in the
+ * mono face is what makes a tag read as a machine label rather than a piece of prose. The display
+ * name still headlines the tag's own archive page, where there is room for it.
+ */
+
+interface Props {
+    /** Tag collection ids, which are the slugs. */
+    tags: string[];
+    /** The tag currently being filtered on, drawn solid. */
+    current?: string;
+}
+
+const {tags, current} = Astro.props;
+---
+
+{tags.length > 0 && (
+    <ul class="tag-list">
+        {tags.map(tag => (
+            <li>
+                <a
+                    class:list={["tag", {solid: tag === current}]}
+                    href={`/archive/${tag}`}
+                    aria-current={tag === current ? "page" : undefined}
+                >{tag}</a>
+            </li>
+        ))}
+    </ul>
+)}

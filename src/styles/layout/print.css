@@ -1,0 +1,67 @@
+/* Everything the printed page does differently, in one place.
+
+   These rules used to live in the components they affected, as scoped styles. That does not work:
+   a scoped rule only matches elements the component itself wrote, so a selector aimed at a child
+   component — the tag list under a post title — silently matched nothing and printed anyway. Print
+   is a whole-page concern and belongs in the layout layer, where selectors are global and the
+   whole behaviour reads at once.
+
+   Astro compiles a component's scoped styles to `.thing[data-astro-cid-…]`, which outranks a bare
+   `.thing`. The `:root body` prefix below buys this sheet the specificity to override them, since
+   the house style rules out `!important` and leaves the cascade to do the work.
+
+   The palette is handled separately: the dark theme is scoped to `screen` in tokens/colors.css, so
+   paper always gets the light values. */
+
+@media print {
+    body {
+        /* Box model */
+        display: block;
+        max-width: none;
+        padding: 0;
+    }
+
+    /* The mark stays — it says whose page this is. */
+    body > header {
+        /* Box model */
+        margin-bottom: var(--space-7);
+
+        /* Visual */
+        border-bottom: none;
+    }
+
+    /* Navigation of every kind is meaningless on paper: it cannot be followed, and it competes
+       with the text for attention. Tags go too — they point at archives that only exist online,
+       and the byline still carries the date, the author and the licence. The comment thread lives
+       in a GitHub discussion; a snapshot of it is not the document. */
+    :root body :is(
+        .navigation,
+        .back,
+        .pagination,
+        .table-of-contents,
+        .post-actions,
+        .tag-list,
+        .comments
+    ),
+    :root body > aside,
+    :root body > footer {
+        display: none;
+    }
+
+    /* Let the browser break long samples rather than clipping them at the page edge. */
+    pre {
+        overflow: visible;
+        white-space: pre-wrap;
+        word-wrap: break-word;
+    }
+
+    /* Keep a heading with the text it introduces, and do not strand a single line of prose. */
+    h1, h2, h3, h4, h5, h6 {
+        break-after: avoid;
+    }
+
+    p, li, blockquote {
+        orphans: 2;
+        widows: 2;
+    }
+}

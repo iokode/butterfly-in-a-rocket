@@ -1,0 +1,31 @@
+/* IOKode webfonts.
+   Chakra Petch — display. Squared terminals, technical. Headings, buttons, nav, labels.
+   Source Sans 3 — body. Humanist, wide aperture, holds up at 18px.
+   Cascadia Code — mono. Code, but also metadata, tags and paths: it is the system's machine voice. */
+
+@import url('https://fonts.googleapis.com/css2?family=Chakra+Petch:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Source+Sans+3:ital,wght@0,200..900;1,200..900&display=swap');
+
+@font-face {
+    font-family: 'Cascadia Code';
+    src: url('/fonts/CascadiaCode.woff2') format('woff2');
+    font-weight: 200 700;
+    font-style: normal;
+    font-display: swap;
+}
+
+/* Self-hosted fallback for the display face, so headings still render as Chakra Petch when
+   Google Fonts is blocked or slow. */
+@font-face {
+    font-family: 'Chakra Petch Local';
+    src: url('/fonts/ChakraPetch-Regular.ttf') format('truetype');
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}
+
+:root {
+    --font-display: 'Chakra Petch', 'Chakra Petch Local', ui-sans-serif, system-ui, sans-serif;
+    --font-body: 'Source Sans 3', ui-sans-serif, system-ui, -apple-system, sans-serif;
+    --font-mono: 'Cascadia Code', ui-monospace, 'SFMono-Regular', Menlo, Consolas, monospace;
+}

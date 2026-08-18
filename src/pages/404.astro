@@ -1,11 +1,34 @@
 ---
 import Layout from "../layouts/Layout.astro";
 import Alert from "../components/Entry/Alert.astro";
+import Icon from "../components/Icon.astro";
 ---
 
 <Layout title="Page not found" description="The requested page does not exist on IOKode.">
+    <!-- The page carried its title only in the tab. A document with no heading is a document a
+         screen reader cannot summarise, and this one is reached by accident more than most. -->
+    <h1>Page not found</h1>
+
     <Alert severity="warning">
-        <p>The page you are looking for does not exist.</p>
-        <p>You can go back to the <a href="/">home page</a>.</p>
+        <p>The page you are looking for does not exist. It may have moved, or the link that brought
+            you here may be wrong.</p>
     </Alert>
+
+    <p class="ways-out">
+        <a class="button" href="/">
+            <Icon name="arrow-left" size={15}/>
+            Latest posts
+        </a>
+        <a class="button secondary" href="/archive">Browse the archive</a>
+    </p>
 </Layout>
+
+<style>
+    .ways-out {
+        /* Box model */
+        display: flex;
+        flex-wrap: wrap;
+        gap: var(--space-4);
+        margin-top: var(--space-8);
+    }
+</style>

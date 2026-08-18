@@ -1,0 +1,76 @@
+/* Article typography: ruled h2s, heading rhythm, square bullets, figure captions.
+
+   This is the wrapper every block of rendered Markdown gets. Keeping it here rather than in the
+   base sheet is the point — a heading only earns its rule and its generous top margin when it is
+   introducing running prose. The same tag inside a sidebar, a card or a comment is a label, and
+   picking up article spacing there is what makes a layout look subtly wrong.
+
+   `--measure-prose` owns the line length by default, so a parent must not also set a max-width.
+   Where the surrounding layout already constrains the column — which on this blog is everywhere,
+   because the main/aside grid supplies the measure — add `full` to hand the width back. */
+
+.prose {
+    max-width: var(--measure-prose);
+}
+
+.prose.full {
+    max-width: none;
+}
+
+/* Zeroing the first child's top margin assumes the prose block starts the page. When something
+   already sits above it — a page title, a lead line — a heading in first position still needs its
+   air back, or the two run together. */
+:is(h1, h2, h3, h4, h5, h6, p) + .prose > :is(h2, h3, h4):first-child {
+    margin-top: var(--space-8);
+}
+
+.prose {
+    > :first-child {
+        margin-top: 0;
+    }
+
+    h2 {
+        /* Box model */
+        margin-top: var(--space-10);
+        padding-bottom: var(--space-3);
+
+        /* Visual */
+        border-bottom: var(--border-thin) solid var(--border-subtle);
+    }
+
+    h3 {
+        /* Box model */
+        margin-top: var(--space-8);
+    }
+
+    h4, h5, h6 {
+        /* Box model */
+        margin-top: var(--space-7);
+    }
+
+    ul, ol {
+        /* Box model */
+        padding-left: var(--space-7);
+        margin-bottom: var(--space-5);
+    }
+
+    li {
+        /* Box model */
+        margin-bottom: var(--space-3);
+    }
+
+    img, figure {
+        /* Box model */
+        margin: var(--space-8) 0;
+    }
+
+    figcaption {
+        /* Box model */
+        margin-top: var(--space-3);
+
+        /* Typographic */
+        font-family: var(--font-mono);
+        font-size: var(--font-size-xs);
+        color: var(--text-muted);
+    }
+}

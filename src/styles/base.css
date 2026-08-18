@@ -1,0 +1,221 @@
+/* Element defaults. Everything here has to work on markup this stylesheet never sees: post
+   bodies are rendered from Markdown at build time, and comment bodies arrive as HTML from the
+   GitHub API. Neither can carry a class, so both are styled from the tag up. */
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+html {
+    /* Typographic */
+    font-size: var(--font-size-root);
+
+    /* Misc */
+    -webkit-text-size-adjust: 100%;
+}
+
+body {
+    /* Box model */
+    margin: 0;
+
+    /* Typographic */
+    font-family: var(--font-body);
+    font-size: var(--font-size-base);
+    line-height: var(--line-height-body);
+    color: var(--text-body);
+    text-wrap: pretty;
+
+    /* Visual */
+    background-color: var(--surface-page);
+
+    /* Misc */
+    -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    /* Box model */
+    margin: 0 0 var(--space-4);
+
+    /* Typographic */
+    font-family: var(--font-display);
+    font-weight: var(--weight-semibold);
+    line-height: var(--line-height-heading);
+    letter-spacing: var(--tracking-tight);
+    color: var(--text-strong);
+    text-wrap: balance;
+}
+
+h1 {
+    /* Typographic */
+    font-size: var(--font-size-3xl);
+    font-weight: var(--weight-medium);
+}
+
+/* The rule under an h2, and the generous space above it, belong to running prose — not to every
+   heading on the site. A section label in a sidebar or a card is still an h2 and must not grow a
+   horizontal line. See components/prose.css. */
+h2 { font-size: var(--font-size-2xl); }
+
+h3 { font-size: var(--font-size-xl); }
+
+h4 { font-size: var(--font-size-lg); }
+
+h5 { font-size: var(--font-size-md); }
+
+h6 {
+    /* Typographic */
+    font-size: var(--font-size-base);
+    letter-spacing: var(--tracking-caps);
+    text-transform: uppercase;
+}
+
+/* A heading immediately followed by its own paragraph does not need the paragraph's top gap. */
+:is(h1, h2, h3, h4, h5, h6) + p {
+    margin-top: 0;
+}
+
+p {
+    margin: 0 0 var(--space-5);
+}
+
+a {
+    /* Typographic */
+    color: var(--text-link);
+    text-decoration: none;
+
+    /* Misc */
+    transition: var(--transition-interface);
+}
+
+a:hover {
+    /* Typographic */
+    color: var(--text-link-hover);
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 3px;
+}
+
+a:focus-visible {
+    outline: var(--border-default-width) solid var(--border-focus);
+    outline-offset: 2px;
+}
+
+ul > li {
+    list-style-type: square;
+}
+
+ul, ol {
+    /* Box model */
+    padding-left: var(--space-7);
+    margin: 0 0 var(--space-5);
+}
+
+code, pre, kbd, samp {
+    /* Typographic */
+    font-family: var(--font-mono);
+    font-size: 0.92em;
+}
+
+/* Inline code only. A `code` inside a `pre` inherits the block's own treatment. */
+:not(pre) > code {
+    /* Box model */
+    padding: 0.15em 0.4em;
+
+    /* Visual */
+    background-color: var(--surface-code);
+    border: var(--border-thin) solid var(--border-subtle);
+    border-radius: var(--radius-sm);
+}
+
+pre {
+    /* Box model */
+    padding: var(--space-5);
+    overflow-x: auto;
+
+    /* Typographic */
+    line-height: 1.55;
+
+    /* Visual */
+    background-color: var(--surface-code);
+    border: var(--border-thin) solid var(--border-subtle);
+    border-left: var(--border-large) solid var(--accent);
+    border-radius: var(--radius-sm);
+}
+
+/* The 4px emphasis rule, shared with code blocks and callouts. Note that the design system's own
+   `tokens/base.css` uses 2px here, but both `readme.md` and `guidelines/borders.card.html` state
+   4px for quote rules — the prose is the intent, the 2px looks like a slip. */
+blockquote {
+    /* Box model */
+    margin: var(--space-7) 0;
+    padding-left: var(--space-5);
+
+    /* Typographic */
+    font-style: italic;
+    color: var(--text-muted);
+
+    /* Visual */
+    border-left: var(--border-large) solid var(--border-accent);
+}
+
+blockquote cite {
+    font-style: normal;
+}
+
+hr {
+    /* Box model */
+    height: 0;
+    margin: var(--space-9) 0;
+
+    /* Visual */
+    border: 0;
+    border-top: var(--border-thin) solid var(--border-subtle);
+}
+
+img, video, iframe, figure {
+    max-width: 100%;
+}
+
+figcaption {
+    /* Box model */
+    margin-top: var(--space-3);
+
+    /* Typographic */
+    font-family: var(--font-mono);
+    font-size: var(--font-size-xs);
+    color: var(--text-muted);
+}
+
+table {
+    /* Box model */
+    width: 100%;
+    overflow-x: auto;
+
+    /* Misc */
+    border-collapse: collapse;
+}
+
+th, td {
+    /* Box model */
+    padding: var(--space-3) var(--space-5);
+
+    /* Typographic */
+    text-align: left;
+
+    /* Visual */
+    border-bottom: var(--border-thin) solid var(--border-subtle);
+}
+
+th {
+    /* Typographic */
+    font-family: var(--font-display);
+    font-weight: var(--weight-semibold);
+    color: var(--text-strong);
+}
+
+::selection {
+    color: var(--selection-text);
+    background-color: var(--selection-background);
+}

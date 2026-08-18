@@ -1,23 +1,24 @@
-<div id="vadavo">
-    <div class="title">Need hosting?</div>
-    <p><a rel="sponsored" href="https://www.vadavo.com/hosting">Get <strong>10% OFF</strong> in VADAVO</a> using the <code>IOKODE</code> code.</p>
-</div>
+---
+/** Sponsor block for the aside. Not part of the design system — a commercial slot that borrows
+ *  its card and tokens. */
+---
 
-<style lang="scss">
-    #vadavo {
-        p {
-            // Boxing
+<section class="card accent sponsor">
+    <h2 class="eyebrow">Need hosting?</h2>
+    <p>
+        <a rel="sponsored noopener" target="_blank" href="https://www.vadavo.com/hosting">Get <strong>10% off</strong> at VADAVO</a>
+        using the <code>IOKODE</code> code.
+    </p>
+</section>
+
+<style>
+    .sponsor {
+        /* Typographic */
+        font-size: var(--font-size-sm);
+
+        > p {
+            /* Box model */
             margin: 0;
-        }
-
-        a {
-            // Boxing
-            display: block;
-        }
-
-        pre {
-            // Boxing
-            display: inline;
         }
     }
 </style>

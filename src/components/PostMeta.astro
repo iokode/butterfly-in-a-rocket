@@ -1,0 +1,81 @@
+---
+/**
+ * The byline: date / author / reading time / licence, in that order, joined by mono slashes. The
+ * order is fixed — drop what you do not have, but never reorder.
+ *
+ * Mono, small and muted on purpose — it is the machine voice reporting facts about the document,
+ * and it should stay quieter than the prose it introduces. Shared by the index card and the
+ * article header so the two never drift apart.
+ */
+
+interface Props {
+    publishDate: Date;
+    /** GitHub username, used for the profile link. */
+    author: string;
+    authorName: string;
+    avatarSrc?: string;
+    /** Article only — the index cards omit it. */
+    readingTime?: string;
+    license?: { code: string, url: string };
+    /** Spelled out in the article header, abbreviated on cards. */
+    verboseLicense?: boolean;
+}
+
+const {publishDate, author, authorName, avatarSrc, readingTime, license, verboseLicense = false} = Astro.props;
+
+const formattedDate = publishDate.toLocaleDateString('en-US', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+});
+---
+
+<p class="metadata">
+    <time datetime={publishDate.toISOString()}>{formattedDate}</time>
+
+    <span class="separator" aria-hidden="true">/</span>
+
+    <span class="author">
+        {avatarSrc && (
+            <span class="avatar"><img src={avatarSrc} alt="" width="22" height="22"/></span>
+        )}
+        <a href={`/authors/${author}`}>{authorName}</a>
+    </span>
+
+    {readingTime && (
+        <Fragment>
+            <span class="separator" aria-hidden="true">/</span>
+            <span>{readingTime}</span>
+        </Fragment>
+    )}
+
+    {license && (
+        <Fragment>
+            <span class="separator" aria-hidden="true">/</span>
+            <span>
+                {verboseLicense && "Licensed under "}
+                <a href={license.url} target="_blank" rel="noopener">{license.code}</a>
+            </span>
+        </Fragment>
+    )}
+</p>
+
+<style>
+    .metadata {
+        /* Box model */
+        margin: 0;
+    }
+
+    .author {
+        /* Box model */
+        display: inline-flex;
+        align-items: center;
+        gap: var(--space-3);
+
+        > .avatar {
+            /* Box model */
+            width: 22px;
+            height: 22px;
+        }
+    }
+</style>

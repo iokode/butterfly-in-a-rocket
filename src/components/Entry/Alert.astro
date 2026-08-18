@@ -1,42 +1,37 @@
 ---
 import {Markdown} from "astro-remote";
+import Icon from "../Icon.astro";
+
+/**
+ * A callout inside post bodies. Authors write `<Alert severity="note">` in their Markdown, so the
+ * component name and its prop are content-facing and fixed; only the presentation is the design
+ * system's business.
+ *
+ * The design system maps one glyph to each tone and does not vary them.
+ */
+
 interface Props {
     severity: "note" | "warning";
+    /** Optional heading. Without one, the body sits alongside the icon on its own. */
+    title?: string;
 }
 
-let severity = Astro.props.severity.charAt(0).toUpperCase() + Astro.props.severity.substring(1);
-let emoji = Astro.props.severity === 'note' ? 'ℹ' : '⚠'
-let renderedSlot = await Astro.slots.render('default');
+const icons = {
+    note: 'sparkle',
+    info: 'info',
+    success: 'check',
+    warning: 'triangle-alert',
+    danger: 'octagon-x',
+} as const;
+
+const {severity, title} = Astro.props;
+const renderedSlot = await Astro.slots.render('default');
 ---
 
-<div class={'alert ' + Astro.props.severity}>
-    <div class={`heading ${Astro.props.severity}`}>{emoji} {severity}</div>
-
-    <div class="content">
+<div class:list={["callout", severity]}>
+    <span class="icon"><Icon name={icons[severity] ?? 'info'} size={20} label={severity}/></span>
+    <div class="body">
+        {title && <p class="title">{title}</p>}
         <Markdown content={renderedSlot}/>
     </div>
 </div>
-
-<style lang="scss">
-    @use '../../styles/variables/colors';
-    @use "../../styles/variables/borders";
-    @use '../../styles/variables/fonts';
-
-    .alert {
-        // Boxing
-        padding: 1em;
-        margin-bottom: 1em;
-
-        // Style
-        border: borders.$default;
-    }
-
-    .heading {
-        // Boxing
-        margin-bottom: 0.5em;
-
-        // Typography
-        font-size: 1.5em;
-        font-family: fonts.$titles;
-    }
-</style>

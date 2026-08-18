@@ -1,0 +1,36 @@
+/* IOKode type scale. The root size is 18px, not 16px: every rem below assumes it. */
+
+:root {
+    --font-size-root: 18px;
+
+    --font-size-2xs: 0.722rem; /* 13px — legal, micro labels */
+    --font-size-xs: 0.778rem; /* 14px — metadata, captions */
+    --font-size-sm: 0.889rem; /* 16px — dense UI, sidebars */
+    --font-size-base: 1rem; /* 18px — body copy */
+    --font-size-md: 1.111rem; /* 20px — lead paragraph */
+    --font-size-lg: 1.333rem; /* 24px — h4, card titles */
+    --font-size-xl: 1.667rem; /* 30px — h3 */
+    --font-size-2xl: 2.111rem; /* 38px — h2 */
+    --font-size-3xl: 2.667rem; /* 48px — h1 */
+    --font-size-4xl: 3.556rem; /* 64px — page hero */
+
+    --line-height-tight: 1.05;
+    --line-height-heading: 1.15;
+    --line-height-snug: 1.35;
+    --line-height-body: 1.6;
+    --line-height-loose: 1.75;
+
+    --weight-light: 300;
+    --weight-regular: 400;
+    --weight-medium: 500;
+    --weight-semibold: 600;
+    --weight-bold: 700;
+
+    --tracking-tight: -0.02em;
+    --tracking-normal: 0;
+    --tracking-wide: 0.04em;
+    --tracking-caps: 0.12em;
+
+    --measure-prose: 68ch;
+    --measure-narrow: 46ch;
+}

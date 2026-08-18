@@ -1,19 +1,35 @@
 ---
 import {getCollection} from "astro:content";
 
-let sites = (await getCollection('recommendedSites')).map(partner => partner.data);
+const sites = (await getCollection('recommendedSites')).map(site => site.data);
 ---
 
-<div id="recommended-sites">
-    <div class="title">Recommended sites</div>
-    <ul>
-        {sites.map(site => <li><a target="_blank" href={site.url}>{site.name}</a></li>)}
+<section class="recommended-sites">
+    <h2 class="eyebrow">I usually read</h2>
+    <ul class="sites">
+        {sites.map(site => (
+            <li><a href={site.url} target="_blank" rel="noopener">{site.name}</a></li>
+        ))}
     </ul>
-</div>
+</section>
 
-<style lang="scss">
-    ul {
-        // Boxing
+<style>
+    .sites {
+        /* Box model */
+        display: grid;
+        gap: var(--space-3);
         margin: 0;
+        padding: 0;
+
+        /* Typographic */
+        font-size: var(--font-size-sm);
+
+        > li {
+            /* Box model */
+            margin: 0;
+
+            /* Visual */
+            list-style-type: none;
+        }
     }
 </style>

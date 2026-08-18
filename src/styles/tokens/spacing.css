@@ -1,0 +1,31 @@
+/* 4px base grid. Section rhythm is 80px, card padding 24px, stack gap 32px.
+
+   The breakpoints are duplicated as literal pixels in every media query, because custom
+   properties are not allowed in media conditions. They are recorded here so there is still one
+   place that states what the numbers are: 768, 992, 1200 and 1440. */
+
+:root {
+    --space-0: 0;
+    --space-1: 2px;
+    --space-2: 4px;
+    --space-3: 8px;
+    --space-4: 12px;
+    --space-5: 16px;
+    --space-6: 20px;
+    --space-7: 24px;
+    --space-8: 32px;
+    --space-9: 40px;
+    --space-10: 48px;
+    --space-11: 64px;
+    --space-12: 80px;
+    --space-13: 96px;
+    --space-14: 128px;
+
+    --gutter: var(--space-7);
+    --stack-tight: var(--space-4);
+    --stack: var(--space-8);
+    --section: var(--space-12);
+
+    --container-prose: 720px;
+    --container-page: 1400px;
+}

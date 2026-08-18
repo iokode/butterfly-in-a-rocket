@@ -1,9 +1,11 @@
 import {z, defineCollection} from "astro:content";
-import {entriesGitHubLoader, kvpGitHubLoader, simpleGitHubLoader} from "./EntriesGitHubLoader.ts";
-import {isDevelopment} from "../helpers/environment.ts";
+import {entriesGitHubLoader, kvpGitHubLoader, simpleGitHubLoader} from "./content/EntriesGitHubLoader.ts";
+import {isDevelopment} from "./helpers/environment.ts";
 
-export const repository: string = isDevelopment() ? 'iokode/blog-dev' : 'iokode/blog';
-export const branch: string = 'master';
+// Set BLOG_REPOSITORY (and optionally BLOG_BRANCH) to preview other content in dev, e.g. the live
+// blog: `BLOG_REPOSITORY=iokode/blog npm run dev`. The loaders drop the cached store when it changes.
+export const repository: string = process.env.BLOG_REPOSITORY || (isDevelopment() ? 'iokode/blog-dev' : 'iokode/blog');
+export const branch: string = process.env.BLOG_BRANCH || 'master';
 
 export const defaultLicense = {
     code: 'CC BY 4.0',

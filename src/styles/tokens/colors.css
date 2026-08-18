@@ -1,0 +1,206 @@
+/* IOKode color system.
+   One hue carries the brand: 285 (violet). The neutral ramp carries a trace of the same hue,
+   so a "grey" surface never reads as dead sRGB grey next to violet.
+
+   Light and dark are equal citizens, not a light design with a dark mode bolted on. The browser
+   decides: there is no theme switcher on public surfaces, because the reader's OS setting is the
+   setting. `data-theme` exists to force a theme for a screenshot, a print sheet or a specimen
+   card, not so a product can offer a toggle.
+
+   Order below is load-bearing. Light lives on bare `:root`, so it is the default. Dark is applied
+   by the media query, guarded with `:not([data-theme="light"])` so an explicit light choice still
+   beats the OS preference. `[data-theme="dark"]` comes last so the forced-dark case outranks the
+   media query, which it ties with on specificity. Reordering these three blocks silently breaks
+   automatic dark mode. */
+
+:root {
+    /* Brand ramp */
+    --violet-50: hsl(285 60% 97%);
+    --violet-100: hsl(285 58% 93%);
+    --violet-200: hsl(285 56% 86%);
+    --violet-300: hsl(285 56% 76%);
+    --violet-400: hsl(285 62% 64%);
+    --violet-500: hsl(285 78% 50%);
+    --violet-600: hsl(285 100% 35%);
+    --violet-700: hsl(285 100% 28%);
+    --violet-800: hsl(285 88% 21%);
+    --violet-900: hsl(285 70% 14%);
+
+    /* Neutral ramp, tinted with the brand hue */
+    --ink-0: hsl(285 25% 99%);
+    --ink-50: hsl(285 15% 95%);
+    --ink-100: hsl(285 14% 91%);
+    --ink-200: hsl(285 12% 84%);
+    --ink-300: hsl(285 10% 72%);
+    --ink-400: hsl(285 9% 56%);
+    --ink-500: hsl(285 10% 42%);
+    --ink-600: hsl(285 14% 32%);
+    --ink-700: hsl(285 18% 25%);
+    --ink-800: hsl(285 20% 16%);
+    --ink-900: hsl(285 22% 11%);
+    --ink-950: hsl(285 26% 7%);
+
+    /* Semantic hues */
+    --green-500: hsl(150 65% 30%);
+    --green-300: hsl(150 55% 58%);
+    --amber-500: hsl(38 94% 40%);
+    --amber-300: hsl(38 95% 62%);
+    --red-500: hsl(355 72% 44%);
+    --red-300: hsl(355 85% 70%);
+    --blue-500: hsl(210 90% 40%);
+    --blue-300: hsl(210 90% 66%);
+}
+
+/* ---------- Light: the default ---------- */
+:root {
+    color-scheme: light;
+
+    --surface-page: var(--ink-50);
+    --surface-card: var(--ink-0);
+    --surface-raised: #fff;
+    --surface-sunken: var(--ink-100);
+    --surface-code: #fff;
+    --surface-inverse: var(--ink-900);
+
+    --text-body: var(--ink-700);
+    --text-strong: var(--ink-900);
+    --text-muted: var(--ink-500);
+    --text-faint: var(--ink-400);
+    --text-inverse: var(--ink-50);
+    --text-link: var(--violet-600);
+    --text-link-hover: var(--violet-700);
+
+    --border-subtle: var(--ink-200);
+    --border-default: var(--ink-300);
+    --border-strong: var(--ink-700);
+    --border-accent: var(--violet-600);
+    --border-focus: var(--violet-600);
+
+    --accent: var(--violet-600);
+    --accent-hover: var(--violet-700);
+    --accent-active: var(--violet-800);
+    --accent-contrast: #fff;
+    --accent-subtle: var(--violet-100);
+    --accent-subtle-text: var(--violet-700);
+    --accent-solid: var(--violet-600);
+    --accent-solid-hover: var(--violet-700);
+    --accent-solid-text: #fff;
+
+    --success: var(--green-500);
+    --warning: var(--amber-500);
+    --danger: var(--red-500);
+    --info: var(--blue-500);
+    --success-subtle: hsl(150 55% 92%);
+    --warning-subtle: hsl(38 90% 92%);
+    --danger-subtle: hsl(355 80% 94%);
+    --info-subtle: hsl(210 85% 93%);
+
+    --shadow-color: var(--ink-900);
+    --selection-background: var(--violet-200);
+    --selection-text: var(--violet-900);
+}
+
+/* ---------- Dark: from the OS preference, unless light was forced ----------
+
+   Scoped to `screen` on purpose. Paper has no dark mode: printing the dark palette wastes ink and
+   reads badly, so print falls through to the light values on `:root` above. An explicitly forced
+   `data-theme="dark"` still wins, which is what the design system intends by allowing a theme to
+   be pinned for a print sheet. */
+@media screen and (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+        color-scheme: dark;
+
+        --surface-page: var(--ink-900);
+        --surface-card: var(--ink-800);
+        --surface-raised: hsl(285 19% 19%);
+        --surface-sunken: var(--ink-950);
+        --surface-code: var(--ink-950);
+        --surface-inverse: var(--ink-50);
+
+        --text-body: hsl(285 15% 88%);
+        --text-strong: hsl(285 15% 97%);
+        --text-muted: var(--ink-300);
+        --text-faint: var(--ink-400);
+        --text-inverse: var(--ink-900);
+        --text-link: hsl(285 70% 74%);
+        --text-link-hover: hsl(285 80% 84%);
+
+        --border-subtle: hsl(285 16% 22%);
+        --border-default: hsl(285 14% 30%);
+        --border-strong: var(--ink-300);
+        --border-accent: hsl(285 70% 70%);
+        --border-focus: hsl(285 80% 74%);
+
+        --accent: hsl(285 70% 62%);
+        --accent-hover: hsl(285 76% 70%);
+        --accent-active: hsl(285 80% 78%);
+        --accent-contrast: var(--ink-950);
+        --accent-subtle: hsl(285 40% 20%);
+        --accent-subtle-text: hsl(285 70% 82%);
+        --accent-solid: hsl(285 78% 50%);
+        --accent-solid-hover: hsl(285 85% 42%);
+        --accent-solid-text: #fff;
+
+        --success: var(--green-300);
+        --warning: var(--amber-300);
+        --danger: var(--red-300);
+        --info: var(--blue-300);
+        --success-subtle: hsl(150 40% 16%);
+        --warning-subtle: hsl(38 55% 17%);
+        --danger-subtle: hsl(355 45% 19%);
+        --info-subtle: hsl(210 50% 18%);
+
+        --shadow-color: hsl(285 40% 4%);
+        --selection-background: hsl(285 60% 32%);
+        --selection-text: hsl(285 30% 96%);
+    }
+}
+
+/* ---------- Dark: forced, and therefore last ---------- */
+:root[data-theme="dark"] {
+    color-scheme: dark;
+
+    --surface-page: var(--ink-900);
+    --surface-card: var(--ink-800);
+    --surface-raised: hsl(285 19% 19%);
+    --surface-sunken: var(--ink-950);
+    --surface-code: var(--ink-950);
+    --surface-inverse: var(--ink-50);
+
+    --text-body: hsl(285 15% 88%);
+    --text-strong: hsl(285 15% 97%);
+    --text-muted: var(--ink-300);
+    --text-faint: var(--ink-400);
+    --text-inverse: var(--ink-900);
+    --text-link: hsl(285 70% 74%);
+    --text-link-hover: hsl(285 80% 84%);
+
+    --border-subtle: hsl(285 16% 22%);
+    --border-default: hsl(285 14% 30%);
+    --border-strong: var(--ink-300);
+    --border-accent: hsl(285 70% 70%);
+    --border-focus: hsl(285 80% 74%);
+
+    --accent: hsl(285 70% 62%);
+    --accent-hover: hsl(285 76% 70%);
+    --accent-active: hsl(285 80% 78%);
+    --accent-contrast: var(--ink-950);
+    --accent-subtle: hsl(285 40% 20%);
+    --accent-subtle-text: hsl(285 70% 82%);
+    --accent-solid: hsl(285 78% 50%);
+    --accent-solid-hover: hsl(285 85% 42%);
+    --accent-solid-text: #fff;
+
+    --success: var(--green-300);
+    --warning: var(--amber-300);
+    --danger: var(--red-300);
+    --info: var(--blue-300);
+    --success-subtle: hsl(150 40% 16%);
+    --warning-subtle: hsl(38 55% 17%);
+    --danger-subtle: hsl(355 45% 19%);
+    --info-subtle: hsl(210 50% 18%);
+
+    --shadow-color: hsl(285 40% 4%);
+    --selection-background: hsl(285 60% 32%);
+    --selection-text: hsl(285 30% 96%);
+}

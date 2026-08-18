@@ -1,0 +1,59 @@
+/* Short uppercase status label in the display face. Distinct from a tag, which is a mono slug
+   pointing at an archive. */
+
+.badge {
+    /* Box model */
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    padding: 4px var(--space-3);
+
+    /* Typographic */
+    font-family: var(--font-display);
+    font-size: var(--font-size-2xs);
+    font-weight: var(--weight-semibold);
+    letter-spacing: var(--tracking-wide);
+    text-transform: uppercase;
+    color: var(--text-muted);
+    white-space: nowrap;
+
+    /* Visual */
+    border: var(--border-thin) solid currentColor;
+    border-radius: var(--radius-sm);
+}
+
+.badge.accent {
+    /* Typographic */
+    color: var(--accent);
+
+    /* Visual */
+    background-color: var(--accent-subtle);
+    border-color: transparent;
+}
+
+.badge.success {
+    /* Typographic */
+    color: var(--success);
+
+    /* Visual */
+    background-color: var(--success-subtle);
+    border-color: transparent;
+}
+
+.badge.warning {
+    /* Typographic */
+    color: var(--warning);
+
+    /* Visual */
+    background-color: var(--warning-subtle);
+    border-color: transparent;
+}
+
+.badge.danger {
+    /* Typographic */
+    color: var(--danger);
+
+    /* Visual */
+    background-color: var(--danger-subtle);
+    border-color: transparent;
+}

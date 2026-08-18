@@ -1,0 +1,96 @@
+/* Page skeleton for iokode.blog: header / main / aside / footer.
+
+   This is the layout sheet, so it addresses tags directly rather than through classes. The
+   components it positions carry no outer margin of their own — placement is decided here, which
+   is what lets the same header or footer sit in a different grid without being edited.
+
+   The measurements come from the design system's blog shell and are not free choices: a 280px
+   aside, a 96px column gutter, and the two-column switch at 1100px. The row gap is zero — the
+   vertical rhythm is set by the header's bottom margin and the footer's top margin below, so that
+   the gap between main and aside can be horizontal only.
+
+   The aside is 280px rather than `--measure-narrow` (46ch). That token caps line length inside an
+   aside; it is not the column width, and at an 18px root 46ch is over 400px — half again as wide
+   as the design system's rail. */
+
+body {
+    /* Box model */
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: auto 1fr auto auto;
+    grid-template-areas:
+            "header"
+            "main"
+            "aside"
+            "footer";
+    gap: 0 var(--space-13);
+    min-height: 100vh;
+    max-width: min(100%, var(--container-page));
+    margin: 0 auto;
+    /* The bottom padding is what keeps the legal line off the edge of the viewport. */
+    padding: 0 var(--space-7) var(--space-9);
+}
+
+body > header {
+    /* Box model */
+    grid-area: header;
+    margin-bottom: var(--space-9);
+}
+
+body > main {
+    /* Box model */
+    grid-area: main;
+    min-width: 0;
+}
+
+body > aside {
+    /* Box model */
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-10);
+    grid-area: aside;
+    min-width: 0;
+}
+
+body > footer {
+    /* Box model */
+    grid-area: footer;
+    margin-top: var(--space-13);
+}
+
+/* Stacked below the two-column breakpoint, the aside would otherwise butt straight into the end
+   of the article, because the grid contributes no row gap. */
+@media (max-width: 1099px) {
+    body > aside {
+        margin-top: var(--space-12);
+    }
+}
+
+/* Between tablet and the two-column switch there is width for the aside blocks to sit side by
+   side but not for a rail, so they run as a band instead of a tall stack. The design system's kit
+   is a fixed 1280px card and does not describe this range. */
+@media (min-width: 768px) and (max-width: 1099px) {
+    body > aside {
+        /* Box model */
+        flex-direction: row;
+        align-items: flex-start;
+        gap: var(--space-9);
+
+        > * {
+            flex: 1 1 0;
+        }
+    }
+}
+
+@media (min-width: 1100px) {
+    body {
+        /* Box model */
+        grid-template-columns: minmax(0, 1fr) 280px;
+        grid-template-rows: auto 1fr auto;
+        grid-template-areas:
+                "header header"
+                "main aside"
+                "footer footer";
+    }
+}
+

@@ -1,0 +1,55 @@
+/* Nav links grow a 2px violet border on hover — the interactive weight — rather than changing
+   size, weight or opacity. The current page keeps that border permanently, plus the subtle fill. */
+
+.nav-link {
+    /* Box model */
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-3);
+    padding: var(--space-3) var(--space-4);
+
+    /* Typographic */
+    font-family: var(--font-display);
+    font-size: var(--font-size-sm);
+    font-weight: var(--weight-medium);
+    color: var(--text-body);
+    text-decoration: none;
+
+    /* Visual */
+    border: var(--border-default-width) solid transparent;
+    border-radius: var(--radius-sm);
+
+    /* Misc */
+    transition: var(--transition-interface);
+
+    &:hover {
+        /* Typographic */
+        color: var(--text-link);
+        text-decoration: none;
+
+        /* Visual */
+        border-color: var(--border-accent);
+    }
+
+    &[aria-current] {
+        /* Typographic */
+        color: var(--accent);
+
+        /* Visual */
+        background-color: var(--accent-subtle);
+        border-color: var(--border-accent);
+    }
+}
+
+/* The quieter row: external profiles and the feed. Mono, so it reads as an address rather than a
+   destination inside the site. */
+.nav-link.external {
+    /* Box model */
+    padding: var(--space-2) var(--space-3);
+
+    /* Typographic */
+    font-family: var(--font-mono);
+    font-size: var(--font-size-xs);
+    font-weight: var(--weight-regular);
+    color: var(--text-muted);
+}

@@ -1,12 +1,11 @@
 ---
-import {type CollectionEntry, getCollection, getEntry} from "astro:content";
+import {getCollection, getEntry} from "astro:content";
+import {Markdown} from "astro-remote";
+import {entryComponents} from "../../components/Entry/components";
 import Layout from "../../layouts/Layout.astro";
-import { Markdown } from "astro-remote";
+import PostArchive from "../../components/PostArchive.astro";
+import Icon from "../../components/Icon.astro";
 import {comparePostsByChronologicalPositionDescending} from "../../helpers/posts";
-
-type PostsByYear = {
-    [year: string]: CollectionEntry<'posts'> [];
-};
 
 export const getStaticPaths = async () => {
     const posts = await getCollection('posts');
@@ -20,98 +19,82 @@ export const getStaticPaths = async () => {
 
 const {username} = Astro.props;
 
-let posts = (await getCollection('posts')).sort(comparePostsByChronologicalPositionDescending);
-
-posts = posts.filter(post => post.data.author === username);
-
-const postsByYear = posts.reduce<PostsByYear>((accumulator, post) => {
-    const year = new Date(post.data.publishDate).getFullYear();
-    if (!accumulator[year]) {
-        accumulator[year] = [];
-    }
-    accumulator[year].push(post);
-    return accumulator;
-}, {});
+const posts = (await getCollection('posts'))
+    .sort(comparePostsByChronologicalPositionDescending)
+    .filter(post => post.data.author === username);
 
 const name = posts[0].data.authorName || username;
 const entry = await getEntry('authors', username)!;
-
 ---
 
-<Layout title={`Posts by ${name}`}
-        description={`Archive of all blog posts written by ${name}`}>
-    <h1>Archive of posts by {name}</h1>
-    <div class="author-card">
-        <div class="avatar">
-            <img src={`https://github.com/${username}.png`} alt={`${username}'s avatar`}/>
-        </div>
-        <div class="stats">
-            <div>Wrote {posts.length} post{posts.length > 1 ? 's' : ''}</div>
-        </div>
-        <div class="github">
-            <a href={`https://github.com/${username}`} target="_blank">Visit GitHub profile</a>
-        </div>
-        <div class="entry">
-            <Markdown content={entry.body} />
-        </div>
+<Layout title={`Posts by ${name}`} description={`Archive of all blog posts written by ${name}`}>
+    <p class="back">
+        <a class="button ghost small" href="/authors">
+            <Icon name="arrow-left" size={15}/>
+            Authors
+        </a>
+    </p>
+
+    <header class="author-header">
+        <span class="avatar"><img src={`https://github.com/${username}.png`} alt={`GitHub avatar of ${name}`}/></span>
+        <h1>{name}</h1>
+        <p class="metadata">
+            <span>{posts.length} post{posts.length === 1 ? '' : 's'}</span>
+            <span class="separator">/</span>
+            <a href={`https://github.com/${username}`} target="_blank" rel="noopener">{username} on GitHub</a>
+        </p>
+    </header>
+
+    <div class="biography prose">
+        <Markdown content={entry.body} sanitize={{allowComponents: true}} components={entryComponents}/>
     </div>
 
-    {Object.entries(postsByYear).reverse().map(([year, yearPosts]) => (
-            <section>
-                <h2>{year}</h2>
-                <ul>
-                    {yearPosts.map(post => (
-                            <li>
-                                <a href={`/posts/${post.data.slug}`}>{post.data.title}</a>
-                            </li>
-                    ))}
-                </ul>
-            </section>
-    ))}
+    <PostArchive posts={posts} showAuthor={false}/>
 </Layout>
 
-<style lang="scss">
-    @use '../../styles/variables/borders';
+<style>
+    .back {
+        /* Box model */
+        margin: 0 0 var(--space-6);
+    }
 
-    .author-card {
-        // Boxing
+    .author-header {
+        /* Box model */
         display: grid;
-        padding: .5em;
-
-        // Grid
-        column-gap: .5em;
-        grid-template-rows: 1.5em 3em auto;
         grid-template-columns: auto 1fr;
         grid-template-areas:
-                "avatar stats"
-                "avatar github"
-                "entry entry";
+                "avatar name"
+                "avatar metadata";
+        align-content: center;
+        column-gap: var(--space-7);
+        margin-bottom: var(--space-8);
 
-        // Style
-        border: borders.$default;
-
-        .avatar {
-            // Grid
+        > .avatar {
+            /* Box model */
+            width: 5em;
+            height: 5em;
             grid-area: avatar;
-
-            img {
-                // Boxing
-                width: 4.5em;
-            }
         }
 
-        .stats {
-            // Grid
-            grid-area: stats;
+        > h1 {
+            /* Box model */
+            grid-area: name;
+            margin: 0 0 var(--space-2);
+
+            /* Typographic */
+            font-size: var(--font-size-2xl);
         }
 
-        .github {
-            // Grid
-            grid-area: github;
+        > .metadata {
+            /* Box model */
+            grid-area: metadata;
+            margin: 0;
         }
+    }
 
-        .entry {
-            grid-area: entry;
-        }
+    /* The measure comes from `.prose`; this only spaces the bio off the header. */
+    .biography {
+        /* Box model */
+        margin-bottom: var(--space-10);
     }
 </style>

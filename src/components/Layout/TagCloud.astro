@@ -1,0 +1,19 @@
+---
+import {getCollection} from "astro:content";
+import TagList from "../TagList.astro";
+
+/**
+ * The sidebar's tag index. Every tag in the taxonomy, as its slug, linking to that tag's archive.
+ */
+
+const tags = (await getCollection('tags')).map(tag => tag.id).sort();
+
+// Highlight the tag whose archive the reader is currently on.
+const match = /^\/archive\/([^/]+)/.exec(Astro.url.pathname);
+const current = match?.[1];
+---
+
+<section class="tag-cloud">
+    <h2 class="eyebrow">Tags</h2>
+    <TagList tags={tags} current={current}/>
+</section>

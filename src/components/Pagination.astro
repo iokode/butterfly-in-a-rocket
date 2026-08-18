@@ -1,0 +1,30 @@
+---
+import Icon from "./Icon.astro";
+
+/**
+ * Newer/older navigation at the foot of a post index.
+ *
+ * Omitting a href hides that side while keeping the other aligned — an empty span still takes its
+ * place in the row, so "Older posts" stays hard right on page one.
+ */
+
+interface Props {
+    newerHref?: string;
+    olderHref?: string;
+    meta?: string;
+}
+
+const {newerHref, olderHref, meta} = Astro.props;
+---
+
+<nav class="pagination" aria-label="Pagination">
+    {newerHref
+        ? <a class="button secondary small" href={newerHref}><Icon name="arrow-left" size={16}/>Newer posts</a>
+        : <span/>}
+
+    {meta && <span class="meta">{meta}</span>}
+
+    {olderHref
+        ? <a class="button secondary small" href={olderHref}>Older posts<Icon name="arrow-right" size={16}/></a>
+        : <span/>}
+</nav>

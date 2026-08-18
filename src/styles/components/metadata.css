@@ -1,0 +1,51 @@
+/* The byline row under a post title: date, author, licence. Mono, small, muted — machine voice
+   reporting facts about the document, deliberately quieter than the prose it introduces. */
+
+.metadata {
+    /* Box model */
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-2) var(--space-4);
+
+    /* Typographic */
+    font-family: var(--font-mono);
+    font-size: var(--font-size-xs);
+    color: var(--text-muted);
+
+    > * {
+        white-space: nowrap;
+    }
+
+    > .separator {
+        color: var(--text-faint);
+    }
+
+    a {
+        /* Typographic */
+        color: var(--text-muted);
+        text-decoration: underline;
+        text-underline-offset: 3px;
+
+        &:hover {
+            color: var(--text-link);
+        }
+    }
+}
+
+/* An uppercase section label. Used for the aside headings and anywhere a block needs naming
+   without spending a heading level on it. */
+.eyebrow {
+    /* Box model */
+    display: block;
+    margin: 0 0 var(--space-5);
+    padding: 0;
+
+    /* Typographic */
+    font-family: var(--font-display);
+    font-size: var(--font-size-2xs);
+    font-weight: var(--weight-semibold);
+    letter-spacing: var(--tracking-caps);
+    text-transform: uppercase;
+    color: var(--text-muted);
+}

@@ -1,45 +1,60 @@
 ---
-import {defaultLicense} from "../../content/config";
+import {defaultLicense} from "../../content.config";
 ---
 
 <footer>
-    <p>Posts are licensed under <a href={defaultLicense.url} target="_blank">{defaultLicense.code}</a>,
-        unless otherwise specified in the post.</p>
-    <ul>
+    <p class="licence">
+        Posts are licensed under <a href={defaultLicense.url} target="_blank" rel="noopener">{defaultLicense.code}</a>,
+        unless otherwise specified in the post.
+    </p>
+
+    <!--
+      One link, as in the design system's footer. The feed is not repeated here: it already has a
+      permanent home in the header's icon rail, and a second copy only makes the footer look like
+      a sitemap.
+    -->
+    <ul class="links">
         <li><a href="/legal">Legal notice</a></li>
-        <li><a href="/rss.xml">RSS Feed</a></li>
     </ul>
 </footer>
 
-<style lang="scss">
+<style>
     footer {
-        // Boxing
-        margin-top: 25px;
+        /* Box model */
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: var(--space-5);
+        padding-top: var(--space-7);
 
-        // Grid
-        grid-area: footer;
+        /* Typographic */
+        font-size: var(--font-size-xs);
+        color: var(--text-muted);
 
-        // Typography
-        text-align: center;
+        /* Visual */
+        border-top: var(--border-thin) solid var(--border-subtle);
+    }
 
-        ul {
-            // Boxing
-            padding: 0;
+    .licence {
+        /* Box model */
+        flex: 1 1 22em;
+        margin: 0;
+    }
 
-            // Style
+    .links {
+        /* Box model */
+        display: flex;
+        flex-wrap: wrap;
+        gap: var(--space-5);
+        margin: 0 0 0 auto;
+        padding: 0;
+
+        > li {
+            /* Box model */
+            margin: 0;
+
+            /* Visual */
             list-style-type: none;
-
-            li {
-                // Boxing
-                display: inline;
-                margin-right: 5px;
-                margin-left: 5px;
-            }
-        }
-
-        @media print {
-            // Boxing
-            display: none;
         }
     }
 </style>

@@ -1,52 +1,87 @@
 ---
+/**
+ * A chat bubble for posts that quote a conversation. Not a design-system component — it borrows
+ * the card treatment and the tokens.
+ *
+ * The tail used to be a hardcoded white triangle, which vanished against the dark theme. It is
+ * now drawn in a token, so it survives both.
+ */
+
 interface Props {
-    direction: 'me' | 'other'
+    direction: 'me' | 'other';
 }
+
+const {direction} = Astro.props;
 ---
 
-<div class={`message ${Astro.props.direction}`}>
+<div class:list={["message", direction]}>
     <slot/>
 </div>
 
-<style lang="scss">
-    @use "../../styles/variables/borders";
-
+<style>
     .message {
+        /* Positioning */
+        position: relative;
+
+        /* Box model */
         display: block;
         width: fit-content;
-        border: borders.$default;
-        padding: 0.1em 1em;
-        margin-bottom: 1em;
-        position: relative; // Enable positioning for pseudo-elements
+        max-width: min(100%, 34em);
+        padding: var(--space-3) var(--space-6);
+        margin-bottom: var(--space-6);
 
-        &.me {
-            // Tail on the right side
-            &::after {
-                content: '';
-                position: absolute;
-                right: -1em;
-                bottom: -2px;
-                border-width: 0.5em 0 0 1em;
-                border-style: solid;
-                border-color: transparent transparent transparent white; // Match the border color
-            }
-        }
-
-        &.other {
-            // Tail on the left side
-            &::after {
-                content: '';
-                position: absolute;
-                left: -1em;
-                bottom: -2px;
-                border-width: 0.5em 1em 0 0;
-                border-style: solid;
-                border-color: transparent white transparent transparent; // Match the border color
-            }
-        }
+        /* Visual */
+        background-color: var(--surface-card);
+        border: var(--border-thin) solid var(--border-subtle);
+        border-radius: var(--radius-sm);
 
         &:last-child {
+            /* Box model */
             margin-bottom: 0;
+        }
+
+        /* The tail. Drawn as a border triangle in the same token as the bubble edge, so it reads
+           as a nub in either theme. */
+        &::after {
+            /* Positioning */
+            position: absolute;
+            bottom: -1px;
+
+            /* Box model */
+            content: '';
+
+            /* Visual */
+            border-style: solid;
+            border-color: transparent;
+        }
+    }
+
+    .message.me {
+        /* Box model */
+        margin-left: auto;
+
+        /* Visual */
+        background-color: var(--accent-subtle);
+        border-color: var(--border-accent);
+
+        &::after {
+            /* Positioning */
+            right: -1em;
+
+            /* Visual */
+            border-width: 0.5em 0 0 1em;
+            border-left-color: var(--border-accent);
+        }
+    }
+
+    .message.other {
+        &::after {
+            /* Positioning */
+            left: -1em;
+
+            /* Visual */
+            border-width: 0.5em 1em 0 0;
+            border-right-color: var(--border-subtle);
         }
     }
 </style>

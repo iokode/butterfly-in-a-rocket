@@ -1,95 +1,145 @@
 ---
 import {type GetImageResult} from "astro";
-import {getCollection} from "astro:content";
+import {getCollection, getEntry} from "astro:content";
+import {Markdown} from "astro-remote";
+import {entryComponents} from "../../components/Entry/components";
 import Layout from "../../layouts/Layout.astro";
+import Icon from "../../components/Icon.astro";
 import {getGithubAvatar, getGithubRealnameFromUserName} from "../../helpers/github";
 
 const posts = await getCollection('posts');
 
-type AuthorStats = {
+type Author = {
     username: string;
     name: string;
     postCount: number;
     avatarUrl: GetImageResult;
+    biography?: string;
 };
 
-const authors: AuthorStats[] = await Promise.all(
-    [...new Set(posts.map(post => post.data.author))].map(async author => ({
-        username: author,
-        postCount: posts.filter(post => post.data.author === author).length,
-        name: await getGithubRealnameFromUserName(author),
-        avatarUrl: await getGithubAvatar(author)
+const authors: Author[] = await Promise.all(
+    [...new Set(posts.map(post => post.data.author))].map(async username => ({
+        username,
+        postCount: posts.filter(post => post.data.author === username).length,
+        name: await getGithubRealnameFromUserName(username),
+        avatarUrl: await getGithubAvatar(username),
+        // Not every contributor has written a profile page yet.
+        biography: (await getEntry('authors', username))?.body,
     }))
 );
+
+// The project's admin writes most of the blog; listing by volume puts the most-read voices first.
+authors.sort((a, b) => b.postCount - a.postCount);
 ---
+
 <Layout title="Authors" description="A list of authors who published in the IOKode blog">
-    <h1>List of authors</h1>
-    <div id="authors">
+    <h1>Authors</h1>
+    <p class="introduction">Everyone who has written on IOKode.</p>
+
+    <div class="authors">
         {authors.map(author => (
-                <div class="author">
-                    <div class="avatar">
-                        <img src={author.avatarUrl.src} alt={`GitHub avatar of ${author.name}`}/>
+            <article class="author">
+                <span class="avatar">
+                    <img src={author.avatarUrl.src} alt={`GitHub avatar of ${author.name}`}/>
+                </span>
+
+                <div class="body">
+                    <h2>{author.name}</h2>
+
+                    <p class="handle">
+                        <span class="badge accent">{author.postCount} post{author.postCount === 1 ? '' : 's'}</span>
+                    </p>
+
+                    {author.biography && (
+                        <div class="biography prose full">
+                            <Markdown content={author.biography} sanitize={{allowComponents: true}} components={entryComponents}/>
+                        </div>
+                    )}
+
+                    <div class="actions">
+                        <a class="button small" href={`/authors/${author.username}`}>
+                            See posts
+                            <Icon name="arrow-right" size={15}/>
+                        </a>
+                        <a
+                            class="button secondary small"
+                            href={`https://github.com/${author.username}`}
+                            target="_blank"
+                            rel="noopener"
+                        >
+                            <Icon name="github" size={15}/>
+                            {author.username}
+                        </a>
                     </div>
-                    <div class="name">{author.name}</div>
-                    <div class="posts"><a href=`/authors/${author.username}`>Wrote {author.postCount} post{author.postCount !== 1 ? 's' : ''}</a></div>
-                    <div class="github"><a href=`http://github.com/${author.username}`>Visit GitHub profile</a></div>
                 </div>
+            </article>
         ))}
     </div>
 </Layout>
 
-<style lang="scss">
-    @use "../../styles/variables/borders";
-    @use "../../styles/variables/devices";
-    @use "../../styles/variables/fonts";
+<style>
+    .introduction {
+        /* Box model */
+        margin-bottom: var(--space-9);
 
-    #authors {
-        // Boxing
-        display: flex;
+        /* Typographic */
+        color: var(--text-muted);
+    }
 
-        // Flex
-        gap: .5em;
-        flex-wrap: wrap;
-        flex-direction: column;
+    .authors {
+        /* Box model */
+        display: grid;
+        gap: var(--space-10);
+    }
 
-        @media (min-width: devices.$tablet) {
-            flex-direction: row;
-        }
+    /* Authors are separated by a rule rather than a background change, and the first one does not
+       need a rule above it. */
+    .author + .author {
+        /* Box model */
+        padding-top: var(--space-10);
+
+        /* Visual */
+        border-top: var(--border-thin) solid var(--border-subtle);
     }
 
     .author {
-        padding: .5em;
-        border: borders.$default;
-        display: grid;
+        /* Box model */
+        display: flex;
+        flex-wrap: wrap;
+        align-items: flex-start;
+        gap: var(--space-7);
 
-        grid-template-columns: fit-content(100%) 1fr;
-        grid-template-rows: 1.5em 1.5em 1.5em;
-        column-gap: .5em;
-
-        grid-template-areas:
-            "avatar name"
-            "avatar posts"
-            "avatar github";
-
-        .avatar {
-            grid-area: avatar;
-            img {
-                width: 4.5em;
-            }
+        > .avatar {
+            /* Box model */
+            width: 88px;
+            height: 88px;
         }
 
-        .name {
-            font-weight: bold;
-            font-family: fonts.$titles;
-            grid-area: name;
+        > .body {
+            /* Box model */
+            flex: 1 1 20em;
         }
+    }
 
-        .posts {
-            grid-area: posts;
-        }
+    .author h2 {
+        /* Box model */
+        margin: 0 0 var(--space-3);    }
 
-        .github {
-            grid-area: github;
-        }
+    .handle {
+        /* Box model */
+        margin: 0 0 var(--space-6);
+    }
+
+    .biography {
+        /* Box model */
+        max-width: var(--measure-prose);
+        margin-bottom: var(--space-6);
+    }
+
+    .actions {
+        /* Box model */
+        display: flex;
+        flex-wrap: wrap;
+        gap: var(--space-4);
     }
 </style>

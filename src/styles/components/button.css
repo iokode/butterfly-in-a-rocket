@@ -1,0 +1,143 @@
+/* A button looks like a button: solid fill, a 2px border in a darker shade of that fill, and a
+   hard offset shadow at rest.
+
+   Hover grows the shadow to 3px and the button itself holds position. Press collapses the shadow
+   and moves the button 1px down and right, so it reads as pushed into the page. A bare underlined
+   link is not a button and must never stand in for one. */
+
+.button {
+    /* Positioning */
+    position: relative;
+    top: 0;
+    left: 0;
+
+    /* Box model */
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-3);
+    padding: 11px var(--space-6);
+
+    /* Typographic */
+    font-family: var(--font-display);
+    font-size: var(--font-size-sm);
+    font-weight: var(--weight-semibold);
+    line-height: 1;
+    letter-spacing: 0.01em;
+    color: var(--accent-solid-text);
+    text-decoration: none;
+    white-space: nowrap;
+
+    /* Visual */
+    background-color: var(--accent-solid);
+    border: var(--border-default-width) solid var(--accent-solid-hover);
+    border-radius: var(--radius-sm);
+    box-shadow: var(--shadow-hard-sm);
+
+    /* Misc */
+    cursor: pointer;
+    transition: var(--transition-interface);
+
+    &:hover {
+        /* Typographic */
+        color: var(--accent-solid-text);
+        text-decoration: none;
+
+        /* Visual */
+        background-color: var(--accent-solid-hover);
+        box-shadow: var(--shadow-hard);
+    }
+
+    &:active {
+        /* Positioning */
+        top: 1px;
+        left: 1px;
+
+        /* Visual */
+        box-shadow: none;
+    }
+
+    &:focus-visible {
+        outline: var(--border-default-width) solid var(--border-focus);
+        outline-offset: 3px;
+    }
+
+    &[disabled],
+    &[aria-disabled="true"] {
+        /* Positioning */
+        top: 0;
+        left: 0;
+
+        /* Visual */
+        opacity: 0.45;
+        box-shadow: none;
+
+        /* Misc */
+        cursor: not-allowed;
+    }
+}
+
+.button.small {
+    /* Box model */
+    padding: 7px var(--space-4);
+
+    /* Typographic */
+    font-size: var(--font-size-xs);
+}
+
+.button.large {
+    /* Box model */
+    padding: 14px var(--space-7);
+
+    /* Typographic */
+    font-size: var(--font-size-base);
+}
+
+/* Secondary: the page surface with a strong border. Still square, still shadowed. */
+.button.secondary {
+    /* Typographic */
+    color: var(--text-strong);
+
+    /* Visual */
+    background-color: var(--surface-card);
+    border-color: var(--border-strong);
+
+    &:hover {
+        /* Typographic */
+        color: var(--text-strong);
+
+        /* Visual */
+        background-color: var(--accent-subtle);
+    }
+}
+
+/* Ghost: tertiary actions. It grows a violet border on hover so it stays obviously clickable. */
+.button.ghost {
+    /* Typographic */
+    color: var(--text-link);
+
+    /* Visual */
+    background-color: transparent;
+    border-color: transparent;
+    box-shadow: none;
+
+    &:hover {
+        /* Positioning */
+        top: 0;
+        left: 0;
+
+        /* Typographic */
+        color: var(--text-link-hover);
+
+        /* Visual */
+        background-color: var(--accent-subtle);
+        border-color: var(--border-accent);
+        box-shadow: none;
+    }
+
+    &:active {
+        /* Positioning */
+        top: 1px;
+        left: 1px;
+    }
+}
