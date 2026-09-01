@@ -20,8 +20,6 @@ interface Props {
     headings?: { id: string, label: string }[]
     /** Content-repository path of the post's directory, e.g. `posts/54-rocket`. */
     entryId?: string
-    /** "4 min read", shown on the article but not on index cards. */
-    readingTime?: string
 }
 
 
@@ -83,7 +81,6 @@ const editHref = `https://github.com/${repository}/edit/${branch}/${entryPath}`;
                 author={Astro.props.author}
                 authorName={authorRealName}
                 avatarSrc={avatar.src}
-                readingTime={Astro.props.readingTime}
                 license={Astro.props.license}
                 verboseLicense
             />

@@ -1,7 +1,7 @@
 ---
 /**
- * The byline: date / author / reading time / licence, in that order, joined by mono slashes. The
- * order is fixed — drop what you do not have, but never reorder.
+ * The byline: date / author / licence, in that order, joined by mono slashes. The order is
+ * fixed — drop what you do not have, but never reorder.
  *
  * Mono, small and muted on purpose — it is the machine voice reporting facts about the document,
  * and it should stay quieter than the prose it introduces. Shared by the index card and the
@@ -14,14 +14,12 @@ interface Props {
     author: string;
     authorName: string;
     avatarSrc?: string;
-    /** Article only — the index cards omit it. */
-    readingTime?: string;
     license?: { code: string, url: string };
     /** Spelled out in the article header, abbreviated on cards. */
     verboseLicense?: boolean;
 }
 
-const {publishDate, author, authorName, avatarSrc, readingTime, license, verboseLicense = false} = Astro.props;
+const {publishDate, author, authorName, avatarSrc, license, verboseLicense = false} = Astro.props;
 
 const formattedDate = publishDate.toLocaleDateString('en-US', {
     year: 'numeric',
@@ -41,13 +39,6 @@ const formattedDate = publishDate.toLocaleDateString('en-US', {
         )}
         <a href={`/authors/${author}`}>{authorName}</a>
     </span>
-
-    {readingTime && (
-        <Fragment>
-            <span class="separator" aria-hidden="true">/</span>
-            <span>{readingTime}</span>
-        </Fragment>
-    )}
 
     {license && (
         <Fragment>
