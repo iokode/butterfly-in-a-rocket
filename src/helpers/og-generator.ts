@@ -5,9 +5,10 @@ import {join} from 'path';
  * The Open Graph card for a post.
  *
  * Drawn from nothing rather than composited over a raster template. The old template carried the
- * retired branding — the rounded circuit butterfly, a textured violet gradient, and the wordmark
- * mis-cased as "IOkode" — so every share of every post advertised the previous identity. The
- * design system rules out gradients and background textures, and fixes the casing as "IOKode".
+ * retired branding — the rounded, joined-up circuit butterfly, a textured violet gradient, and
+ * the wordmark mis-cased as "IOkode" — so every share of every post advertised the previous
+ * identity. The design system rules out gradients and background textures, and fixes the casing
+ * as "IOKode".
  *
  * Full-bleed violet with the mark reversed to white is the one place the system uses the accent as
  * a field, and it is what makes the card recognisable at thumbnail size in a timeline.
@@ -22,11 +23,11 @@ const markSvg = (size: number) => `<svg xmlns="http://www.w3.org/2000/svg"
     width="${size * 52 / 44}" height="${size}" viewBox="0 0 52 44">
 <g fill="#ffffff">
 <path d="M26 9 27.6 13.5 27.2 30 26 34.5 24.8 30 24.4 13.5z"/>
-<path d="m26.6 10.2 6.8-7.6 1.9 1.7-6.8 7.6zM25.4 10.2 18.6 2.6l-1.9 1.7 6.8 7.6z"/>
-<path d="M25 12 3 1.5 1 17.5l10.5 5.5L25 20.5z"/>
-<path d="M27 12 49 1.5l2 16-10.5 5.5L27 20.5z"/>
-<path d="M25 23.5 9.5 26.5 14.5 41 25 31.5z"/>
-<path d="M27 23.5 42.5 26.5 37.5 41 27 31.5z"/>
+<path d="M27.3 8.5 33.4 2.6l1.9 1.7-6.1 5.9zM24.7 8.5 18.6 2.6l-1.9 1.7 6.1 5.9z"/>
+<path d="M23.2 12 3 1.5 1 17.5l10.5 5.5 11.7-2.5z"/>
+<path d="M28.8 12 49 1.5l2 16-10.5 5.5-11.7-2.5z"/>
+<path d="M23.2 23.5 9.5 26.5 14.5 41l8.7-9.5z"/>
+<path d="M28.8 23.5 42.5 26.5 37.5 41l-8.7-9.5z"/>
 <circle cx="18.5" cy="2.8" r="2.6"/><circle cx="33.5" cy="2.8" r="2.6"/>
 </g></svg>`;
 
