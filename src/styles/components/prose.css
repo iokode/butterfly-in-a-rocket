@@ -5,17 +5,9 @@
    introducing running prose. The same tag inside a sidebar, a card or a comment is a label, and
    picking up article spacing there is what makes a layout look subtly wrong.
 
-   `--measure-prose` owns the line length by default, so a parent must not also set a max-width.
-   Where the surrounding layout already constrains the column — which on this blog is everywhere,
-   because the main/aside grid supplies the measure — add `full` to hand the width back. */
-
-.prose {
-    max-width: var(--measure-prose);
-}
-
-.prose.full {
-    max-width: none;
-}
+   Width is deliberately not this class's business. The line length belongs to whatever box the
+   prose sits in — the main/aside grid, or a component's own column. A max-width here would only
+   have to be undone at every call site, which is what the old `full` modifier existed to do. */
 
 /* Zeroing the first child's top margin assumes the prose block starts the page. When something
    already sits above it — a page title, a lead line — a heading in first position still needs its

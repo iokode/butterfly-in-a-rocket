@@ -8,7 +8,7 @@ const entry = await getEntry('pages', 'ival')!;
 ---
 
 <Layout title="IOKode Visual Asset License (IVAL)" description="The IOKode Visual Asset License (IVAL) defines the terms and conditions for using visual assets, graphics, and design elements from the IOKode project.">
-    <div class="prose full">
+    <div class="prose">
         <Markdown content={entry.body} sanitize={{allowComponents: true}} components={entryComponents}/>
     </div>
 </Layout>

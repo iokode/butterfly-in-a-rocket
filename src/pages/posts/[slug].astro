@@ -45,7 +45,7 @@ const headings = extractHeadings(Astro.props.body);
     headings={headings}
     entryId={Astro.props.entryId}
 >
-    <div class="prose full">
+    <div class="prose">
         <Markdown content={Astro.props.body} sanitize={{allowComponents: true}} components={entryComponents}/>
     </div>
 

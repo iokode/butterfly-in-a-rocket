@@ -41,7 +41,7 @@ const heading = Astro.params.tag === 'spanish-legacy-post'
     <h1>{heading}</h1>
     <p class="count">{posts.length} post{posts.length === 1 ? '' : 's'}.</p>
 
-    <div class="prose full">
+    <div class="prose">
         <Markdown content={body} sanitize={{allowComponents: true}} components={entryComponents}/>
     </div>
 

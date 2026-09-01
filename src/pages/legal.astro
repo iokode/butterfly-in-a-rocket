@@ -8,7 +8,7 @@ const entry = await getEntry('pages', 'legal')!;
 ---
 
 <Layout title="Legal notice" description="Legal notice and terms of use for the IOKode project.">
-    <div class="prose full">
+    <div class="prose">
         <Markdown content={entry.body} sanitize={{allowComponents: true}} components={entryComponents}/>
     </div>
 </Layout>

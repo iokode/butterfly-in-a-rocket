@@ -51,7 +51,7 @@ authors.sort((a, b) => b.postCount - a.postCount);
                     </p>
 
                     {author.biography && (
-                        <div class="biography prose full">
+                        <div class="biography prose">
                             <Markdown content={author.biography} sanitize={{allowComponents: true}} components={entryComponents}/>
                         </div>
                     )}
@@ -130,9 +130,9 @@ authors.sort((a, b) => b.postCount - a.postCount);
         margin: 0 0 var(--space-6);
     }
 
+    /* The width comes from `.body`, which the avatar and the main column already size. */
     .biography {
         /* Box model */
-        max-width: var(--measure-prose);
         margin-bottom: var(--space-6);
     }
 
