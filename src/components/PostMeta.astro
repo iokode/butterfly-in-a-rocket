@@ -5,7 +5,8 @@
  *
  * Mono, small and muted on purpose — it is the machine voice reporting facts about the document,
  * and it should stay quieter than the prose it introduces. Shared by the index card and the
- * article header so the two never drift apart.
+ * article header so the two never drift apart. The licence belongs to the document itself, so
+ * only the article header passes it; index cards leave it out and the footer states the default.
  */
 
 interface Props {
@@ -15,11 +16,9 @@ interface Props {
     authorName: string;
     avatarSrc?: string;
     license?: { code: string, url: string };
-    /** Spelled out in the article header, abbreviated on cards. */
-    verboseLicense?: boolean;
 }
 
-const {publishDate, author, authorName, avatarSrc, license, verboseLicense = false} = Astro.props;
+const {publishDate, author, authorName, avatarSrc, license} = Astro.props;
 
 const formattedDate = publishDate.toLocaleDateString('en-US', {
     year: 'numeric',
@@ -44,7 +43,7 @@ const formattedDate = publishDate.toLocaleDateString('en-US', {
         <Fragment>
             <span class="separator" aria-hidden="true">/</span>
             <span>
-                {verboseLicense && "Licensed under "}
+                Licensed under{" "}
                 <a href={license.url} target="_blank" rel="noopener">{license.code}</a>
             </span>
         </Fragment>

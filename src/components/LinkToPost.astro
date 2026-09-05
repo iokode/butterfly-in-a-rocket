@@ -1,6 +1,5 @@
 ---
 import type {CollectionEntry} from 'astro:content';
-import {getCollection} from 'astro:content';
 import TagList from "./TagList.astro";
 import {getImage} from "astro:assets";
 import {repository} from "../content.config";
@@ -21,10 +20,6 @@ interface Props {
 }
 
 const {data} = Astro.props.post;
-
-// `data.license` is the collection id, not something to show a reader. Resolve it to the code.
-const allLicenses = await getCollection('licenses');
-const license = allLicenses.find(entry => entry.id === data.license)?.data;
 
 const avatar = await getImage({
     src: `https://github.com/${data.author}.png?size=60`,
@@ -49,7 +44,6 @@ const discussLabel = commentCount === undefined
         author={data.author}
         authorName={data.authorName}
         avatarSrc={avatar.src}
-        license={license}
     />
 
     <h2 class="title"><a href={href}>{data.title}</a></h2>

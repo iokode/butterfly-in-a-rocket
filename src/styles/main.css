@@ -28,7 +28,7 @@
 @import "./components/pagination.css";
 @import "./components/post-list.css";
 @import "./components/prose.css";
-@import "./components/table-of-contents.css";
+@import "./components/series-index.css";
 @import "./components/tag.css";
 
 /* Layout — where things go on this particular kind of page. */

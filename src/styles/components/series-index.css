@@ -1,7 +1,8 @@
-/* The section index. Each entry hangs off a 1px rule that turns violet on hover — the same
-   left-border idiom the side navigation uses, so the two read as the same kind of control. */
+/* The series index: the other posts of the series the article belongs to. Each entry hangs off a
+   1px rule that turns violet on hover — the same left-border idiom the side navigation uses, so
+   the two read as the same kind of control. */
 
-.table-of-contents {
+.series-index {
     /* Box model */
     padding: var(--space-5) var(--space-6);
 
@@ -26,7 +27,9 @@
         color: var(--text-muted);
     }
 
-    > ul {
+    /* Ordered, because the reading order of a series is part of what the index says. The numbers
+       themselves stay off: the entries are already in order, and a marker would break the rule. */
+    > ol {
         /* Box model */
         display: grid;
         gap: 2px;
@@ -42,19 +45,21 @@
         }
     }
 
-    a {
+    :is(a, .current) {
         /* Box model */
         display: block;
         padding: var(--space-2) var(--space-4);
-
-        /* Typographic */
-        color: var(--text-muted);
 
         /* Visual */
         border-left: var(--border-default-width) solid var(--border-subtle);
 
         /* Misc */
         transition: var(--transition-interface);
+    }
+
+    a {
+        /* Typographic */
+        color: var(--text-muted);
 
         &:hover {
             /* Typographic */
@@ -64,5 +69,16 @@
             /* Visual */
             border-left-color: var(--border-accent);
         }
+    }
+
+    /* The post being read is not a destination, so it is not a link. It keeps the violet rule
+       permanently, the same way the current navigation link does. */
+    .current {
+        /* Typographic */
+        font-weight: var(--weight-semibold);
+        color: var(--text-strong);
+
+        /* Visual */
+        border-left-color: var(--border-accent);
     }
 }

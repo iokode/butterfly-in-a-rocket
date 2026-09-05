@@ -5,8 +5,8 @@ import {slugify} from "../../helpers/slug";
  * Headings inside post bodies.
  *
  * astro-remote renders Markdown with `marked`, which emits headings without ids, so nothing in a
- * post body could be linked to. This override gives every heading a deterministic anchor — which
- * is what makes both the table of contents and a shared link to a section work.
+ * post body could be linked to. This override gives every heading a deterministic anchor, so a
+ * link to a single section of a post keeps working.
  *
  * `as` is `h1`…`h6` and `text` is the raw Markdown source of the heading; astro-remote supplies
  * both through its renderer rather than from a call site in this repository.

@@ -4,7 +4,6 @@ import {getGithubAvatar, getGithubRealnameFromUserName} from "../helpers/github"
 import {getSeriesPost, type SeriesIndex} from "../helpers/posts";
 import PostMeta from "../components/PostMeta.astro";
 import TagList from "../components/TagList.astro";
-import TableOfContents from "../components/TableOfContents.astro";
 import Icon from "../components/Icon.astro";
 import {repository, branch} from "../content.config";
 
@@ -16,8 +15,6 @@ interface Props {
     slug: string
     license: { code: string, url: string }
     tags: string[]
-    /** The post's `##` headings, for the section index. */
-    headings?: { id: string, label: string }[]
     /** Content-repository path of the post's directory, e.g. `posts/54-rocket`. */
     entryId?: string
 }
@@ -35,7 +32,6 @@ if (Astro.props.series !== undefined) {
 const description = `Post written by ${authorRealName} on ${Astro.props.publishDate.toDateString()}. Licensed under ${Astro.props.license.code}.`;
 const ogImagePath = '/posts/og-images/' + Astro.props.slug + '.png';
 const isSpanishLegacy = Astro.props.tags.includes('spanish-legacy-post');
-const headings = Astro.props.headings ?? [];
 
 // Posts are files in the content repository, so "read the source" and "suggest an edit" are both
 // just GitHub URLs — no editing surface has to exist on this site.
@@ -70,7 +66,7 @@ const editHref = `https://github.com/${repository}/edit/${branch}/${entryPath}`;
     <p class="back">
         <a class="button ghost small" href="/">
             <Icon name="arrow-left" size={15}/>
-            All posts
+            Home
         </a>
     </p>
 
@@ -82,7 +78,6 @@ const editHref = `https://github.com/${repository}/edit/${branch}/${entryPath}`;
                 authorName={authorRealName}
                 avatarSrc={avatar.src}
                 license={Astro.props.license}
-                verboseLicense
             />
 
             <h1 lang={isSpanishLegacy ? "es" : undefined}>{Astro.props.title}</h1>
@@ -90,19 +85,13 @@ const editHref = `https://github.com/${repository}/edit/${branch}/${entryPath}`;
             <TagList tags={Astro.props.tags}/>
         </header>
 
-        {headings.length > 0 && (
-            <div class="contents">
-                <TableOfContents items={headings}/>
-            </div>
-        )}
-
         {seriesPosts && (
-            <nav class="card accent series" aria-label="Posts in this series">
-                <p class="heading">This post belongs to the <strong>{Astro.props.series}</strong> series.</p>
-                <ol class="posts">
+            <nav class="series-index" aria-label="Posts in this series">
+                <p class="title">{Astro.props.series} series</p>
+                <ol>
                     {seriesPosts.map(post => (
                         post.current
-                            ? <li aria-current="true"><strong>{post.title}</strong></li>
+                            ? <li><span class="current" aria-current="true">{post.title}</span></li>
                             : <li><a href={`/posts/${post.slug}`}>{post.title}</a></li>
                     ))}
                 </ol>
@@ -147,12 +136,6 @@ const editHref = `https://github.com/${repository}/edit/${branch}/${entryPath}`;
     }
 
 
-    /* The component owns no outer margin, so its placement is decided here. */
-    .contents {
-        /* Box model */
-        margin-bottom: var(--space-8);
-    }
-
     .post-actions {
         /* Box model */
         display: flex;
@@ -161,32 +144,9 @@ const editHref = `https://github.com/${repository}/edit/${branch}/${entryPath}`;
         margin-top: var(--space-9);
     }
 
-    /* The series index is a genuine emphasis block, which is what the 4px violet rule is for. */
-    .series {
+    /* The component owns no outer margin, so its placement is decided here. */
+    .series-index {
         /* Box model */
         margin-bottom: var(--space-10);
-
-        > .heading {
-            /* Box model */
-            margin-bottom: var(--space-4);
-
-            /* Typographic */
-            font-family: var(--font-display);
-            font-size: var(--font-size-md);
-            color: var(--text-strong);
-        }
-
-        > .posts {
-            /* Box model */
-            margin: 0;
-
-            /* Typographic */
-            font-size: var(--font-size-sm);
-
-            > li:last-child {
-                /* Box model */
-                margin-bottom: 0;
-            }
-        }
     }
 </style>

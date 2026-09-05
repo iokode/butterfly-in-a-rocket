@@ -4,7 +4,6 @@ import {Markdown} from 'astro-remote';
 import PostLayout from "../../layouts/PostLayout.astro";
 import Comments from "../../components/Comments.svelte";
 import {entryComponents} from "../../components/Entry/components";
-import {extractHeadings} from "../../helpers/slug";
 
 export const getStaticPaths = async function () {
     const posts = await getCollection('posts');
@@ -33,16 +32,11 @@ export const getStaticPaths = async function () {
 
     return Promise.all(mappedPosts);
 };
-
-// Read off the raw Markdown rather than the rendered HTML, because astro-remote hands back a
-// string that is already escaped and inserted.
-const headings = extractHeadings(Astro.props.body);
 ---
 
 <PostLayout
     {...Astro.props.post}
     license={Astro.props.license}
-    headings={headings}
     entryId={Astro.props.entryId}
 >
     <div class="prose">
