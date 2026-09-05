@@ -140,13 +140,12 @@ pre {
     /* Visual */
     background-color: var(--surface-code);
     border: var(--border-thin) solid var(--border-subtle);
-    border-left: var(--border-large) solid var(--accent);
     border-radius: var(--radius-sm);
 }
 
-/* The 4px emphasis rule, shared with code blocks and callouts. Note that the design system's own
-   `tokens/base.css` uses 2px here, but both `readme.md` and `guidelines/borders.card.html` state
-   4px for quote rules — the prose is the intent, the 2px looks like a slip. */
+/* The 4px emphasis rule, shared with callouts. Note that the design system's own `tokens/base.css`
+   uses 2px here, but both `readme.md` and `guidelines/borders.card.html` state 4px for quote
+   rules — the prose is the intent, the 2px looks like a slip. */
 blockquote {
     /* Box model */
     margin: var(--space-7) 0;

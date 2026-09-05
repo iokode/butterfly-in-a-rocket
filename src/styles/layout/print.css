@@ -33,14 +33,16 @@
     /* Navigation of every kind is meaningless on paper: it cannot be followed, and it competes
        with the text for attention. Tags go too — they point at archives that only exist online,
        and the byline still carries the date, the author and the licence. The comment thread lives
-       in a GitHub discussion; a snapshot of it is not the document. */
+       in a GitHub discussion; a snapshot of it is not the document. The copy button goes for the
+       same reason — it is a control, not content, and on paper it only covers a line of code. */
     :root body :is(
         .navigation,
         .back,
         .pagination,
         .post-actions,
         .tag-list,
-        .comments
+        .comments,
+        .code-block > .copy
     ),
     :root body > aside,
     :root body > footer {

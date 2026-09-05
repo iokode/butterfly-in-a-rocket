@@ -2,13 +2,14 @@
 import Icon from "../Icon.astro";
 
 /**
- * A fenced code sample: Cascadia Code, violet left rule, nothing else.
+ * A fenced code sample: Cascadia Code on the code surface, nothing else.
  *
  * No title bar — IOKode code blocks carry no filename and no language label. If the reader needs
  * to know which file it is, the sentence before it says so. `lang` only sets `class="language-x"`
  * so the page's highlighter can find the block; it is never displayed.
  *
- * The copy control fades in on hover and is the one piece of JavaScript in a post body.
+ * The copy control sits in the corner at all times — a control that only appears on hover is a
+ * control touch readers never find — and is the one piece of JavaScript in a post body.
  */
 
 interface Props {
@@ -91,6 +92,16 @@ const {lang = 'plaintext', code} = Astro.props;
             margin: 0;
         }
 
+        /* highlight.js's theme paints its own surface and padding onto `.hljs`, which would sit as
+           a second block inside the one `pre` already draws. Only the syntax colours are wanted. */
+        > pre > code {
+            /* Box model */
+            padding: 0;
+
+            /* Visual */
+            background-color: transparent;
+        }
+
         > .copy {
             /* Positioning */
             position: absolute;
@@ -99,16 +110,6 @@ const {lang = 'plaintext', code} = Astro.props;
 
             /* Visual */
             background-color: var(--surface-code);
-            opacity: 0;
-
-            /* Misc */
-            transition: opacity var(--duration-fast) var(--ease-out);
-        }
-
-        /* Keyboard users get the control when it takes focus, not only on hover. */
-        &:hover > .copy,
-        &:focus-within > .copy {
-            opacity: 1;
         }
 
         > .copy > .done,
